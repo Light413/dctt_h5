@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/mui.dtpicker.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/mui.poppicker.css"/>
+	<style type="text/css">
+		.list-title{
+			font-size: 15px;
+			display: inline-block;
+			position: fixed;
+			margin-top: 14px;
+			margin-left: 12px;
+		}
+		
+		.mui-table-view-cell {
+			position: relative;
+			overflow: hidden;
+			padding: 15px 15px;
+			-webkit-touch-callout: none;
+		}
+		
+		/* cell分割线 */
+		.mui-table-view-cell:after {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 0px;
+			height: 1px;
+			content: '';
+			-webkit-transform: scaleY(.5);
+			transform: scaleY(.5);
+			background-color: #c8c7cc;
+		}
+		
+		.mui-table-view-cell.mui-active{
+			background-color: white;
+		}
+
+	</style>
+</head>
+<body>
+	
+<div class="mui-content">
+	<div id="xiugaitx-id">
+		<img id="avatar-id" src="../../images/default_avatar.png"  height="80px" width="80px" style="margin-top: 30px;border-radius: 50%;">
+		<div style="text-align: center;font-size: 13px;color: #808080;margin-top: 2px;">
+			点击修改头像
+		</div>
+	</div>
+	
+	<ul class="mui-table-view" style="margin-top: 10px;">
+			<li class="mui-table-view-cell" >
+				<a onclick="tableDidSelected(0)" class="mui-navigate-right list-title" style="background-color: white;">
+					昵称：<span id="user-name-id" style="margin-left: 30px;"></span>
+				</a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a onclick="tableDidSelected(1)" class="mui-navigate-right list-title" style="background-color: white;">
+					性别：<span id="user-sex-id" style="margin-left: 30px;"></span>
+				</a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a onclick="tableDidSelected(2)" class="mui-navigate-right list-title" style="background-color: white;">
+					生日：<span id="user-age-id" style="margin-left: 30px;"></span>
+				</a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a onclick="tableDidSelected(3)" class="mui-navigate-right list-title" style="background-color: white;">
+					城市：<span id="user-city-id" style="margin-left: 30px;" ></span>
+				</a>
+			</li>
+		</ul>
+		
+	<div style="margin-top: 20px;">
+		<div style="font-size: 13px;margin-left: 5px;color: #666;">个人描述</div>
+		<div class="mui-input-row" style="margin-left: 3px;margin-right: 3px;margin-top: 5px;">
+			<textarea id="text-area-id" rows="4" placeholder="简单的介绍下自己吧^_^" value="" style="border-radius: 2px; font-size: 14px; padding:5px 10px;"></textarea>
+		</div>
+	</div>
+</div>
+
+<button id="submit-button-id" type="button" class="mui-btn mui-btn-block" style="border-bottom-width: 0; background-color: #FF4500;color: white;position: fixed;bottom: 0;margin-bottom: 0;height: 50px;">提交修改</button>
+
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/tt.image.picker.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/publish.base.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.dtpicker.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/city.data.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	var _userinfo;
+	
+	var u_avatar;
+	var u_name;
+	var u_sex;
+	var u_age;
+	var u_city;
+	var u_detail;
+	
+
+	
+	document.addEventListener('save-username-event',function(e){
+		mui('#user-name-id')[0].innerText = e.detail.name;
+		u_name = e.detail.name;
+	})
+	
+	mui.plusReady(function () {
+		mui.init({
+			beforeback:function () {
+				var wv = plus.webview.getWebviewById('vc/me.html');
+				mui.fire(wv , 'update-profile-success' , {});
+			}
+		})
+		
+	    var _width = plus.screen.resolutionWidth;
+		var _avatar_w = (_width - 80) / 2.0;
+		var useravatar = document.getElementById("avatar-id");
+		useravatar.style.marginLeft = _avatar_w + 'px';
+		
+// 		plus.cache.calculate(function(size) {
+//             console.log(size)
+//             sizeCache = size;
+//             mui.confirm("您目前的系统缓存为" + parseFloat(sizeCache / (1024 * 1024)).toFixed(2) + "M？", "清除缓存", ["确认", "取消"], function(e) {
+//                 if(e.index == 1) {} else {
+//                     plus.cache.clear(function() {
+//                         alert("缓存清除完毕")
+//                     });
+//                 }
+//             });
+//         });
+
+		var wv =  plus.webview.currentWebview();
+		var userinfo = wv.userinfo;
+		_userinfo = userinfo;
+		displayProfile(userinfo);
+	})
+	
+	document.getElementById('xiugaitx-id').addEventListener('tap' , function(){
+		ttShowActionSheetPickerImage(1 , function(e){
+			var _url;
+			
+			//判断数据是数组还是字符，数组来自相册，字符串来自相册
+			var isFromAlbum = Array.isArray(e);
+			if(isFromAlbum){
+				_url = e[0];
+			}else{
+				_url = e;
+			}
+			
+			u_avatar = _url;
+			
+			var useravatar = document.getElementById("avatar-id");
+			useravatar.setAttribute('src' , _url);
+		})
+		
+	} , true);
+	
+	function tableDidSelected(row){
+		switch (row){
+			case 0:
+			openNewPage('xiugai-name.html' , '修改名称' , true);
+				break;
+			case 1:
+			plus.nativeUI.actionSheet({cancel:"取消",buttons:[{title:"男"},{title:"女"}]}, function(e){
+				console.log("User pressed: "+e.index);
+				mui("#user-sex-id")[0].innerText = e.index == 1 ? '男':'女';
+				u_sex = e.index == 1 ? '男':'女';
+			} );break;
+			case 2://选择日期
+				var dtpicker = new mui.DtPicker({
+					type: "date",//设置日历初始视图模式 
+					beginDate: new Date(1900, 01, 01),//设置开始日期 
+					endDate: new Date(),//设置结束日期 
+					// value:'2000-01-01'
+				}) 
+				dtpicker.show(function(e) {
+					var datestr = e.y.value + '-' + e.m.value + '-' + e.d.value;
+					mui("#user-age-id")[0].innerText = datestr;
+					u_age = datestr;
+				}) ;break;
+			case 3://选择城市
+				var cityPicker = new mui.PopPicker({
+					layer: 2
+				});
+				cityPicker.setData(cityData);
+				
+				cityPicker.show(function(items) {
+					var datestr = items[0].text + items[1].text;
+					mui("#user-city-id")[0].innerText = datestr;
+					u_city = datestr;
+				});break;
+			default:break;
+		}
+	}
+	
+	///提交
+	mui('#submit-button-id')[0].addEventListener('tap' , function(){
+		var avatar = mui('#avatar-id')[0].src;
+		var name = mui('#user-name-id')[0].innerText;
+		var age = mui('#user-age-id')[0].innerText;
+		var sex = mui('#user-sex-id')[0].innerText;
+		var city = mui('#user-city-id')[0].innerText;
+		var detail = mui('#text-area-id')[0].value;
+		
+		if(!(u_avatar || u_name || u_sex || u_age || u_city || _userinfo['notes'] != detail)){
+			plus,plus.nativeUI.alert('你还没有修改资料!' ,'' ,'' ,'知道了');return;
+		}
+		
+		if(u_avatar){//是否更新头像
+			selectedImagesArr = [u_avatar];
+		}else{
+			selectedImagesArr = [];
+		}
+		
+		var d = {"uid":getLoginUid(), "type":"0"};
+		
+		if(u_name){d['name'] = u_name;}
+		if(u_sex){d['sex'] = u_sex;}
+		if(u_city){d['city'] = u_city;}
+		if(u_age){d['bornDate'] = u_age;}
+		
+		d['mark'] = detail || '';//判断是否和原来的数据相同
+		
+		submitToServer(update_profile_url , d );
+	})
+	
+	
+	//显示用户信息		
+	function displayProfile(d){
+		if(!d){return;}
+		var u_avat = d['avatar'];
+		if(u_avat){
+			mui('#avatar-id')[0].src = u_avat;
+		}
+		
+		mui('#user-name-id')[0].innerText = d['name'] || d['nickName'];
+		mui('#user-age-id')[0].innerText = d['bornDate'];
+		mui('#user-sex-id')[0].innerText = d['sex'] == '1' ? '男':'女';
+		mui('#user-city-id')[0].innerText = d['location'];
+		mui('#text-area-id')[0].value = d['notes'];
+	}
+			
+</script>
+</body>
+</html>

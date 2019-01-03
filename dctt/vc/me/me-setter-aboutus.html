@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+	<style type="text/css">
+	.mui-table-view-cell {
+    position: relative;
+    overflow: hidden;
+    padding: 15px 15px;
+    -webkit-touch-callout: none;
+	
+	background-color: white;
+}
+.mui-table-view-cell>a:not(.mui-btn) {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin: -11px -15px;
+    padding: inherit;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: inherit;
+	font-size: 15px;
+	height: 50px;
+}
+
+.mui-table-view-cell:after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0px;
+    height: 1px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+}
+
+	</style>
+</head>
+<body>
+	
+<div class="mui-content">
+	<div style="padding: 20px 0; margin-top: 30px;">
+		<img id="logo-icon-id" src="../../images/app_logo@3x.png" width="100px" height="100px" style="border-radius: 8px;" >
+		<div id="app-version-id" style="text-align: center;margin-top: 2px;font-size: 13px;color: #666666;">
+			当前版本1.0.0(20190101)
+		</div>
+	</div>
+	
+	<ul class="mui-table-view" style="margin-top: 0px;">
+			<li onclick="tableDidSelected(0)" class="mui-table-view-cell">
+				<a class="mui-navigate-right">
+					简介
+				</a>
+			</li>
+			<li onclick="tableDidSelected(1)" class="mui-table-view-cell">
+				<a class="mui-navigate-right">
+					 使用帮助
+				</a>
+			</li>
+			<li onclick="tableDidSelected(2)" class="mui-table-view-cell">
+				<a class="mui-navigate-right">
+					 用户协议
+				</a>
+			</li>
+			<li onclick="tableDidSelected(3)" class="mui-table-view-cell">
+				<a class="mui-navigate-right">
+					 隐私政策
+				</a>
+			</li>
+			<li onclick="tableDidSelected(4)" class="mui-table-view-cell">
+				<a class="mui-navigate-right">
+					 免责声明
+				</a>
+			</li>
+			<li onclick="tableDidSelected(5)" class="mui-table-view-cell">
+				<a class="mui-navigate-right">
+					 联系我们
+				</a>
+			</li>
+		</ul>
+		
+</div>
+
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	mui.init()
+	mui.plusReady(function () {
+	    var _width = plus.screen.resolutionWidth;
+	    var _avatar_w = (_width - 100) / 2.0;
+	    var useravatar = document.getElementById("logo-icon-id");
+	    useravatar.style.marginLeft = _avatar_w + 'px';
+		
+		///版本信息
+		var appid = plus.runtime.appid;
+		if(appid != 'HBuilder'){
+			plus.runtime.getProperty(appid , function(info){
+				var appver =  info['version'];	
+				var des = info['description'];
+				mui('#app-version-id')[0].innerText = '当前版本' + appver + '(' + des + ')';
+			});
+		}
+		
+	})
+	
+	function tableDidSelected(row){
+		var titles = ['简介','使用帮助','用户协议','隐私政策','免责声明' , '联系我们'];
+		var urls = [aboutus_url , usehelp_url ,user_agreement_url , privacy_agreement_url , disclaimer_url , contactus_url];
+		openNewPage('webpage.html' , titles[row] , true , {'url':BASE_URL + urls[row]});	
+	}
+	
+</script>
+</body>
+</html>

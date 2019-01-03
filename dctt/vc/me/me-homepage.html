@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+	<style type="text/css">
+			.mui-ellipsis-2{
+				-webkit-line-clamp: 3;
+				font-size: 17px ;
+				text-indent: 0px;
+				/* font-weight: bold; */
+			}
+			
+			.list-detail{
+				margin-top: 5px;
+				font-size: 15px;
+				color: darkgrey;
+				text-indent: 0px;
+			}
+			li{
+				margin-top: 8px;
+				padding-bottom: 2px;
+				margin: 1px;
+				
+				border-width: 0px;
+				border-color: #e0e0e0;
+				border-style: solid;
+				border-radius: 5px;
+			}
+			
+			/* 清除列表选中时背景色 */
+			.mui-table-view-cell > a:not(.mui-btn).mui-active {
+				background-color: #fff;
+			}
+			
+			.mui-table-view:before ,.mui-table-view:after{
+				height: 0px;
+				
+			}
+			
+			.mui-table-view-cell:after {
+		/* 	  position: absolute;
+			  right: 0;
+			  bottom: 0;
+			  left: 15px; */
+			  height: 1px;
+	/* 		  content: '';
+			  -webkit-transform: scaleY(.5);
+			  transform: scaleY(.5);
+			  background-color: #c8c7cc; */
+			}
+	
+			.avatar-icon{
+				height : 20px;
+				width : 20px 
+				/* border-radius: 50%; */
+				margin-top: 2px;
+				float: left;
+			}
+			
+			.mui-table-view-cell{
+				margin-top: 8px;
+				margin-left: 0px;
+				margin-right: 0px;
+			}
+			
+			.dislike-icon{
+				width: 25px;
+				height: 25px;
+				float: right;
+				margin-right: 8px;
+				margin-top: 10px;
+				padding: 8px;
+			}
+			
+		</style>
+		
+</head>
+<body>
+	
+<div class="mui-content">
+	<div style="height: 150px; background-color: white;background-image: url(../../images/back_bg@2x.png);">
+		
+	</div>
+	<div id="top-userinfo" style="background-color: white;margin-top: 0px;padding-left: 10px;padding-bottom: 10px;">
+		<div id="xiugaitx-id">
+			<div style="display: inline-block;"> 
+			<img id="avatar-id" src="../../images/IMG_3028.JPG"  height="60px" width="60px" style=" margin-top: -30px;margin-left: 0px; border-radius: 50%;">	
+			</div>
+			
+			<div style="display: inline-block;">
+				<div style="font-size: 16px; font-weight: 600; color: #333;margin-left: 5px;padding-top: 0px; float: left;">
+				夜空中最亮的星
+				</div>	
+			</div>
+
+		</div>	
+		
+		<div style="margin-top: 8px;">
+			<img src="../../images/girl@2x.png" width="14px" height="14px" style="margin-top: 3px;" > <div style="margin-left: 10px; font-size: 14px;display: inline-block;margin-top: 0px;">20岁</div>
+		<div style="display: inline-block;float: right;margin-right: 20px;">
+			<button type="button" class="" style="width: 80px; height: 25px;font-size: 11px;border-radius: 8px;">加入黑名单</button>
+			<button type="button" class="" style="background-color: #EC5252; color: white; border-width: 0; margin-left: 20px; width: 80px; height: 25px;font-size: 11px;border-radius: 8px;">关注</button>
+		</div>
+		</div>
+		
+		<div style="margin-top: 8px;">
+			<img src="../../images/city_native@2x.png" width="15px" height="14px" > <div style="margin-left: 6px; font-size: 14px;display: inline-block;">上海市浦东新区</div>
+		</div>
+		
+		<div style="margin-top: 8px;font-size: 13px;">
+			<span style="font-size: 13px;padding-right: 5px;">签名:</span>我不管我最美
+		</div>
+		
+		<div style="margin-top: 8px;font-size: 16px;padding-bottom: 2px;color: #666;">
+			<span style="font-size: 13px;padding-right: 5px;">收到的赞:</span> <span style="color: #FF4500;font-weight: 500;">10</span>
+			<span style="margin-left: 25px; font-size: 13px;padding-right: 5px;">粉丝:</span><span style="color: #FF4500;font-weight: 500;">10</span>
+			<span style="margin-left: 25px; font-size: 13px;padding-right: 5px;">积分:</span><span style="color: #FF4500;font-weight: 500;">10</span>
+		</div>
+	</div>
+
+	<div style="margin-top: 0px;">
+		<div style="font-size: 14px;margin-left: 10px;height: 30px;padding-top: 12px;color: #666;">
+			全部动态
+		</div>
+		
+		<ul class="mui-table-view" id="table-view-id" style="padding: 0px 0px 20px 0;" v-cloak >	
+			<li  class="mui-table-view-cell"  v-for="item in items">
+				<a @tap="tableViewDidClicked(item)">
+					<div class="mui-media-body">
+						<div class="mui-ellipsis-2">
+							{{item.content}}
+							<!-- {{item.content.title}} -->
+						</div>
+						
+						<div class="list-detail mui-ellipsis-2">
+							{{item.content.content}}
+						</div>
+					</div>
+					
+					<img  v-if="item.flag" v-bind:src=item.imageUrl alt="" v-bind:style="{width:item.width + 'px' , height:item.width + 'px' , marginTop:'10px' , borderRadius:'5px'}" >
+					
+					<div>
+						<div style="">
+							<img v-bind:src=item.user.avatar class="avatar-icon"  style="border-radius: 50%;width:25px;height: 25px; margin-top: 8px;" >
+							<div style="display: inline-block;color: #666;font-size: 13px;margin-left: 5px;margin-top: 12px;margin-bottom: 0px;height: 20px;">
+								{{item.user.name}} 
+							</div>
+							<div style="display: inline-block;color: #666;font-size: 13px;margin-left: 10px;">
+								{{item.postDateFormatter}} <span style="margin-left: 8px;font-size: 12px;">阅读{{item.readCnt}}</span>
+							</div>
+							<img src="../../images/dislikeicon_details@2x.png" alt="" class="dislike-icon" >
+						</div>
+					</div>
+				</a>
+			</li>
+		</ul>
+		
+	</div>
+</div>
+
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	mui.init()
+	
+	var ztlist = new Vue({
+		el: '#table-view-id',
+		data: {
+			items: []
+		}
+	});
+	
+	mui.plusReady(function () {
+// 		var _wv = plus.webview.currentWebview();
+// 		var _titleN = _wv.getStyle();
+// 		_titleN = 
+		
+	   	///请求参数
+	   var pars = {
+	   	"category":"sy" ,
+	   	"subType":0 ,
+		'uid':getLoginUid()
+	   }
+	   
+// 	   {
+// 		"category":"sy" ,
+// 		"uid": uid ,
+// 		 "pageNumber":pageNumber,
+// 		 "type":isMyFromPublish ? 0 : 1   
+// 	   } 
+				 
+	   hud_show('数据加载中');
+	   api_post(get_sy_url , pars , function(res){
+	   	console.log(JSON.stringify(res[0]));
+	   	_dataConvert(res);
+		hud_close('加载完成!');
+	   } , function(error){
+	   	
+	   }) 
+	})
+
+	
+	///数据转化处理
+	function _dataConvert(arr){
+		if(arr == null || arr.length < 1){return;}
+		for (var i = 0; i < arr.length; i++) {
+			var d = arr[i];
+// 			var content = d['content'];
+// 			content = content.replace(/\n/g," ")
+// 			var obj = JSON.parse(content);
+// 			d['content'] = obj;
+			var postDate = d['postDate'];
+			d['postDateFormatter'] = dateUtils.format(postDate);
+			
+			var uname = d['user']['name'];
+			var nick = d['user']['nickName'];
+			if(uname == null || uname == ''){d['user']['name'] = nick;}
+			
+			var u_avatar = d['user']['avatar'] || "../../images/default_avatar.png";
+			d['user']['avatar'] = u_avatar;
+			
+			//添加图片		
+			var igStr = d['images'];
+			if(igStr != null && igStr.length > 0){
+				var igurlArr = igStr.split(',');
+				// console.log(igurlArr.length);
+				
+				d['imageUrl'] = igurlArr[0];
+				d['flag'] = 1;
+				var w = (plus.screen.resolutionWidth - 30) / 3.0;
+				d['width'] = w;
+			}	
+		}
+		
+		// dataSourceArr.push.apply(dataSourceArr ,arr);
+		
+		//渲染列表
+		ztlist.items = arr;
+	}
+	
+</script>
+</body>
+</html>

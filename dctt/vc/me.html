@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+	<style type="text/css">
+		.list-icon{
+			width: 25px;
+			height: 25px;
+			margin-top: 10px;
+			/* float: left; */
+		}
+		.list-title{
+			font-size: 14px;
+			display: inline-block;
+			position: fixed;
+			margin-top: 14px;
+			margin-left: 12px;
+		}
+		
+		.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+			margin: 0px;
+			padding: 6px 10px;
+			vertical-align: top;
+			border-right: 1px solid #eee;
+			border-bottom: 0px solid #eee;
+			background-color: white;
+		}
+		
+		.mui-table-view-cell > a:not(.mui-btn).mui-active {
+			background-color: #fff;
+		}
+		
+		.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+			font-size: 13px;
+			line-height: 15px;
+			display: block;
+			width: 100%;
+			height: 15px;
+			margin-top: 8px;
+			text-overflow: ellipsis;
+			color: #666;
+		}
+
+	</style>
+</head>
+<body>
+	
+<div class="mui-content">
+	<div id="user-baseinfo-id"  v-cloak style="height: 188px;border-width: 0px; border-color: brown;border-style: solid; margin-bottom: 15px;border-radius: 5px;background-color: white;">
+		<div onclick="tableDidSelected(0)" style="margin-top: 30px;margin-left: 10px;font-size: 20px; display: inline-block;">
+			{{user_name}}
+			<div style="font-size: 15px;color: darkgray;padding-top: 10px;">
+				查看或编辑资料
+			</div>
+		</div>
+		
+		<img :src="avatar" style="width: 80px;height: 80px; border-radius: 50%; float: right;margin-top: 20px;margin-right: 20px;" >
+	
+		<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top: 32px;background-color: white;" >
+			<li class="mui-table-view-cell mui-media mui-col-xs-4" style="background-color: white;">
+				<a >
+					<div class="mui-media-body" style="color: #FF4500;font-size: 16px;">{{item.zanCnt}}</div>
+					<div class="mui-media-body">收到的赞</div>
+				</a>
+			</li> 
+			<li class="mui-table-view-cell mui-media mui-col-xs-4"style="background-color: white;" >
+				<a >
+					<div class="mui-media-body" style="color: #FF4500;font-size: 16px;">{{item.fanCnt}}</div>
+					<div class="mui-media-body">粉丝</div>
+				</a>
+			</li> 
+			<li class="mui-table-view-cell mui-media mui-col-xs-4" style="background-color: white;">
+				<a >
+					<div class="mui-media-body" style="color: #FF4500;font-size: 16px;">{{item.score}}</div>
+					<div class="mui-media-body">积分</div>
+				</a>
+			</li> 
+		</ul>
+	
+	</div>
+	
+	
+	<ul class="mui-table-view">
+			<li class="mui-table-view-cell">
+				<a onclick="tableDidSelected(1)" class="mui-navigate-right">
+					<img src="../images/me/me_list_icon1.png" class="list-icon">
+					<div class="list-title">我的主页</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a onclick="tableDidSelected(2)" class="mui-navigate-right">
+					<img src="../images/me/me_list_icon2.png" class="list-icon">
+					<div class="list-title">消息</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a onclick="tableDidSelected(3)" class="mui-navigate-right">
+					<img src="../images/me/me_list_icon3.png" class="list-icon">
+					<div class="list-title">收藏</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a onclick="tableDidSelected(4)" class="mui-navigate-right">
+					<img src="../images/me/me_list_icon4.png" class="list-icon">
+					<div class="list-title">粉丝关注</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a onclick="tableDidSelected(5)" class="mui-navigate-right">
+					<img src="../images/me/me_list_icon5.png" class="list-icon">
+					<div class="list-title">分享给好友</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell">
+				<a onclick="tableDidSelected(6)" class="mui-navigate-right">
+					<img src="../images/me/me_list_icon6.png" class="list-icon">
+					<div class="list-title">设置</div>
+				</a>
+			</li>
+		</ul>
+</div>
+
+<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	var _userinfo;
+	
+	//刷新资料
+	document.addEventListener('update-profile-success' , function(event){
+		getUserProfile();
+	})
+	
+	var baseinfo = new Vue({
+		el:'#user-baseinfo-id',
+		data:{
+			item:{}
+		},
+		computed:{
+			user_name:function(){
+				var user = this.item;
+				var uname = user["name"] || user['nickName'];
+				return uname;
+			},
+			avatar:function(){
+				var d = this.item;
+				var u_avatar = d['avatar'] || "../images/default_avatar.png";
+				
+				return u_avatar;
+			},
+		}
+	})
+	
+	mui.init()
+mui.plusReady(function () {
+    var wv = plus.webview.currentWebview();
+	// wv.id = 'me212';
+})
+	var pages = ['me/me-baseinfo.html'];
+	
+	function tableDidSelected(row){
+		switch (row){
+			case 0:openNewPage(pages[0] , '修改资料' , true , {'userinfo':_userinfo || ''});break;
+			case 1:openNewPage('me/me-homepage.html' , _userinfo['name']|| _userinfo['nickName'] , true);break;
+			case 2:openNewPage('login.html' , '登录' , true);break;	
+			case 3:
+			case 4:
+			case 5:
+			break;
+			case 6:openNewPage('me/me-setter.html' , '设置' , true);break;	
+			default:break;
+		}
+		
+	}
+	
+	//用户信息
+	function getUserProfile(){
+		var uinfo = {"uid":getLoginUid(), "type":"3"};
+		api_post(update_profile_url , uinfo , function(res){
+			// console.log(JSON.stringify(res));
+			_userinfo = res;
+			
+			baseinfo.item = res;
+		});
+		
+	}
+	
+	getUserProfile();
+	
+</script>
+</body>
+</html>

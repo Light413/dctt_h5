@@ -1,0 +1,49 @@
+	.mui-media {
+		font-size: 15px;
+		padding-left: 0px;
+		margin-left: 0px;
+	}
+	
+	.mui-ellipsis-2{
+		-webkit-line-clamp: 3;
+		font-size: 16px;
+		text-indent: 20px;
+	}
+	
+	.avatar-icon{
+		height : 40px;
+		width : 40px 
+		/* border-radius: 50%; */
+		margin-top: 2px;
+		float: left;
+	}
+	
+	.mui-table-view-cell {
+		padding: 10px 15px;
+	}
+	/* 清除列表选中时背景色 */
+	.mui-table-view-cell > a:not(.mui-btn).mui-active {
+		background-color: #fff;
+	}
+
+	.list-image{
+		width: 60px;
+		height: 60px;
+		background-repeat:no-repeat; 
+		background-size:100% 100%;
+		display: inline-block;
+		margin-right: 2px;
+		margin-top: 5px;
+		border-radius: 5px;
+	}
+	
+	.mui-table-view:before ,.mui-table-view:after{
+		height: 0px;
+		
+	}
+	
+	.images{
+		margin-top: 6px;
+		margin-right: 2px;
+		background-repeat : repeat-y;
+	}

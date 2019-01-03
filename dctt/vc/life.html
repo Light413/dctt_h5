@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+	<style type="text/css">
+		.mui-table-view-cell{
+			margin-top: 5px;
+		}
+		.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+			/* margin: 0px; */
+			padding: 2px 15px;
+			vertical-align: top;
+			border-right: 0px solid #eee;
+			border-bottom: 0px solid #eee;
+		}
+		
+		img{
+			width: 30px; 
+			height: 30px;
+		}
+		.mui-media {
+			font-size: 13px;
+			padding-left: 0px;
+			margin-left: 0px;
+		}
+		
+	</style>
+</head>
+
+<body>
+<div class="mui-content" style="margin-top: 0px;margin-left: 0px;margin-right: 0px;">
+	<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top: 0px;border-width: 0; border-bottom-width: 1px;border-style: solid;border-color: lightgray;" id="life-list-id" v-cloak>
+		<li class="mui-table-view-cell mui-media mui-col-xs-3" style="background-color: white;" v-for="item in items">
+			<a  @tap="tableDidSelected(item);">
+				<img v-bind:src=item.url>
+				<div class="mui-media-body" style="font-size: 12px;">{{item.title}}</div>
+			</a>
+		</li>
+	</ul>
+	
+</div>
+
+<script src="../js/mui.js"></script>
+<script src="../js/p/base-data.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	mui.init({
+		subpages:[{
+			url:'life-list-sub.html',
+			id:'life-list-sub.html',
+			styles:{
+				top: '241px',
+				bottom: '0px',
+			}
+		}]
+	});
+		
+	var lifelist = new Vue({
+		el: '#life-list-id',
+		data: {
+			items: []
+		}
+	});
+	
+	var lifeArr = itemType[1];
+	for (var i = 0; i < lifeArr.length; i++) {
+		var d =	lifeArr[i];
+		var url = "../images/item_new_0" + (i + 1) + "@2x.png";
+		d['url'] = url;
+	}
+	
+	lifelist.items = lifeArr;
+	
+	
+	function tableDidSelected(item){
+		openNewPage('life-list-sub.html' , item['title'] , true , {'typeId':item['id']});
+	}
+	
+</script>
+</body>
+
+</html>

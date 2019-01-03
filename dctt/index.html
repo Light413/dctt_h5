@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<!-- <title>Hello MUI</title> -->
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
+		<style type="text/css">
+			body {
+				background-color: #efeff4;
+			}
+			
+			#list {
+				/*避免导航边框和列表背景边框重叠，看起来像两条边框似得；*/
+				margin-top: -1px;
+			}
+			
+			.mui-bar-tab .mui-tab-item.mui-active {color: #444444;}
+			.mui-title{color:#454545;font-weight: 450;}
+		</style>
+	</head>
+
+	<body>
+		
+		
+		<nav class="mui-bar mui-bar-tab globe-color"> 
+		
+			<a id="defaultTab" class="mui-tab-item mui-active" href="vc/home.html">
+				<span class="mui-icon iconfont icon-shouye"></span>
+				<span class="mui-tab-label">新动态</span>
+			</a>
+			<a class="mui-tab-item" href="vc/zt.html">
+				<span class="mui-icon iconfont icon-theme"></span>
+				<span class="mui-tab-label">话题</span>
+			</a>
+			
+			<a class="mui-tab-item" href= "vc/publish-select-type.html">
+				<span class="mui-icon iconfont icon-fabu" style= "font-size: 30px; color: orangered;" ></span>
+				<span class="mui-tab-label" style = "color :orangered;">发布</span>	
+			</a>
+			
+			<a class="mui-tab-item" href="vc/life.html">
+				<span class="mui-icon iconfont icon-category "></span>
+				<span class="mui-tab-label">郸城生活</span>
+			</a>
+			<a class="mui-tab-item" href="vc/me.html">
+				<span class="mui-icon iconfont icon-wode"></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
+		
+		
+		<script src="js/mui.min.js"></script>
+		<script src="js/update.js" type="text/javascript" charset="utf-8"></script>
+		<script src = "js/appconstant.js"></script>
+		<script>
+			mui.init();
+			var _index = 0;			
+			var subpages = ['vc/home.html', 'vc/zt.html', 'vc/publish-select-type.html', 'vc/life.html','vc/me.html'];
+
+			
+			function navigationBarStyle(index){
+				var subpage_style = {
+					top: '0px',
+					bottom: '51px'
+				};
+				
+				var _titles = ['','','发布动态','郸城生活','个人中心']
+				if(index != 1){
+					subpage_style['titleNView'] = {
+						titleText:_titles[index],
+						titleColor:"#FFFFFF",             // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
+						titleSize:"17px",                 // 字体大小,默认17px
+						backgroundColor:'#ff4500',        //#089DDD 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
+						splitLine:{                       // 标题栏控件的底部分割线，类似borderBottom
+						color:"#CCCCCC",                // 分割线颜色,默认值为"#CCCCCC"  
+						height:"1px"  
+						},
+					}
+				}
+				
+				return subpage_style;
+			}
+			
+			var aniShow = {};
+			
+			 //创建子页面，首个选项卡页面显示，其它均隐藏；
+			mui.plusReady(function() {
+				var h = plus.nativeUI.showWaiting();
+				
+				//仅支持竖屏显示
+				plus.screen.lockOrientation("portrait-primary");
+				//有值，说明已经显示过了，无需显示；
+				//关闭splash页面；
+				plus.navigator.closeSplashscreen();
+				plus.navigator.setFullscreen(false);
+		
+				var self = plus.webview.currentWebview();
+				for (var i = 0; i < 5; i++) {
+					var temp = {};
+					var _style = navigationBarStyle(i);
+					var sub = plus.webview.create(subpages[i], subpages[i], _style);
+					if (i > 0) {
+						sub.hide();
+					}else{
+// 						temp[subpages[i]] = "true";
+// 						mui.extend(aniShow,temp);
+// 						setTitle('首页')
+					}
+					self.append(sub);
+				}
+				
+				setTimeout(function(){
+					h.close();
+				},1500)
+				
+			});
+			
+			function setTitle(t){//
+// 				var wv = plus.webview.currentWebview();
+// 				wv.setStyle({
+// 					titleNView: {
+// 						titleText: t
+// 					}
+// 				});
+			}
+			
+			 //当前激活选项
+			var activeTab = subpages[0];
+			var title = document.getElementById("title");
+			 //选项卡点击事件
+			mui('.mui-bar-tab').on('tap', 'a', function(e) {
+				var targetTab = this.getAttribute('href');
+				if (targetTab == activeTab) {
+					return;
+				}
+				
+				//更换标题
+				//title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+				
+				var t = this.querySelector('.mui-tab-label').innerHTML;
+				setTitle(t)
+				
+				//显示目标选项卡
+				//若为iOS平台或非首次显示，则直接显示
+				if(mui.os.ios||aniShow[targetTab]){
+					plus.webview.show(targetTab);
+				}else{
+					//否则，使用fade-in动画，且保存变量
+					var temp = {};
+					temp[targetTab] = "true";
+					mui.extend(aniShow,temp);
+					plus.webview.show(targetTab,"fade-in",300);
+				}
+				//隐藏当前;
+				plus.webview.hide(activeTab);
+				//更改当前活跃的选项卡
+				activeTab = targetTab;
+			});
+			 //自定义事件，模拟点击“首页选项卡”
+			document.addEventListener('gohome', function() {
+				var defaultTab = document.getElementById("defaultTab");
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if (defaultTab !== current) {
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});			
+		</script>
+	</body>
+
+</html>

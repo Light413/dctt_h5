@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+</head>
+<body>
+	
+<div class="mui-content" >
+	<div class="mui-input-row">
+		<input id="name-id" type="text" placeholder="输入长度不得超过10个字符" style="height: 50px;font-size: 16px;border-width: 0;" value="">
+	</div>
+	
+	<div style="margin-top: 5px; text-align: right;color: darkgray;font-size: 13px;padding-right: 20px;">
+		已输入字数 <span id="text-number-id">0/10</span> 
+	</div>
+</div>
+<button id="submit-button-id" type="button" class="mui-btn mui-btn-block" style="border-bottom-width: 0; color: #FF4500;position: fixed;bottom: 0;margin-bottom: 0;height: 50px;">保存</button>
+
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	var maxTextLen  = 10;
+	
+	mui.init({
+		beforeback:function () {
+			var wv = plus.webview.getWebviewById('me/me-baseinfo.html');
+			var _name = mui('#name-id')[0].value;
+			mui.fire(wv , 'save-username-event' , {'name':_name || ''});
+		}
+	})
+	
+	var textArea = document.getElementById('name-id');
+	textArea.addEventListener('input' , function(){
+		var _content = textArea.value;
+		var strLen = _content.length;
+		if(strLen >= maxTextLen){
+			var s = _content.substring(0,maxTextLen);
+			textArea.value = s;
+			mui.alert('最多只能输入' + maxTextLen + '字符');
+		}
+		
+		document.getElementById('text-number-id').innerText = this.value.length + '/10';
+	})
+	
+	mui('#submit-button-id')[0].addEventListener('tap' , function(){
+		mui.back();
+	})
+
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+
+@font-face {font-family: "iconfont_hometop";
+  src: url('../fonts/iconfont_hometop.ttf?t=1541686972524') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+}
+
+.iconfont_hometop {
+  font-family:"iconfont_hometop" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-sy_1:before { content: "\e60f"; }
+
+.icon-sy_5:before { content: "\e610"; }
+
+.icon-sy_4:before { content: "\e611"; }
+
+.icon-sy_3:before { content: "\e614"; }
+
+.icon-sy_6:before { content: "\e615"; }
+
+.icon-sy_7:before { content: "\e616"; }
+
+.icon-sy_2:before { content: "\e618"; }
+
