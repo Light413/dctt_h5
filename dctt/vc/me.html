@@ -52,38 +52,59 @@
 <body>
 	
 <div class="mui-content">
-	<div id="user-baseinfo-id"  v-cloak style="height: 188px;border-width: 0px; border-color: brown;border-style: solid; margin-bottom: 15px;border-radius: 5px;background-color: white;">
-		<div onclick="tableDidSelected(0)" style="margin-top: 30px;margin-left: 10px;font-size: 20px; display: inline-block;">
-			{{user_name}}
-			<div style="font-size: 15px;color: darkgray;padding-top: 10px;">
-				查看或编辑资料
+	<div id="user-baseinfo-id"  v-cloak>
+		<div v-if = "!isLogined" id="user-login-id" class="mui-navigate-right" style="height: 120px;background-color: white;margin-bottom: 8px;">
+			<div style="padding-top: 40px;padding-left: 20px;display: inline-block;float: left;">
+				<img src="../images/default_sdk_login@2x.png" width="60px" height="60px" >
 			</div>
+			
+			<div style="float: left;margin-top: 60px;margin-left: 15px; display: inline-block; font-size: 15px; color: #888888;">
+				请前往登录
+			</div>
+			
+			<div style="float: right;margin-top: 60px;margin-right: 15px;">
+				<img src="../images/arrow_icon@2x.png" width="20px" height="20px" >
+			</div>
+			
 		</div>
 		
-		<img :src="avatar" style="width: 80px;height: 80px; border-radius: 50%; float: right;margin-top: 20px;margin-right: 20px;" >
-	
-		<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top: 32px;background-color: white;" >
-			<li class="mui-table-view-cell mui-media mui-col-xs-4" style="background-color: white;">
-				<a >
-					<div class="mui-media-body" style="color: #FF4500;font-size: 16px;">{{item.zanCnt}}</div>
-					<div class="mui-media-body">收到的赞</div>
-				</a>
-			</li> 
-			<li class="mui-table-view-cell mui-media mui-col-xs-4"style="background-color: white;" >
-				<a >
-					<div class="mui-media-body" style="color: #FF4500;font-size: 16px;">{{item.fanCnt}}</div>
-					<div class="mui-media-body">粉丝</div>
-				</a>
-			</li> 
-			<li class="mui-table-view-cell mui-media mui-col-xs-4" style="background-color: white;">
-				<a >
-					<div class="mui-media-body" style="color: #FF4500;font-size: 16px;">{{item.score}}</div>
-					<div class="mui-media-body">积分</div>
-				</a>
-			</li> 
-		</ul>
-	
+		<div v-else style="height: 188px;border-width: 0px; border-color: brown;border-style: solid; margin-bottom: 15px;border-radius: 5px;background-color: white;">
+			<div onclick="tableDidSelected(0)" style="margin-top: 30px;margin-left: 10px;font-size: 20px; display: inline-block;">
+				{{user_name}}
+				<div style="font-size: 15px;color: darkgray;padding-top: 10px;">
+					查看或编辑资料
+				</div>
+			</div>
+			
+			<img :src="avatar" style="width: 80px;height: 80px; border-radius: 50%; float: right;margin-top: 20px;margin-right: 20px;" >
+		
+			<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top: 32px;background-color: white;" >
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" style="background-color: white;">
+					<a >
+						<div class="mui-media-body" style="color: #FF4500;font-size: 16px;">{{item.zanCnt}}</div>
+						<div class="mui-media-body">收到的赞</div>
+					</a>
+				</li> 
+				
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" style="background-color: white;">
+					<a >
+						<div class="mui-media-body" style="color: #FF4500;font-size: 16px;">{{item.fanCnt}}</div>
+						<div class="mui-media-body">粉丝</div>
+					</a>
+				</li> 
+				
+				<li class="mui-table-view-cell mui-media mui-col-xs-4" style="background-color: white;">
+					<a >
+						<div class="mui-media-body" style="color: #FF4500;font-size: 16px;">{{item.score}}</div>
+						<div class="mui-media-body">积分</div>
+					</a>
+				</li> 
+			</ul>
+		
+		</div>
 	</div>
+	
+	
 	
 	
 	<ul class="mui-table-view">
@@ -156,14 +177,19 @@
 				
 				return u_avatar;
 			},
+			
+			isLogined:function(){
+				return false;
+			}
 		}
 	})
 	
 	mui.init()
-mui.plusReady(function () {
-    var wv = plus.webview.currentWebview();
-	// wv.id = 'me212';
-})
+	mui.plusReady(function () {
+		var wv = plus.webview.currentWebview();
+		// wv.id = 'me212';
+	})
+
 	var pages = ['me/me-baseinfo.html'];
 	
 	function tableDidSelected(row){
@@ -194,6 +220,10 @@ mui.plusReady(function () {
 	}
 	
 	getUserProfile();
+	
+	document.getElementById('user-login-id').addEventListener('tap',function(){
+		openNewPage('login.html' , '登录' , true);	
+	})
 	
 </script>
 </body>

@@ -7,6 +7,9 @@ var detail_url = "detail.php"//动态详情
 var update_profile_url = "updateProfile.php";//更新用户信息
 var homepage_url = "getsc.php";//个人主页、个人收藏
 
+var login_url= "login.php";
+var register_url = "register.php";
+
 var user_agreement_url = "p/userAgreement.html"
 var aboutus_url = "p/aboutus.html"
 var contactus_url = "p/contactus.html"
@@ -14,6 +17,8 @@ var disclaimer_url = "p/disclaimer.html"
 var usehelp_url = "p/usehelp.html"
 var privacy_agreement_url = "p/userPrivacy.html"
 var feedbackList_url = "p/feedbackList.html"
+
+
 
 //动态类型
 var dt_type_sy = 'sy';

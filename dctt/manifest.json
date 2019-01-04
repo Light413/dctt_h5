@@ -166,7 +166,16 @@
             },
             "plugins" : {
                 "speech" : {},
-                "oauth" : {}
+                "oauth" : {},
+                "share" : {
+                    "weixin" : {
+                        "appid" : "wx99c8b9a7590b0c04",
+                        "appsecret" : "01554d9297c4f65b6094a00cf6ef1f3e"
+                    },
+                    "qq" : {
+                        "appid" : "101511561"
+                    }
+                }
             }
         },
         "schemeWhitelist" : [ "market" ]

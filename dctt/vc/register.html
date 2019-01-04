@@ -9,15 +9,89 @@
 	
 	<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
 </head>
-<body>
-	
-<div class="mui-content">
-	
+<body style="background-color: white;">
+<div class="mui-content" style="background-color: white;">
+	<div id="register" style="padding: 10px 15px; margin-top: 35px;">
+		<div class="mui-input-row">
+			<input type="number" placeholder="输入手机号" class="mui-input-clear" style="font-size: 15px;border-radius: 0; border-width: 0; border-bottom-width: 0.6px;border-color: #F0F0F0;">
+		</div>
+		<div class="mui-input-row">
+			<input type="number" placeholder="输入验证码" style="width: 60%; display: inline-block; font-size: 15px;border-radius: 0; border-width: 0; border-bottom-width: 0.6px;border-color: #F0F0F0;"> 
+			<a id="checkou-code-id" onclick="getCheckCode()" style=" text-align: center; display: inline-block;font-size: 15px;">获取验证码</a>
+		</div>
+		
+		<div class="mui-input-row" style="margin-top: 10px;">
+			<input type="password" placeholder="设置密码(至少6个字符或数字)" class="mui-input-clear" style="font-size: 15px; border-radius: 0; border-width: 0; border-bottom-width: 0.6px; border-color: #F0F0F0;">
+		</div>
+		<div class="mui-input-row" style="margin-top: 10px;">
+			<input type="password" placeholder="确认密码"   class="mui-input-clear" style="font-size: 15px; border-radius: 0; border-width: 0; border-bottom-width: 0.6px; border-color: #F0F0F0;">
+		</div>
+		
+		<button type="button" class="mui-btn " style="width: 100%;height: 45px;margin-top: 20px;background-color: #e0e0e0;color: white;border-width: 0;font-size: 16px;">{{item == 0  ? '注册' : '修改'}}</button>
+		
+		<div v-if="item == 0" style="margin-top: 15px;padding: 0 10px; font-size: 12px;">
+			<img src="../images/select_reviewbar_all_press@2x.png" height="20px" width="20px" style="padding-top: 1px;margin-top: 0px;"> <a onclick="registerAndFindPwdAction(0)" style="color: #434343;font-size: 12px;">注册即已同意郸城头条 <span style="color: #007AFF;">"用户协议"</span></a>
+		</div>	
+	</div>
 </div>
 
 <script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
+	var seconds = 10;//剩余时间
+	var isBeginCnt = false;
+	var _timer;
+	
 	mui.init()
+	mui.plusReady(function () {
+	    var wv = plus.webview.currentWebview();
+		_isRegisterV.item = wv.type;
+	})
+	
+	var _isRegisterV = new Vue({
+		el:'#register',
+		data:{
+			item:{}
+		}
+		
+	})
+	
+	function getCheckCode(){
+		///判断号码合法
+		
+		if(seconds != 10){return;}
+		
+		isBeginCnt = true;
+		
+		if(_timer){return}
+		
+		_timer = setInterval(function(){
+			if(!isBeginCnt){return}
+			if(seconds == 0){
+				var checkcode = mui('#checkou-code-id')[0];
+				checkcode.innerText = '获取验证码'; 
+				isBeginCnt = false;
+				seconds = 10;
+				return;
+			}
+			
+			seconds--;
+			var checkcode = mui('#checkou-code-id')[0];
+			
+			checkcode.innerText = seconds + 's后重新获取';
+		},1000);
+		
+	}
+	
+	function registerAndFindPwdAction(type){
+		openNewPage('me/webpage.html' , '用户协议' , true , {'url':BASE_URL + user_agreement_url});
+	}
+	
+
+
+	
 </script>
 </body>
 </html>
