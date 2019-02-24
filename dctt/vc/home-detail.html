@@ -83,7 +83,7 @@
 <body style="background-color: white;">
 <div class="mui-content" style="background-color: white;padding-bottom: 20px;margin-bottom: 50px;">
 	<div id="base-info-id" style="margin-left: 15px;margin-right: 15px;margin-top: 20px;" v-cloak>
-		<img v-bind:src= avatar alt="" class = "avatar-icon" style="border-radius: 20px;width:40px;">
+		<img v-on:click="openHomePage" v-bind:src= avatar class = "avatar-icon" style="border-radius: 20px;width:40px;">
 		<div style="margin-left: 6px;">
 			<div style="margin-top: 0px;color: #666;font-size: 15px;margin-left: 45px;margin-top: 0px;margin-bottom: 0px;height: 20px;">
 				{{user_name}}
@@ -105,9 +105,14 @@
 				<img id="zan-icon-id" src="../images/comment_like_icon_normal@2x.png" width="20px" height="20px" style="margin-top: 2px;margin-bottom: -6px;" >
 				<div id="zan-number-id" style="display: inline-block;"></div>
 			</div>
+			
+			<div style="margin-top: 10px;font-size: 12px;color: #888888;padding: 5px 5px;">
+				提示: 平台不对该信息承担任何责任，若发现虚假信息等违法行为请迅速<span v-on:click="connectUsAction(0)" style="color: #FF4500;padding: 5px 0;">点击举报</span> 或者<span v-on:click="connectUsAction(1)" style="color: #FF4500;padding: 5px 0;">联系我们删除</span>
+			</div>
+			
 		</div>
 
-		<div style="margin-top: 20px; margin-left: -15px;margin-right: -15px; border-width: 0; border-width: 8px 0 1px 0;border-color: #F0F0F0;border-style: solid;padding: 10px 15px;font-size: 15px;color: #666666;">
+		<div style="margin-top: 10px; margin-left: -15px;margin-right: -15px; border-width: 0; border-width: 8px 0 1px 0;border-color: #F0F0F0;border-style: solid;padding: 10px 15px;font-size: 15px;color: #666666;">
 			评论	
 		</div>	
 	</div><!-- 动态内容 -->
@@ -117,9 +122,9 @@
 		<ul  v-if="items.length > 0"   class="mui-table-view" >
 			<li class="mui-table-view-cell" v-for="item in items">
 				<a >
-					<img v-bind:src = item.avatar class = "avatar-icon" style="border-radius: 15px;width:30px;height: 30px;margin-top: 3px;">
+					<img v-on:click.stop="openHomePage(item)" v-bind:src = "item.avatar_thumb || '../images/default_avatar.png'"  class = "avatar-icon" style="border-radius: 15px;width:30px;height: 30px;margin-top: 3px;">
 					
-					<div :id= item.id @tap="commentZanAction($event ,item)" style="display: inline-block;float: right;margin-right: 20px;font-size: 12px;color: #808080;">
+					<div v-bind:id="item.id" @tap="commentZanAction($event ,item)" style="display: inline-block;float: right;margin-right: 20px;font-size: 12px;color: #808080;">
 						<img v-if="item.isPraised > 0" src="../images/comment_like_icon_press@2x.png" width="15px" height="15px" style="margin-top: 2px;margin-bottom: -2px;" >
 						<img v-else src="../images/comment_like_icon_normal@2x.png" width="15px" height="15px" style="margin-top: 2px;margin-bottom: -2px;" >
 						<div v-if="item.praise > 0" style="display: inline-block;">{{item.praise}}</div>
@@ -144,6 +149,8 @@
 						<!-- 删除自己的评论 -->
 						<div v-if="isMyPost(item)" @tap="deleteMyComment(item);" id="delete-my-comment"  style="float: right; margin-right: 20px; margin-top: 8px; display: inline-block;color: #666;font-size: 12px;padding: 0 5px;">
 							删除
+						</div>
+						<div v-else @tap="jubaoComment(item);" id="jubao-other-comment"  style="float: right; margin-right: 20px; margin-top: 8px; display: inline-block;color: #666;font-size: 12px;padding: 0 5px;">举报
 						</div>
 						
 					</div>
@@ -200,6 +207,8 @@
 	
 	///动态赞,不能取消
 	function zanAction(){
+		if(!userHasLogined()){hud_toast('请先登录');return;}
+		
 		if(iszan){mui.toast('已经赞过!');return;}
 		var d = {"pid":postInfo['pid'] , 
 		"type":"1" ,
@@ -232,25 +241,29 @@
 	
 	//评论点赞
 	function commentZanAction(obj , item){
+		if(!userHasLogined()){hud_toast('请先登录');return;}
+		
 		var _srcId = obj.currentTarget.id;//目标元素ID
 		//console.log(obj.type);//事件类型
 		var _div0 = document.getElementById(_srcId);
 		var _img = _div0.getElementsByTagName('img')[0];
 		if(_img){
-			console.log(_img.src);
 			var now_icon = _img.src;
 			var isliked = now_icon.indexOf('comment_like_icon_press') != -1;
 			if(isliked){mui.toast('已经赞过!');return;}
 			
-			var d = {"pid":item['id'] , 
+			var d = {"pid":item['id'] , //后台不验证动态是否存在 ，评论ID
 			"type":"1" ,
 			"postby":item['uid'] , //发布者
 			"uid":_myId,//评论者
-			// "category":category , 
+			"category":category , 
 			"postContent":item["content"],
 			'iscommentpraise':1}
 			
 			hud_show('请求中');
+			
+			console.log(JSON.stringify(d));
+			
 			api_post(detail_url ,d,function(res){
 				isliked = !isliked;
 				
@@ -283,6 +296,11 @@
 			}
 		},{title:'提示' , buttons:['确定' , '取消']});
 	}
+	function jubaoComment(item){
+		var d = {"pid":item['id'],"category":'comment'};		
+		openNewPage('publish/pub-jubao.html' , '举报评论' , true , {'info':d});
+	}
+	
 	//是否自己的评论
 	function isMyPost(item){
 		var _uid = item['uid'];
@@ -291,6 +309,8 @@
 	
 	//回复评论
 	function tableViewDidClick(item){
+		if(!userHasLogined()){hud_toast('请先登录');return;}
+		
 		openNewPage('comment-list.html','评论回复',true , {'originItem':item});
 	}
 	
@@ -317,14 +337,19 @@
 					return uname;
 				},
 				avatar:function(){
+					//这里会调用多次,第一次是为空值,暂未处理....
 					var d = this.item;
-					var u_avatar = d['user']['avatar'] || "../images/default_avatar.png";
-					
+// 					console.log('-------');
+					// console.log(JSON.stringify(d));
+					var u_avatar = d['user']['avatar_thumb'] || "../images/default_avatar.png";
+					u_avatar = u_avatar.indexOf('http') != -1 ? u_avatar : "../images/default_avatar.png";
 					return u_avatar;
 				},
 				postDate:function(){
 					var d = this.item;
 					var s = d['postDate'];
+					if(!s)return;
+					
 					var t = dateUtils.format(s);
 					return t;
 				},
@@ -333,17 +358,25 @@
 					var d = this.item;
 					var igStr = d['images'];
 					if(igStr != null && igStr.length > 0){
+						// if(d['imageNum'] == '1'){
 						var igurlArr = igStr.split(',');
 						// console.log(igurlArr.length);
 						return igurlArr;
 					}
+					
 					return [];
+				}
+			},
+			methods:{
+				openHomePage : function(){
+					var d = this.item;
+					var user = d['user'];
+					openNewPage('me/me-homepage.html' , this.user_name , true , {'uid':user['user_id']});
 				}
 			}
 		});
 
 		baseInfo.item = postInfo;
-		
 		setTimeout(function(){
 			displayImageList(baseInfo.images);
 			
@@ -365,7 +398,10 @@
 					
 					var div21 = document.createElement('div');
 					div21.style.fontSize = '17px';
-					div21.innerText = _content['content'];
+					var conntetn_s = _content['content'];
+					
+					// content.replace(/\n/g," ")
+					div21.innerText = conntetn_s.replace(/\$/g,"\n");
 					
 					div1.appendChild(div20);
 					div1.appendChild(div21);
@@ -374,21 +410,20 @@
 				case dt_type_life:
 					if(_type == 21 || _type == 23 || _type == 24 || _type == 25){
 						var subContent;
+						var _subType = _content['type'];
+						console.log(_subType);
+						
 						switch (_type){
 							case '21':
-							var _subType = _content['type'];
-							subContent = _subType ? '招聘' : '求职';break;
+							subContent = _subType ? '招聘' : '找工作';break;
 							
 							case '23':
-							var _subType = _content['type'];
 							subContent = _subType ? '我是女生' : '我是男生';break;
 							
 							case '24':
-							var _subType = _content['type'];
 							subContent = _subType ? '我要找房' : '我是房主';break;
 							
 							case '25':
-							var _subType = _content['type'];
 							subContent = _subType ? '人找车' : '车找人';break;
 							default:break;
 						}
@@ -410,7 +445,10 @@
 					
 					var div21 = document.createElement('div');
 					div21.style.fontSize = '17px';
-					div21.innerText = _content['content'];
+					
+					var conntetn_s = _content['content'];
+					div21.innerText = conntetn_s.replace(/\$/g,"\n");
+					//div21.innerText = _content['content'];
 					
 					div1.appendChild(div20);
 					div1.appendChild(div21);
@@ -438,6 +476,14 @@
 			data:{
 				items:[],
 				nodata:false
+			},
+			methods:{
+				openHomePage : function(item){
+					var d = item;
+					console.log(JSON.stringify(item));
+					
+					openNewPage('me/me-homepage.html' , item['u_name'] || item['u_nickName'] , true , {'uid':item['uid']});
+				}
 			}
 		});
 		
@@ -469,9 +515,10 @@
 		function loadDtDetail(){
 			var d = {"pid":postInfo['pid'],
 				"type":"0",
-				"uid":_myId,
                 "category":category
 			}
+			
+			if(_myId){d['uid'] = _myId;}
 			
 			api_post(detail_url,d,function(res){
 				sc_v.item = {'issc':res['sc']};
@@ -488,6 +535,8 @@
 		
 		//添加取消收藏
 		document.getElementById('sc-button-id').addEventListener('tap',function(){
+			if(!userHasLogined()){hud_toast('请先登录');return;}
+			
 			var d = {"pid":postInfo['pid'],
 				"type":issc ? "3" : "2",
 				"uid":_myId,
@@ -518,7 +567,7 @@
                  "category":category,
                  "pageNumber":commentPageNum};
 			
-			var hasLogin = hasLogined();	 
+			var hasLogin = userHasLogined();	 
 			if(hasLogin){//..是否登录过
 				d['uid'] = getLoginUid();
 			}	 
@@ -551,10 +600,11 @@
 			  }
 		  },'', "认真评论是一种生活态度", ["提交","取消"])*/
 		  
-		  //...是否登录
+		  //是否登录
+		  if(!userHasLogined()){hud_toast('请先登录');return;}
 		  
 		  //单独页面去评论
-		  openNewPage('publish/pub-comment.html','写评论',true , {'dtInfo':postInfo});
+		  openNewPage('publish/pub-comment.html','写评论',true , {'dtInfo':postInfo , 'category':category});
 		})
 		
 		
@@ -571,6 +621,8 @@
 			var root = document.getElementById('image-list');
 			for (var i = 0; i < imagesArr.length; i++) {
 				var url = imagesArr[i];
+				
+				var thumbUrl = getDtImageUrl(url , '../images/default_image2@2x.png');
 				var div = document.createElement('div');
 				div.className = 'image-wrap';
 				div.style.width = _width + 'px';
@@ -585,15 +637,35 @@
 				ig.style.width = _width + 'px';
 				ig.style.height = (_width) + 'px';
 				
-				ig.setAttribute('src' , url);
+				ig.setAttribute('src' , thumbUrl);
 				div_ig.appendChild(ig);
 				div.appendChild(div_ig);
+				
+				div.addEventListener('tap' , function(){
+					var s = this.id;
+					var imgIndex = 0;
+					if(s){
+						var _index = s.substr(s.length - 1 , 1);
+						imgIndex = Number(_index);
+					}
+					
+					plus.nativeUI.previewImage(imagesArr , {'current':imgIndex , 'indicator':'number'});
+				});
 				
 				root.appendChild(div);
 			}
 		}
-		
-	})
+	})//plus
+	
+	//联系我们
+	function connectUsAction(index){
+		if(index == 0){
+			var d = {"pid":postInfo['pid'],"category":category};		
+			openNewPage('publish/pub-jubao.html' , '举报动态' , true , {'info':d});
+		}else{
+			openNewPage('me/webpage.html' , '联系我们' , true , {'url':BASE_URL + contactus_url});	
+		}
+	}
 </script>
 </body>
 </html>

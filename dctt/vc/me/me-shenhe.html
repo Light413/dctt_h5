@@ -84,7 +84,7 @@
 <body>
 	
 <div class="mui-content">
-	<div id="dt-list-id" style="margin-top: 0px;">
+	<div id="sh-list-id" style="margin-top: 0px;">
 		<ul class="mui-table-view" id="table-view-id" style="padding-top:0px;" v-cloak >	
 			<li :id="item.pid" class="mui-table-view-cell"  v-for="item in items">
 				<a @tap="tableViewDidClicked(item)">
@@ -104,14 +104,14 @@
 					<div>
 						<div style="">
 							<img v-bind:src="item.user.avatar_thumb || '../../images/default_avatar.png'" class="avatar-icon"  style="border-radius: 50%;width:25px;height: 25px; margin-top: 8px;" >
-							<div style="display: inline-block;color: #666;font-size: 13px;margin-left: 5px;margin-top: 5px;margin-bottom: 0px;height: 20px;max-width: 100px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-top: 5px;">
+							<div style="display: inline-block;color: #666;font-size: 13px;margin-left: 5px;margin-top: 12px;margin-bottom: 0px;height: 20px;">
 								{{item.user.name}} 
 							</div>
 							<div style="display: inline-block;color: #666;font-size: 13px;margin-left: 10px;">
 								{{item.postDateFormatter}} <span style="margin-left: 8px;font-size: 12px;">阅读{{item.readCnt}}</span>
 							</div>
 							<!-- <img src="../../images/dislikeicon_details@2x.png" alt="" class="dislike-icon" > -->
-							<a v-on:click.stop="deleteMyPost(item)" style="float: right;margin-right: 8px;font-size: 12px;background-color: orangered;margin-top: 10px;padding: 1px 8px;border-radius: 5px; color: white;">取消收藏</a>
+							<a v-on:click.stop="operationBtnAction(item)" style="float: right;margin-right: 8px;font-size: 12px;background-color: orangered;margin-top: 10px;padding: 1px 8px;border-radius: 5px; color: white;">待审核</a>
 							
 						</div>
 					</div>
@@ -134,7 +134,7 @@
 <script type="text/javascript">
 	mui.init({
 		pullRefresh: {
-			container: '#dt-list-id',
+			container: '#sh-list-id',
 			down: {
 				style: 'circle',
 				// offset: '1px',
@@ -153,19 +153,7 @@
 		data:{
 			item:{}
 		},
-		computed:{
-			user_name:function(){
-				var user = this.item;
-				var uname = user["name"] || user['nickName'];
-				return uname;
-			},
-			avatar:function(){
-				var d = this.item;
-				var u_avatar = d['avatar_thumb'] || "../../images/default_avatar.png";
-				
-				return u_avatar;
-			}
-		},
+		
 		methods:{
 			isMySelf:function(){
 				var user = this.item;
@@ -180,6 +168,19 @@
 		data: {
 			items: []
 		},
+		computed:{
+			user_name:function(){
+				var user = this.item;
+				var uname = user["name"] || user['nickName'];
+				return uname;
+			},
+			avatar:function(){
+				var d = this.item;
+				var u_avatar = d['avatar_thumb'] || "../../images/default_avatar.png";
+				return u_avatar;
+			}
+		},
+		
 		methods:{
 			getContent:function(item){
 				var _type = item['type'];
@@ -195,18 +196,18 @@
 	
 	mui.plusReady(function () {
 	   var pars = {
-	   	// "category":"sy" ,
-	   	"type":1 ,
+	   	"type":0 ,
 		'uid':getLoginUid(),
 		'pageNumber':1
 	   }
 	   
-	   	ttRefreshInit('#dt-list-id', homepage_url , pars , function(res){
+	   	ttRefreshInit('#sh-list-id', sh_url , pars , function(res){
 	   			_dataConvert(res);
 	   });
 	   
 	   refreshRequestData();
 	})
+
 
 	
 	///数据转化处理
@@ -230,9 +231,9 @@
 			var nick = d['user']['nickName'];
 			if(uname == null || uname == ''){d['user']['name'] = nick;}
 			
-			var u_avatar = d['user']['avatar'] || "../../images/default_avatar.png";
-			d['user']['avatar'] = u_avatar;
-			
+// 			var u_avatar = d['user']['avatar'] || "../../images/default_avatar.png";
+// 			d['user']['avatar'] = u_avatar;
+// 			
 			//添加图片		
 			var igStr = d['images'];
 			if(igStr != null && igStr.length > 0){
@@ -261,31 +262,35 @@
 		
 	}
 	
-		//删除动态
-	function deleteMyPost(item){
-		mui.confirm("确定取消收藏?", ["确定", "取消"], function(e) {
-		    if(e.index == 0){
-				var _category = getItemCategory(item['type']);
-				var d = {"uid":getLoginUid() ,
-				     "pid": item['pid'],
-				     "category":_category,
-				     "type":1};
-					 
-		       hud_show('正在删除');
-		       api_post(delete_sc_url , d , function(res){
-		       	hud_close('取消成功');
-				
+	
+function operationBtnAction(item){
+	plus.nativeUI.actionSheet({'title':'选择操作' , 'cancel':'取消' , 'buttons':[{'title':'通过'},{'title':'拒绝'}]} , function(e){
+		console.log(e.index);
+		if (e.index > 0) {
+			var _category = getItemCategory(item['type']);
+			var d = {"uid":getLoginUid() ,
+			     "pid": item['pid'],
+			     "category":_category,
+			     "type":1,
+				 'status':e.index};
+			
+			hud_show('正在提交');	 
+			api_post(sh_url , d , function(res){
 				//删除列表元素
 				var l = document.getElementById(item['pid']);
 				l.parentNode.removeChild(l);
-		       } , function(error){
-		       	hud_close(error);
-		       }) 
-		    }
-		});
-		
-	}
+				
+				hud_close('已成功审核');
+			} , function(error){
+				hud_close(error);
+			})	 
+				 
+				 
+		}
+	})
 	
+}
+
 </script>
 </body>
 </html>

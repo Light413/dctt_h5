@@ -42,11 +42,6 @@
 	.meta-info .time {
 		/* float: left; */
 	}
-	
-	.mui-table-view:before,
-	.mui-table-view:after {
-		height: 0px;
-	}
 		
 	li{
 		margin-top: 8px;
@@ -57,7 +52,7 @@
 	.mui-ellipsis-2{
 		-webkit-line-clamp: 3;
 		font-size: 16px;
-		text-indent: 20px;
+		text-indent: 0px;
 	}
 	
 	.content-type{
@@ -90,8 +85,8 @@
 	}
 	
 	.avatar-icon{
-		height : 40px;
-		width : 40px 
+		height : 30px;
+		width : 30px 
 		/* border-radius: 50%; */
 		margin-top: 2px;
 		float: left;
@@ -103,12 +98,12 @@
 	}
 	
 	.dislike-icon{
-		width: 15px;
-		height: 15px;
+		width: 20px;
+		height: 20px;
 		float: right;
 		margin-right: 8px;
 		margin-top: 5px;
-		padding: 3px;
+		padding: 5px;
 	}
 	
 	.images{
@@ -128,23 +123,58 @@
 		background-repeat:no-repeat; 
 		background-size:100% 100%;
 		display: inline-block;
-		margin-right: 2px;
+		margin-right: 5px;
 		margin-top: 5px;
-		border-radius: 5px;
+		border-radius: 3px;
 	}
-	
-	.mui-table-view:before ,.mui-table-view:after{
+	/* ,.mui-table-view:after */
+	.mui-table-view:before {
 		height: 0px;
 		
 	}
+	.mui-table-view:after {
+		height: 1px;
+	}
 	
+	[v-cloak] {
+	  display: none;
+	}
 	</style>
 </head>
 
-<body>
+<body style="background-color: white;">
 	<div id="list" class="mui-scroll-wrapper" style="margin-top: 0px; padding-bottom: 10px;">
 		<div class="mui-scroll">
-			<ul class="mui-table-view" id="table-view-id" >	
+			<ul class="mui-table-view" id="table-view-id"  v-cloak>	
+				<li v-bind:id="item.pid" class="mui-table-view-cell"  v-for="item in items">
+					<a v-on:click="openDetailPage(item)">
+						<div>
+							<img :src= "avatar(item)" class = "avatar-icon" style="border-radius: 50%;width:30px;">
+							<div style="float: left;">
+									<div style="margin-top: 0px;color: #666;font-size: 15px;margin-left: 10px;margin-top: 0px;margin-bottom: 0px;height: 18px;">{{item.user.name || item.user.nickName}}
+									</div>
+									<div style="margin-left: 20px;display: inline-block;color: #8f8f94;font-size: 12px;margin-left: 15px;"> {{postDate(item)}}</div>
+							</div>
+							
+							<img v-on:click.stop="dislikeThisItem(item)" src="../images/dislikeicon_details@2x.png" class="dislike-icon" >
+						</div>
+						
+						<div class="mui-media-body">
+							<div class="mui-ellipsis-2">{{item.content}}</div>
+						</div>
+						
+						<div v-if="item.imageUrl">
+							<div style="display: inline-block; margin-right: 5px;" v-for="ig in item.imageUrl">
+								<img v-bind:src="ig" v-bind:style="{width:item.width + 'px' , height:item.width * 0.8 + 'px' , marginTop:'10px' , borderRadius:'2px'}"  >
+							</div>
+						</div>	
+						
+						<div class="meta-info">
+							<div class="author">阅读{{item.readCnt}} </div>
+								<div class="time" style="margin-left: 15px;color:white;background-color:#ff5500;font-size:10px;padding-left:6px;padding-right:6px;height:18px;border-radius:6px;"> {{itemType(item)}} </div>
+						</div>				
+					</a>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -165,6 +195,7 @@
 	var pageItemsLen = 20;//每页条数
 	var isPullDownRefreshing = true;//正在下拉刷新
 	var dataSourceArr = [];//当前列表数据源
+	var _listType = 0;
 	
 	mui.init({
 		pullRefresh: {
@@ -182,16 +213,48 @@
 		}
 	});
 	
+	var ztlist = new Vue({
+		el: '#table-view-id',
+		data: {
+			items: []
+		},
+		methods:{
+			avatar:function(item){
+				var u_avatar = item['user']['avatar_thumb'];
+				if(u_avatar == null || u_avatar == ''){
+					u_avatar = "../images/default_avatar.png";
+				}
+				return u_avatar;
+			},
+			postDate:function(item){
+				var postDate = item['postDate'];
+				return dateUtils.format(postDate);
+			},
+			itemType:function(item){
+				var readCnt = item['readCnt'];
+				var _type = titleForType[item['type']] ;
+				if(_type == null){_type = '其他';}
+				return _type;
+			}
+		}
+		
+	});
+	
 	mui.plusReady(function () {
 		var wv = plus.webview.currentWebview();
-		var _type = wv.typeId || 0;
-		
-		
+		_listType = wv.typeId || 0;
+		//加载历史数据
+		var lastlistdataStr = localStorage.getItem('homelistlastloaddatafortype' + _listType);
+		if(lastlistdataStr){
+			var lastDataArr = JSON.parse(lastlistdataStr);
+			ztlist.items = lastDataArr;
+		}	
+
 		{
 			///请求参数0
 			var pars = {
 				"category":"sy" ,
-				"subType":_type 
+				"subType":_listType 
 			}
 			var uid = getLoginUid();
 			if(uid){
@@ -199,8 +262,9 @@
 			}
 			
 			ttRefreshInit('#list',get_sy_url , pars , function(res){
+				//console.log(JSON.stringify(res[0]));
 				var arr = res;
-				appendList(arr);
+				_dataConvert(arr , true);
 				plus.nativeUI.closeWaiting();
 			},function(){
 				plus.nativeUI.closeWaiting();
@@ -208,115 +272,89 @@
 		}
 		
 	    {
-	    	var h = plus.nativeUI.showWaiting('数据加载中');
-			
 	    	refreshRequestData();
 	    }
 	})
 
-	///添加到列表显示
-	function appendList(arr){
-		if(arr == null || arr.length < 0){return;}
-		
-		var tableView = document.getElementById('table-view-id');
-		if(pageNum == 1){tableView.innerHTML = '';}
-		
-		dataSourceArr.push.apply(dataSourceArr ,arr);
-		
-		for (var i = 0;i < arr.length; i++){
-			var d = arr[i];
-			var uname = d['user']['name'];
-			var nick = d['user']['nickName'];
-			if(uname == null || uname == ''){uname = nick;}
-			
-			var u_avatar = d['user']['avatar'];
-			if(u_avatar == null || u_avatar == ''){
-				u_avatar = "../images/default_avatar.png";
+///数据转化处理
+function _dataConvert(arr , isNew){
+	if(arr == null || arr.length < 1){return;}
+	var _newArr  = Array();
+	
+	for (var i = 0; i < arr.length; i++) {
+		var d = arr[i];
+		var boforeData = localStorage.getItem('homedislikeitemdata');
+		if(boforeData){
+			var _arr = JSON.parse(boforeData);
+			if(_arr.indexOf(d['pid']) != -1 ) {//有问题,造成下一条记录刷新后无法显示
+				continue;
 			}
-			
-			var postDate = d['postDate'];
-			postDate = dateUtils.format(postDate);
-			
-			var li = document.createElement('li');
-			li.className = "mui-table-view-cell";
-			var listhtmlStr = '<a >\
-							<div>\
-								<img src=' + u_avatar + ' alt="" class = "avatar-icon" style="border-radius: 20px;width:40px;">\
-								<div style="float: left;">\
-									<div style="margin-top: 0px;color: #666;font-size: 15px;margin-left: 10px;margin-top: 0px;margin-bottom: 0px;height: 20px;">' + uname +'\
-									</div>\
-									<div style="margin-left: 20px;display: inline-block;color: #8f8f94;font-size: 12px;margin-left: 15px;">' + postDate +'</div>\
-								</div>\
-								<img src="../images/dislikeicon_details@2x.png" alt="" class="dislike-icon" >\
-							</div>\
-							<div class="mui-media-body">\
-								<div class="mui-ellipsis-2">' + d['content'] + '\
-								</div>\
-							</div>'
-			
-			//添加图片		
-			var igStr = d['images'];
-			if(igStr != null && igStr.length > 0){
-				var igurlArr = igStr.split(',');
-				// console.log(igurlArr.length);
-				var w = (plus.screen.resolutionWidth - 30) / 3.0;
-				if(igurlArr.length == 1){
-					w = (plus.screen.resolutionWidth - 30) / 2.0;
-				}
-				
-				var h = w * 1;
-				var _len = igurlArr.length > 3 ? 3 : igurlArr.length;
-				for(var j = 0; j < _len; j++){
-					var imgs = '<div class="list-image" ' + 
-					'style=' + 'background-image:url(' + igurlArr[j] + ');' + 
-					'width:' + w + 'px;'  + 
-					'height:' + h + 'px;'  + 
-					'></div>'
-					
-					listhtmlStr = listhtmlStr + imgs;
-				}
-
-			}				
-			
-			var readCnt = d['readCnt'];
-			var _type = titleForType[d['type']] ;
-			if(_type == null){
-				_type = '其他';
-			}
-			
-			var footer = '<div class="meta-info">\
-								<div class="author">' + readCnt + '阅读 </div>\
-								<div class="time" style="margin-left: 15px;color:white;background-color:#ff5500;font-size:10px;padding-left:6px;padding-right:6px;height:18px;border-radius:6px;">' + _type + '</div>\
-							</div>\
-						</a>'				
-							
-			li.innerHTML = listhtmlStr + footer;
-
-			tableView.appendChild(li);			
 		}	
+			
+		var content = d['content'];
+		var postDate = d['postDate'];
+		d['postDateFormatter'] = dateUtils.format(postDate);
 		
-		if(arr.length < pageItemsLen){
-			console.log('no more');
-		}
 
-		
-		var lis = document.getElementsByTagName('li');
-		for (var i = 0; i < lis.length; i++) {
-			var _li = lis[i];
-			var d = dataSourceArr[i];
-			(function(x){
-                    _li.onclick = function(){
-						// console.log('click');
-						var h = plus.nativeUI.showWaiting();
-						setTimeout(function(){
-							h.close();
-							openNewPage('home-detail.html', '郸城头条' , true,{'item':dataSourceArr[x] , 'category':'sy'});
-						} , 500)
-						
-					}
-                })(i);	
+		//添加图片		
+		var igStr = d['images'];
+		if(igStr != null && igStr.length > 0){
+			var igurlArr = igStr.split(',');
+			var w = (plus.screen.resolutionWidth - 40) / 3.0;
+			if(igurlArr.length == 1){
+				w = (plus.screen.resolutionWidth - 30) / 2.0;
+			}
+			
+			d['width'] = w;
+			var _len = igurlArr.length > 3 ? 3 : igurlArr.length;
+			var thumbArr = Array();
+			for (var k = 0; k < _len; k++) {
+					var thumb = getDtImageUrl(igurlArr[k] , '../images/default_image2@2x.png');
+					thumbArr.push(thumb);
+				}
+			
+			d['imageUrl'] = thumbArr;
 		}
+		
+		_newArr.push(d);
 	}
 	
+	dataSourceArr.push.apply(dataSourceArr ,_newArr);
+	//渲染列表
+	ztlist.items = dataSourceArr;
+	//保存最新列表数据,便于下次直接加载
+	if(isNew){
+		var jsonStr = JSON.stringify(dataSourceArr);
+		localStorage.setItem('homelistlastloaddatafortype' + _listType , jsonStr);	
+	}
+}
+
+function openDetailPage(item){
+	openNewPage('home-detail.html', '郸城头条' , true,{'item':item , 'category':'sy'});
+}
+
+//不喜欢这条动态
+function dislikeThisItem(item){
+	mui.confirm("不想看这条动态,确定屏蔽?",'提示', ["确定", "取消"], function(e) {
+	if(e.index == 0){
+		var _pid = item['pid'];
+		var boforeData = localStorage.getItem('homedislikeitemdata');
+		if(boforeData){
+			var _arr = JSON.parse(boforeData);
+			_arr.push(_pid);
+			localStorage.setItem('homedislikeitemdata' , JSON.stringify(_arr));
+		}else{
+			localStorage.setItem('homedislikeitemdata' , JSON.stringify([_pid]));
+		}
+		
+		//删除列表元素
+		var l = document.getElementById(_pid);
+		l.parentNode.removeChild(l);
+	}
+	});
+}
+
+// var boforeData = localStorage.getItem('homedislikeitemdata');
+// console.log(boforeData)	;
 </script>		
 </html>

@@ -115,13 +115,17 @@
 
 	//提交按钮事件
 	document.getElementById('submit-button-id').addEventListener('tap',function(){
+		if(!userHasLogined()){
+			mui.alert('只有登录后才能发布!' ,'' ,'知道了');return;
+		}
+		
 		var item_id = item['id'];
 		var d = {"uid":uid, "type":item_id};
 
 		//动态内容
 		var msg = _textarea.value;
 		if(msg == null || msg.length < 1){plus.nativeUI.alert('输入内容不能为空!');return;}
-		if(is_dt_type()){//动态
+		if(is_dt_type(item_id)){//动态
 			d["content"] = msg;
 		}else{//话题,生活服务
 			var _pubtitle = document.getElementById('text-title-id');
@@ -140,7 +144,7 @@
 			d['content'] = jsonStr;
 		}
 		
-		submitToServer(publish_url , d , selectedImagesArr);
+		submitToServer(publish_url , d);
 	} , false);
 
 

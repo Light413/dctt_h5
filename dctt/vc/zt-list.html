@@ -72,7 +72,7 @@
 		
 	</style>
 </head>
-<body>
+<body style="background-color: white;">
 	<div id="list" class="mui-scroll" style="padding-top: 5px; padding-bottom: 30px;background-color: white;">
 		<ul class="mui-table-view" id="table-view-id" v-cloak >	
 			<li  class="mui-table-view-cell"  v-for="item in items">
@@ -87,11 +87,11 @@
 						</div>
 					</div>
 					
-					<img  v-if="item.flag" v-bind:src=item.imageUrl alt="" v-bind:style="{width:item.width + 'px' , height:item.width + 'px' , marginTop:'10px' , borderRadius:'5px'}" >
+					<img  v-if="item.flag" v-bind:src="item.imageUrl" alt="" v-bind:style="{width:item.width + 'px' , height:item.width + 'px' , marginTop:'10px' , borderRadius:'5px'}" >
 					
 					<div>
 						<div style="">
-							<img v-bind:src=item.user.avatar alt="../images/default_avatar.png "class="avatar-icon"  style="border-radius: 50%;width:25px;height: 25px; margin-top: 8px;" >
+							<img v-bind:src="item.user.avatar_thumb" alt="../images/default_avatar.png "class="avatar-icon"  style="border-radius: 50%;width:25px;height: 25px; margin-top: 8px;" >
 							<div style="display: inline-block;color: #666;font-size: 13px;margin-left: 5px;margin-top: 12px;margin-bottom: 0px;height: 20px;">
 								{{item.user.name}} 
 							</div>
@@ -112,6 +112,7 @@
 <script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
 <script src="../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
 <script src="../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/user.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 		mui.init({
 			pullRefresh: {
@@ -160,11 +161,14 @@
 
 ///数据转化处理
 function _dataConvert(arr){
-	if(arr == null || arr.length < 1){return;}
+	if(arr == null || arr.length < 1){
+		ztlist.items = [];
+		return;
+	}
 	for (var i = 0; i < arr.length; i++) {
 		var d = arr[i];
 		var content = d['content'];
-		content = content.replace(/\n/g," ")
+		content = content.replace(/\n/g,"$")
 		var obj = JSON.parse(content);
 		d['content'] = obj;
 		var postDate = d['postDate'];
@@ -182,7 +186,7 @@ function _dataConvert(arr){
 			
 			d['imageUrl'] = igurlArr[0];
 			d['flag'] = 1;
-			var w = (plus.screen.resolutionWidth - 30) / 2.0;
+			var w = (plus.screen.resolutionWidth - 30) / 3.0;
 			d['width'] = w;
 		}	
 	}

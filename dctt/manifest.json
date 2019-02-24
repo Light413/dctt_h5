@@ -3,10 +3,10 @@
     "id" : "com.light.dctt", /*必选，应用的标识*/
     "name" : "郸城头条", /*必选，应用名称*/
     "version" : {
-        "name" : "1.0.0", /*必选，版本名称*/
-        "code" : 100
+        "name" : "1.0.1", /*必选，版本名称*/
+        "code" : 101
     },
-    "description" : "build190102", /*可选，应用描述信息*/
+    "description" : "build190224", /*可选，应用描述信息*/
     "icons" : {
         "72" : "icon.png"
     },
@@ -21,11 +21,8 @@
         "Events" : {
             "description" : "应用扩展事件"
         },
-        "Payment" : {},
         "Share" : {},
         "Push" : {},
-        "Maps" : {},
-        "Contacts" : {},
         "Statistic" : {},
         "Messaging" : {}
     },
@@ -45,7 +42,7 @@
         "splashscreen" : {
             "autoclose" : false, /*如果为true，程序启动的图片可以自动关闭，如果为false，开发者需要手动关闭*/
             "waiting" : false,
-            "delay" : 1000
+            "delay" : 2000
         },
         "runmode" : "normal", /*两个值，liberate或normal，前者在应用安装时释放资源，后者不需要释放资源*/
         "signature" : "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==", /*可选，保留给应用签名，暂不使用*/
@@ -65,43 +62,35 @@
                 "password" : "", /*Android必选，打包证书密码*/
                 "aliasname" : "", /*Android必选，打包证书别名*/
                 "permissions" : [
-                    "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
-                    "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
-                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
-                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>",
-                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
-                    "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
-                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
-                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
-                    "<uses-permission android:name=\"android.permission.SEND_SMS\"/>",
-                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
-                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
-                    "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
+                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
+                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_SMS\"/>",
+                    "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>",
+                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+                    "<uses-permission android:name=\"android.permission.SEND_SMS\"/>",
+                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
-                    "<uses-permission android:name=\"android.permission.RECEIVE_USER_PRESENT\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SMS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_SMS\"/>"
+                    "<uses-permission android:name=\"android.permission.RECEIVE_USER_PRESENT\"/>"
                 ]
             },
-            "orientation" : [
-                "portrait-primary",
-                "landscape-primary",
-                "portrait-secondary",
-                "landscape-secondary"
-            ], /*必选*/
+            "orientation" : [ "portrait-primary" ], /*必选*/
             "icons" : {
                 "ios" : {
                     "prerendered" : "", /*必选，是否高亮显示*/
@@ -174,6 +163,14 @@
                     },
                     "qq" : {
                         "appid" : "101511561"
+                    }
+                },
+                "statics" : {
+                    "umeng" : {
+                        "appkey_ios" : "ios",
+                        "channelid_ios" : "appstore",
+                        "appkey_android" : "5c4fe237f1f556aa7c000e30",
+                        "channelid_android" : "dctt_web"
                     }
                 }
             }

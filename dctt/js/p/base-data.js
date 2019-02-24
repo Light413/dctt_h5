@@ -16,6 +16,9 @@ var titleForType = {
 	'27':'便民信息'
 }
 
+//首页列表可用的数据类型
+var homeAvaliableItemType = ['10' , '11' , '12' , '13' , '14' , '15'];
+
 var itemType = [
 	[
 		{
@@ -68,3 +71,10 @@ var itemType = [
 		'title':'便民信息',
 	}]
 	];
+	
+//状态
+var itemStatus = {
+	'0':'待审核',
+	'1':'已通过',
+	'2':'未通过',
+};

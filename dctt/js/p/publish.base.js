@@ -1,6 +1,9 @@
 //处理图片的添加、显示、压缩、上传
 var _url;
 var _params;
+var _publishSuccessCallback;
+var _publishErrorCallback;
+
 var maxImageNum = 9;//最大选择图片数
 var selectedImagesArr = [];//已选择的图片
 	
@@ -125,9 +128,11 @@ function appendLastAddImage(list){
 /**
  * 提交数据
  */
-function submitToServer(url , params){
+function submitToServer(url , params , successCallback , errorCallback){
 	_url = url;
 	_params = params;
+	_publishSuccessCallback = successCallback;
+	_publishErrorCallback = errorCallback;
 	
 	//压缩并上传提交
 	zipImageFile(selectedImagesArr);
@@ -167,8 +172,15 @@ function zipImageFile(imagesArr){
 		var hud = plus.nativeUI.showWaiting('数据提交中');
 		uploadFileData(BASE_URL + (_url || publish_url) , _params  , files , function(){
 			hud.close();
-			plus.nativeUI.toast(_url ? '修改资料成功' : '发布成功',{verticalAlign: 'center'});
-			mui.back();
+			
+			if(_publishSuccessCallback){
+				_publishSuccessCallback()
+			}else{
+				// plus.nativeUI.toast('发布成功',{verticalAlign: 'center'});
+				mui.alert('系统24小时内审核通过后才会显示,感谢关注!','发布成功','知道了',function (e) {
+				   mui.back();
+				});
+			}
 		} , function(errorMsg){
 			hud.close();
 			plus.nativeUI.toast('提交服务器失败,请稍后重试',{verticalAlign: 'center'});

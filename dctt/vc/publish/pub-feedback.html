@@ -18,13 +18,14 @@
 	<div style="margin-top: 5px; text-align: right;color: darkgray;font-size: 13px;padding-right: 20px;">
 		已输入字数 <span id="text-number-id">0/100</span> 
 	</div>
-	<button id="submit-button-id" type="button" class="mui-btn mui-btn-block" style="border-bottom-width: 0; background-color: #FF4500;color: white;position: fixed;bottom: 0;margin-bottom: 0;height: 50px;">提交</button>
+	<button id="submit-button-id" type="button" class="mui-btn mui-btn-block" style="border-bottom-width: 0; background-color: orange;color: white; font-size: 15px; position: fixed;bottom: 0;margin-bottom: 0;height: 45px;">看看大伙说的啥</button>
 </div>
 
 <script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	var maxTextLen = 100;//最大输入长度
 	mui.init({
@@ -48,34 +49,47 @@
 			document.getElementById('text-number-id').innerText = this.value.length + '/100';
 		})
 		
+
 		var wv = plus.webview.currentWebview();
 		var dtInfo = wv.dtInfo;
-		var category = wv.category;
+		//console.log(JSON.stringify(dtInfo));
+				//
 		
+		wv.setStyle({
+			titleNView:{
+					buttons:[{
+						color:'#666',
+					text:'提交 ',
+					fontSize:'14px',
+					float:'right', //按钮不像绘制的方法，是不能用position绝对定位的，只能左右浮动
+					onclick:submitAction 
+					}]
+					
+				}
+		}) ;
+		
+		function submitAction(){
+				var _text = textArea.value;
+				if(_text.length < 1){mui.alert('输入内容不能为空!');return;}
+				var uid = getLoginUid();
+				if(uid == null){return;}
+				
+				var d = {"content" : _text , "type":"add" , "uid":getLoginUid()};
+						 
+				hud_show('提交中!');	
+				api_post(feedback_url , d , function(res){
+					hud_close('提交成功,感谢你的宝贵意见');
+					setTimeout(function(){
+						mui.back();
+					},1000);
+				},function(error){
+					hud_close(error);
+				})
+		}
+		
+		//看看大伙说的啥
 		document.getElementById('submit-button-id').addEventListener('tap',function(){
-			var _text = textArea.value;
-			if(_text.length < 1){mui.alert('输入内容不能为空!');return;}
-			var uid = getLoginUid();
-			if(uid == null){return;}
-			
-			var d = {"type":"add",
-					 "pid":dtInfo['pid'],
-					 "uid":uid ,
-					 "category":category,//评论别人的，实际应该加上,便于消息推送
-					 "content":_text}
-			
-			// console.valueOf(JSON.stringify(d));
-					 
-			hud_show('提交中!');	
-			api_post(comment_url , d , function(res){
-				hud_close('评论成功');
-				setTimeout(function(){
-					mui.back();
-				},1000);
-			},function(error){
-				console.log('comment err');
-				hud_close(error);
-			})
+			openNewPage('../me/webpage.html' , '反馈列表' , true , {'url':BASE_URL + feedbackList_url});	
 		})
 	});
 </script>

@@ -47,9 +47,10 @@ function refreshRequestData(){
 	if(_url == null){plus.nativeUI.toast('请求地址不能为空!',{verticalAlign:'center'});return;}	
 	_requestParamters['pageNumber'] = pageNum;	
 	
+	// plus.nativeUI.showWaiting('数据加载中');
 	api_post(_url , _requestParamters ,function(result){
 		console.log('当前页:' + pageNum + '\t本次返回数据长度:' + (result ? result.length : 0));
-
+		// plus.nativeUI.closeWaiting();
 		var arr = result;
 		if(isPullDownRefreshing){
 				mui(_id).pullRefresh().endPulldownToRefresh();
@@ -57,42 +58,54 @@ function refreshRequestData(){
 				
 				if(!arr || result.length < pageItemsLen){
 					mui(_id).pullRefresh().disablePullupToRefresh();
-				}
-				
+					mui(_id).pullRefresh().endPullupToRefresh(true);
+				}	
 		}else{
 			if(arr){
 				if(result.length < pageItemsLen){
-					// mui(_id).pullRefresh().disablePullupToRefresh();
+					mui(_id).pullRefresh().disablePullupToRefresh();
 				}
 				mui(_id).pullRefresh().endPullupToRefresh(result.length < pageItemsLen);
 			}else{
+				mui(_id).pullRefresh().disablePullupToRefresh();
 				mui(_id).pullRefresh().endPullupToRefresh(true);
 				plus.nativeUI.toast('加载完成');return;
 			}
 		}
-		if(pageNum ==1){
+		
+		if(arr && _successCallBack){_successCallBack(arr);}	
+		if(pageNum == 1){
 			if(!arr){
 				var nodatadiv = document.createElement('div');
 				nodatadiv.innerText = '暂时还没有数据';
-				nodatadiv.setAttribute('style','text-align:center;margin-top:50%;color:#666;font-size:15px;');
-				
+				nodatadiv.setAttribute('style','text-align:center;margin-top:50%;color:#999;font-size:13px;');
+				nodatadiv.id = 'notanydataid';
 				var _root = document.getElementById(_id.substr(1));
+				_root.innerHTML = '';
 				_root.appendChild(nodatadiv);
 				
 				mui(_id).pullRefresh().disablePullupToRefresh();
-				mui(_id).pullRefresh().disablePulldownToRefresh();
+				// mui(_id).pullRefresh().disablePulldownToRefresh();
 			}else{
 				if(arr.length < pageItemsLen){
+					var notanydata = document.getElementById('notanydataid');
+					if(notanydata){
+						var _root = document.getElementById(_id.substr(1));
+						_root.removeChild(notanydata);
+						// notanydata.parentNode.removeChild(notanydata);
+					}
+					
 					var isexistnodatadiv = document.getElementById('refreshtablenodataid');
 					if(!isexistnodatadiv){
 						var nodatadiv = document.createElement('div');
 						nodatadiv.id = 'refreshtablenodataid';
-						nodatadiv.innerText = '已经是最后一条了^_^';
-						nodatadiv.setAttribute('style','text-align:center;margin-top:30px;color:#666;font-size:15px;');
+						nodatadiv.innerText = '已经是底线了^_^';
+						nodatadiv.setAttribute('style','text-align:center;margin-top:30px;color:#999;font-size:13px;');
 						
 						var _root = document.getElementById(_id.substr(1));
 						_root.appendChild(nodatadiv);
 						mui(_id).pullRefresh().disablePullupToRefresh();
+						mui(_id).pullRefresh().endPullupToRefresh(true);
 					}
 				}else{//使能上拉
 					mui(_id).pullRefresh().refresh(true);
@@ -101,9 +114,12 @@ function refreshRequestData(){
 
 		}
 		
-		if(arr && _successCallBack){_successCallBack(arr);}		
+		// if(arr && _successCallBack){_successCallBack(arr);}		
 		plus.nativeUI.toast('加载完成');
 	} ,function(error){
+		pageNum = pageNum - 1;
+		plus.nativeUI.closeWaiting();
+		
 		if(isPullDownRefreshing){
 			mui(_id).pullRefresh().endPulldownToRefresh();
 			mui(_id).pullRefresh().refresh(true);

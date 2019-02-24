@@ -120,8 +120,8 @@
 	mui.plusReady(function () {
 		mui.init({
 			beforeback:function () {
-				var wv = plus.webview.getWebviewById('vc/me.html');
-				mui.fire(wv , 'update-profile-success' , {});
+// 				var wv = plus.webview.getWebviewById('vc/me.html');
+// 				mui.fire(wv , 'update-profile-success' , {});
 			}
 		})
 		
@@ -234,7 +234,13 @@
 		
 		d['mark'] = detail || '';//判断是否和原来的数据相同
 		
-		submitToServer(update_profile_url , d );
+		submitToServer(update_profile_url , d ,function(){
+			var wv = plus.webview.getWebviewById('vc/me.html');
+			mui.fire(wv , 'update-profile-success' , {});
+			
+			plus.nativeUI.toast('修改资料成功' , {verticalAlign: 'center'});
+			mui.back();
+		});
 	})
 	
 	
@@ -243,7 +249,7 @@
 		if(!d){return;}
 		var u_avat = d['avatar'];
 		if(u_avat){
-			mui('#avatar-id')[0].src = u_avat;
+			mui('#avatar-id')[0].src = getUserAvatarUrl(u_avat , "../../images/default_avatar.png");
 		}
 		
 		mui('#user-name-id')[0].innerText = d['name'] || d['nickName'];

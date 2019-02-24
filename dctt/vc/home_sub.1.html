@@ -1,0 +1,326 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="../css/mui.min.css" rel="stylesheet" />
+	<style type="text/css">
+	.mui-media {
+		font-size: 15px;
+		padding-left: 0px;
+		margin-left: 0px;
+	}
+	
+	.mui-media.img3{
+		margin-top: 5px;
+		margin-right: 35px;
+	}
+	
+	.mui-table-view .mui-media-object {
+		max-width: initial;
+		width: 80px;
+		height: 70px;
+	}
+	
+	.meta-info {
+		/* position: absolute; */
+		left: 15px;
+		right: 15px;
+		bottom: 8px;
+		margin-top: 5px;
+		margin-bottom: 0px;
+		color: #8f8f94;
+		font-size: 12px;
+	}
+	
+	.meta-info .author,
+	.meta-info .time {
+		display: inline-block;
+	}
+	
+	.meta-info .time {
+		/* float: left; */
+	}
+		
+	li{
+		margin-top: 8px;
+		padding-bottom: 2px;
+		margin: 1px;
+	}
+
+	.mui-ellipsis-2{
+		-webkit-line-clamp: 3;
+		font-size: 16px;
+		text-indent: 0px;
+	}
+	
+	.content-type{
+		background-color: darkorange;
+		padding: 2px 10px 0px 10px; 
+		color: white;
+		font-size: 15px;
+		border-radius: 8px;
+		margin-right: 2px;
+	}
+	.mui-table-view-cell.mui-media.mui-col-xs-4{
+		height: 40px;
+	}
+	
+	.mui-grid-view.mui-grid-9 .mui-table-view-cell>a:not(.mui-btn) {
+		margin: auto;
+		padding: 0px;
+	}
+
+	.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+		margin: 0;
+		padding: 8px 15px;
+		vertical-align: top;
+		border-right: 0;
+		border-bottom: 0;
+	}
+	
+	.mui-table-view-cell {
+		padding: 10px 15px;
+	}
+	
+	.avatar-icon{
+		height : 30px;
+		width : 30px 
+		/* border-radius: 50%; */
+		margin-top: 2px;
+		float: left;
+	}
+	
+	a > div:first-child {
+		height: 50px;
+		margin-bottom: 2px;
+	}
+	
+	.dislike-icon{
+		width: 15px;
+		height: 15px;
+		float: right;
+		margin-right: 8px;
+		margin-top: 5px;
+		padding: 3px;
+	}
+	
+	.images{
+		margin-top: 6px;
+		margin-right: 2px;
+		background-repeat : repeat-y;
+	}
+	
+	/* 清除列表选中时背景色 */
+	.mui-table-view-cell > a:not(.mui-btn).mui-active {
+		background-color: #fff;
+	}
+
+	.list-image{
+		width: 60px;
+		height: 60px;
+		background-repeat:no-repeat; 
+		background-size:100% 100%;
+		display: inline-block;
+		margin-right: 5px;
+		margin-top: 5px;
+		border-radius: 3px;
+	}
+	/* ,.mui-table-view:after */
+	.mui-table-view:before {
+		height: 0px;
+		
+	}
+	.mui-table-view:after {
+		height: 1px;
+	}
+	</style>
+</head>
+
+<body style="background-color: white;">
+	<div id="list" class="mui-scroll-wrapper" style="margin-top: 0px; padding-bottom: 10px;">
+		<div class="mui-scroll">
+			<ul class="mui-table-view" id="table-view-id" >	
+			</ul>
+		</div>
+	</div>
+</body>
+		
+<script src="../js/mui.js"></script>
+<script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/mui.pullToRefresh.js"></script>
+<script src="../js/mui.pullToRefresh.material.js"></script>
+<script src="../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/base-data.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	var pageNum = 1;//当前页
+	var pageItemsLen = 20;//每页条数
+	var isPullDownRefreshing = true;//正在下拉刷新
+	var dataSourceArr = [];//当前列表数据源
+	
+	mui.init({
+		pullRefresh: {
+			container: '#list',
+			down: {
+				style: 'circle',
+				// offset: '1px',
+				auto: false,
+				callback: pulldownRefresh
+			},
+			up: {
+				contentrefresh: '正在加载...',
+				callback: loadMoreData
+			}
+		}
+	});
+	
+	mui.plusReady(function () {
+		var wv = plus.webview.currentWebview();
+		var _type = wv.typeId || 0;
+		
+		
+		{
+			///请求参数0
+			var pars = {
+				"category":"sy" ,
+				"subType":_type 
+			}
+			var uid = getLoginUid();
+			if(uid){
+				pars['uid'] = uid;
+			}
+			
+			ttRefreshInit('#list',get_sy_url , pars , function(res){
+				//console.log(JSON.stringify(res[0]));
+				
+				var arr = res;
+				appendList(arr);
+				plus.nativeUI.closeWaiting();
+			},function(){
+				plus.nativeUI.closeWaiting();
+			})	
+		}
+		
+	    {
+	    	var h = plus.nativeUI.showWaiting('数据加载中');
+			
+	    	refreshRequestData();
+	    }
+	})
+
+	///添加到列表显示
+	function appendList(arr){
+		if(arr == null || arr.length < 0){return;}
+		
+		var tableView = document.getElementById('table-view-id');
+		if(pageNum == 1){tableView.innerHTML = '';}
+		
+		dataSourceArr.push.apply(dataSourceArr ,arr);
+		
+		for (var i = 0;i < arr.length; i++){
+			var d = arr[i];
+			var uname = d['user']['name'];
+			var nick = d['user']['nickName'];
+			if(uname == null || uname == ''){uname = nick;}
+			
+			var u_avatar = d['user']['avatar_thumb'];
+			if(u_avatar == null || u_avatar == ''){
+				u_avatar = "../images/default_avatar.png";
+			}
+			
+			var postDate = d['postDate'];
+			postDate = dateUtils.format(postDate);
+			
+			var li = document.createElement('li');
+			li.className = "mui-table-view-cell";
+			var listhtmlStr = '<a >\
+							<div>\
+								<img src=' + u_avatar + ' alt="" class = "avatar-icon" style="border-radius: 50%;width:30px;">\
+								<div style="float: left;">\
+									<div style="margin-top: 0px;color: #666;font-size: 15px;margin-left: 10px;margin-top: 0px;margin-bottom: 0px;height: 18px;">' + uname +'\
+									</div>\
+									<div style="margin-left: 20px;display: inline-block;color: #8f8f94;font-size: 12px;margin-left: 15px;">' + postDate +'</div>\
+								</div>\
+								<img src="../images/dislikeicon_details@2x.png" alt="" class="dislike-icon" >\
+							</div>\
+							<div class="mui-media-body">\
+								<div class="mui-ellipsis-2">' + d['content'] + '\
+								</div>\
+							</div>'
+			
+			//添加图片		
+			var igStr = d['images'];
+			if(igStr != null && igStr.length > 0){
+				var igurlArr = igStr.split(',');
+				// console.log(igurlArr.length);
+				var w = (plus.screen.resolutionWidth - 40) / 3.0;
+				if(igurlArr.length == 1){
+					w = (plus.screen.resolutionWidth - 30) / 2.0;
+				}
+				
+				var h = w * 0.8;
+				var _len = igurlArr.length > 3 ? 3 : igurlArr.length;
+				for(var j = 0; j < _len; j++){
+					var thumb = getDtImageUrl(igurlArr[j] , '../images/default_image2@2x.png');
+					
+					var imgs = '<div class="list-image" ' + 
+					'style=' + 'background-image:url(' + thumb + ');' + 
+					'width:' + w + 'px;'  + 
+					'height:' + h + 'px;'  + 
+					'></div>'
+					
+					listhtmlStr = listhtmlStr + imgs;
+				}
+
+			}				
+			
+			var readCnt = d['readCnt'];
+			var _type = titleForType[d['type']] ;
+			if(_type == null){
+				_type = '其他';
+			}
+			
+			var footer = '<div class="meta-info">\
+								<div class="author">' + readCnt + '阅读 </div>\
+								<div class="time" style="margin-left: 15px;color:white;background-color:#ff5500;font-size:10px;padding-left:6px;padding-right:6px;height:18px;border-radius:6px;">' + _type + '</div>\
+							</div>\
+						</a>'				
+							
+			li.innerHTML = listhtmlStr + footer;
+
+			tableView.appendChild(li);			
+		}	
+		
+		if(arr.length < pageItemsLen){
+			console.log('no more');
+		}
+
+		
+		var lis = document.getElementsByTagName('li');
+		for (var i = 0; i < lis.length; i++) {
+			var _li = lis[i];
+			var d = dataSourceArr[i];
+			(function(x){
+                    _li.onclick = function(){
+						// console.log('click');
+						var h = plus.nativeUI.showWaiting();
+						setTimeout(function(){
+							h.close();
+							openNewPage('home-detail.html', '郸城头条' , true,{'item':dataSourceArr[x] , 'category':'sy'});
+						} , 500)
+						
+					}
+                })(i);	
+		}
+	}
+	
+</script>		
+</html>
+<!-- 
+列表html追加元素，没有使用Vue 
+ -->

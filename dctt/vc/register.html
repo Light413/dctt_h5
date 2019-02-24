@@ -13,24 +13,26 @@
 <div class="mui-content" style="background-color: white;">
 	<div id="register" style="padding: 10px 15px; margin-top: 35px;">
 		<div class="mui-input-row">
-			<input type="number" placeholder="输入手机号" class="mui-input-clear" style="font-size: 15px;border-radius: 0; border-width: 0; border-bottom-width: 0.6px;border-color: #F0F0F0;">
+			<input id="phonenumber-id" type="number" placeholder="输入手机号" class="mui-input-clear" style="font-size: 15px;border-radius: 0; border-width: 0; border-bottom-width: 0.6px;border-color: #F0F0F0;">
 		</div>
 		<div class="mui-input-row">
-			<input type="number" placeholder="输入验证码" style="width: 60%; display: inline-block; font-size: 15px;border-radius: 0; border-width: 0; border-bottom-width: 0.6px;border-color: #F0F0F0;"> 
+			<input id="checkou-code-input" type="number" placeholder="输入验证码" style="width: 60%; display: inline-block; font-size: 15px;border-radius: 0; border-width: 0; border-bottom-width: 0.6px;border-color: #F0F0F0;"> 
 			<a id="checkou-code-id" onclick="getCheckCode()" style=" text-align: center; display: inline-block;font-size: 15px;">获取验证码</a>
 		</div>
 		
 		<div class="mui-input-row" style="margin-top: 10px;">
-			<input type="password" placeholder="设置密码(至少6个字符或数字)" class="mui-input-clear" style="font-size: 15px; border-radius: 0; border-width: 0; border-bottom-width: 0.6px; border-color: #F0F0F0;">
+			<input id="pwd-input1" type="password" placeholder="设置密码(至少6个字符或数字)" class="mui-input-clear" style="font-size: 15px; border-radius: 0; border-width: 0; border-bottom-width: 0.6px; border-color: #F0F0F0;">
 		</div>
 		<div class="mui-input-row" style="margin-top: 10px;">
-			<input type="password" placeholder="确认密码"   class="mui-input-clear" style="font-size: 15px; border-radius: 0; border-width: 0; border-bottom-width: 0.6px; border-color: #F0F0F0;">
+			<input id="pwd-input2" type="password" placeholder="确认密码"   class="mui-input-clear" style="font-size: 15px; border-radius: 0; border-width: 0; border-bottom-width: 0.6px; border-color: #F0F0F0;">
 		</div>
 		
-		<button type="button" class="mui-btn " style="width: 100%;height: 45px;margin-top: 20px;background-color: #e0e0e0;color: white;border-width: 0;font-size: 16px;">{{item == 0  ? '注册' : '修改'}}</button>
+		<button id="register-btn-id" type="button" class="mui-btn " style="width: 100%;height: 45px;margin-top: 20px;background-color: #ce1c1f;color: white;border-width: 0;font-size: 16px;">{{item == 0  ? '注册' : '确定修改'}}</button>
 		
-		<div v-if="item == 0" style="margin-top: 15px;padding: 0 10px; font-size: 12px;">
-			<img src="../images/select_reviewbar_all_press@2x.png" height="20px" width="20px" style="padding-top: 1px;margin-top: 0px;"> <a onclick="registerAndFindPwdAction(0)" style="color: #434343;font-size: 12px;">注册即已同意郸城头条 <span style="color: #007AFF;">"用户协议"</span></a>
+		<div v-if="item == 0" style="margin-top: 20px;padding: 0 10px; font-size: 12px;">
+			<img src="../images/select_reviewbar_all_press@2x.png" height="20px" width="20px" style="padding-top: 1px;margin-top: 0px;"> 
+			<a onclick="userAgreement(0)" style="color: #434343;font-size: 12px;">注册即已同意郸城头条 <span style="color: #007AFF;">"用户协议"</span>
+			</a>
 		</div>	
 	</div>
 </div>
@@ -39,8 +41,9 @@
 <script src="../js/p/api.js" type="text/javascript" charset="utf-8"></script>
 <script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
 <script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-	var seconds = 10;//剩余时间
+	var seconds = 180;//剩余时间
 	var isBeginCnt = false;
 	var _timer;
 	
@@ -60,36 +63,92 @@
 	
 	function getCheckCode(){
 		///判断号码合法
+		var phone = document.getElementById('phonenumber-id').value;
+		if(!(/^1[0-9]{10}$/.test(phone))){ 
+			mui.alert("请输入正确的手机号");return false; 
+		} 
 		
-		if(seconds != 10){return;}
+		if(seconds != 180){return;}
 		
 		isBeginCnt = true;
+		//请求验证码
+		hud_show('正在请求验证码');
+		api_post(get_checkcode_url , {'phoneNumber':phone} , function(res){
+			console.log((res));
+			hud_close('验证码已发送到手机');
+		} , function(error){
+			console.log(error);
+			hud_close(error);
+		});
+		
 		
 		if(_timer){return}
-		
 		_timer = setInterval(function(){
 			if(!isBeginCnt){return}
 			if(seconds == 0){
 				var checkcode = mui('#checkou-code-id')[0];
 				checkcode.innerText = '获取验证码'; 
 				isBeginCnt = false;
-				seconds = 10;
+				seconds = 180;
 				return;
 			}
 			
 			seconds--;
 			var checkcode = mui('#checkou-code-id')[0];
-			
 			checkcode.innerText = seconds + 's后重新获取';
 		},1000);
 		
 	}
 	
-	function registerAndFindPwdAction(type){
+	function userAgreement(type){
 		openNewPage('me/webpage.html' , '用户协议' , true , {'url':BASE_URL + user_agreement_url});
 	}
 	
+document.getElementById('register-btn-id').addEventListener('tap' , function(){
+	var isRegister = _isRegisterV.item;
+	var phone = document.getElementById('phonenumber-id').value;
+	var pwd = document.getElementById("pwd-input1").value;
+	var pwd2 = document.getElementById("pwd-input2").value;
+	var checkcode = document.getElementById("checkou-code-input").value;
+	
+	
+	if(phone.length != 11){plus.nativeUI.toast('请输入正确的手机号' );return;}
+	if(checkcode.length != 4){plus.nativeUI.toast('请输入正确的验证码');return;}
+	if(pwd.length < 6){plus.nativeUI.toast('请输入6位以上密码');return;}
+	if(pwd != pwd2){plus.nativeUI.toast('两次密码输入不一致!');return;}
+	
+	// /^1[0-9]{10}$/
+	// /^1(3|4|5|7|8)\d{9}$/
+	if(!(/^1[0-9]{10}$/.test(phone))){ 
+		mui.alert("请输入正确的手机号"); return false; 
+	} 
+		
+		
+	var d = {'phone_number':phone , 'pwd':pwd , 'code':checkcode};
+	if(isRegister == 1){
+		d['isModify'] = 1;
+	}
+	
+	hud_show('提交中');
+	api_post(register_url , d , function(res){
+		if(isRegister == 0){
+			hud_close('注册成功');
+			mui.alert('注册成功,请前往登录','','',function(){
+				mui.back();
+			});
+		}else{
+			hud_close('修改成功');
+			mui.alert('修改成功,请前往登录','','',function(){
+				mui.back();
+			});
+		}
 
+	},function(error){
+		hud_close(error);
+		mui.alert(error);
+	})
+	
+})
 
 	
 </script>

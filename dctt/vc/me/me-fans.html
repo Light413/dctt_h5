@@ -1,23 +1,128 @@
 <!doctype html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<title>Document</title>
-	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	
-	<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
-</head>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+		<style type="text/css">
+			.mui-segmented-control .mui-control-item {
+				color: #333;
+				/* background-color: #ff4500; */
+			}
+			.mui-segmented-control .mui-control-item.mui-active {
+			/* 	color: #ff4500;
+				background-color: #dcdcdc; */
+				color: #fff;
+				background-color: #ff4500;
+			}
+			
+			/* 外边框 */
+			.mui-segmented-control {
+				/* font-size: 15px;
+				font-weight: 400;
+				position: relative;
+				display: table;
+				overflow: hidden;
+				width: 100%;
+				table-layout: fixed; */
+				border: 1px solid #f0f0f0;
+				border-radius: 5px;
+				/* background-color: transparent;
+				-webkit-touch-callout: none; */
+			}
+			
+			.mui-segmented-control .mui-control-item {
+				line-height: 30px;
+				/* display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				-webkit-transition: background-color .1s linear;
+				transition: background-color .1s linear;
+				text-align: center;
+				white-space: nowrap;
+				text-overflow: ellipsis; */
+				color: darkgray;
+				border-color: #007aff;
+				border-left: 0px solid #dcdcdc;
+			}
+			
+		</style>
+	</head>
+
 <body>
 	
-<div class="mui-content">
-	11
-</div>
-
-<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
-	mui.init()
+	<div style="height: 74px; background-color:#FFFFFF;margin-top: 0px;">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="margin-top: 40px; margin-left: 6px; font-size: 30px; color: #FF4500;"></a>
+		
+		<div style="margin-left: 70px;margin-right: 70px;">
+				<div id="slider" class="mui-slider" style=" margin-top:0px;padding-left: 5px;padding-right: 5px; ">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control " style="color:#dcdcdc; margin-top: 38px;">
+					<a id="fan_1" class="mui-control-item  mui-active" onclick="changeList(1);">关注</a>
+					<a id="fan_2" class="mui-control-item"  onclick="changeList(2);">粉丝</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+	var currentIndex = 1;
+	
+	function changeList(index){
+		if(currentIndex == index){return;}
+		var tab1 = document.getElementById('fan_1');
+		var tab2 = document.getElementById('fan_2');
+		
+		if (index == 1) {
+			tab2.classList.remove('mui-active');
+			tab1.classList.add('mui-active');
+		}else{
+			tab1.classList.remove('mui-active');
+			tab2.classList.add('mui-active');
+		}
+		
+		currentIndex = index;
+		
+		var _id = currentIndex == 1 ? 'fans-list0' : 'fans-list1';
+		var wv = plus.webview.getWebviewById(_id);
+		plus.webview.show(wv);
+	}
+			
+	mui.plusReady(function () {
+		mui.init({
+			subpages:[
+				{
+					url:'me-fans-sub.html',
+					id:'fans-list1',
+					styles:{
+						top:'75px',
+						bottom:0
+					},
+					extras:{
+						'type':1
+					}
+				},
+				
+				{
+					url:'me-fans-sub.html',
+					id:'fans-list0',
+					styles:{
+						top:'75px',
+						bottom:0
+					},
+					extras:{
+						'type':0
+					}
+				}
+			]
+		})
+		
+		var wv = plus.webview.getWebviewById('fans-list0');
+		plus.webview.show(wv);
+	})
 </script>
 </body>
+
 </html>

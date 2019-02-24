@@ -10,7 +10,7 @@
 														color:"#CCCCCC",                // 分割线颜色,默认值为"#CCCCCC"  
 														height:"1px"                    // 分割线高度,默认值为"2px"
 														},
-														type: url == 'me/me-homepage.html' ? 'transparent' : 'default'
+														type: url.indexOf('me-homepage') != -1 ? 'transparent' : 'default'
 												} : '';
 												
 					mui.openWindow({

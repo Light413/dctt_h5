@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title></title>
+	<style type="text/css">
+	
+	</style>
+</head>
+<body style="margin: 0;">
+	<div id="bgimg-id" style=" background-image: url(1546328819275.png);background-repeat: no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;">
+		<img id="logo-icon-id" src="../images/app_logo@3x.png" style="width: 120px;height: 120px;margin-top: 20%;border-radius: 15px;">
+		<button id="downloadbtn-id" type="button" style="width: 300px;height: 40px;border-radius: 10px;background-color: #ce1c1f; border-width: 0; color: white; ">立即下载</button>
+		<div style="margin-top: 15px;text-align: center;color: red;font-size: 14px;">
+			微信/QQ内无法下载应用，请选择浏览器打开
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		var w = window.screen.width;
+		var h = window.screen.height;
+
+		var bg = document.getElementById('bgimg-id');
+		bg.style.height = h + 'px';
+		
+		var logo = document.getElementById('logo-icon-id');
+		logo.style.marginLeft = (w - 120) / 2.0 + 'px';
+		
+		var downloadbtn = document.getElementById('downloadbtn-id');
+		downloadbtn.style.marginLeft = (w -300) / 2.0 + 'px';
+		downloadbtn.style.marginTop = '35%';
+	</script>
+</body>
+</html>
