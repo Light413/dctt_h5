@@ -1,5 +1,8 @@
 ### 一款基于H5开发的本地生活服务类APP
 
+![郸城头条APP](https://github.com/Light413/dctt_h5/blob/master/dctt/images/app_logo@2x.png?raw=true)
+
+
 #### 开发工具
 HBuilder X 1.6.2
 
@@ -29,7 +32,7 @@ HBuilder X 1.6.2
 
 ![dctt_h5_3.png](https://upload-images.jianshu.io/upload_images/1859207-5066acbc7bc6c779.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### 代码使用
+#### 代码使用
 * 基于`MIT License`
 
 * 该项目已实际上线运营中，源码仅供学习交流，禁止直接在未授权的情况下直接用于商业用途，感谢支持。
