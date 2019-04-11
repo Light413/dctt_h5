@@ -83,7 +83,7 @@
 						</div>
 						
 						<div class="list-detail mui-ellipsis-2">
-							{{item.content.content}}
+							{{_formatterContent(item.content.content)}}
 						</div>
 					</div>
 					
@@ -134,6 +134,12 @@
 			el: '#table-view-id',
 			data: {
 				items: []
+			},
+			methods:{
+				_formatterContent:function(s){
+					var _s = s.replace(/\$/g , '');
+					return _s;
+				}
 			}
 		});
 		
@@ -150,11 +156,12 @@
 				}
 				
 				ttRefreshInit('#list',get_sy_url , pars , function(res){
+					hud_close();
 					_dataConvert(res);
 				});
 			}
 			
-			
+			hud_show('加载中');
 			refreshRequestData();
 		})//plus
 

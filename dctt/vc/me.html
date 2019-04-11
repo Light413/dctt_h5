@@ -73,7 +73,7 @@
 			
 		</div>
 		
-		<div v-else style="height: 180px;border-width: 0px; border-color: brown;border-style: solid; margin-bottom: 12px;border-radius: 5px;background-color: white;">
+		<div v-else style="height: 180px;border-width: 0px; border-color: brown;border-style: solid; margin-bottom: 5px;border-radius: 5px;background-color: white;">
 			<div onclick="tableDidSelected(0)" style="margin-top: 30px;margin-left: 15px;font-size: 20px; display: inline-block;">
 				{{user_name}}
 				<div style="font-size: 15px;color: darkgray;padding-top: 10px;">
@@ -147,7 +147,6 @@
 					<div class="list-title">设置</div>
 				</a>
 			</li>
-
 		</ul>
 </div>
 
@@ -200,10 +199,7 @@
 		},
 		methods:{
 			islogined:function(){
-				
-					this.login = userHasLogined();
-					// return userHasLogined();
-				
+				this.login = userHasLogined();
 			}
 		}
 	})
@@ -220,8 +216,6 @@
 				var t=s[i];
 				shares[t.id]=t;
 			}
-			
-			// console.log(JSON.stringify(shares));
 		}, function(e){
 			outSet('获取分享服务列表失败：'+e.message);
 		});
@@ -252,7 +246,6 @@
 	var pages = ['me/me-baseinfo.html'];
 	function tableDidSelected(row){
 		if(row == 1 || row == 2 || row ==3 || row == 4){if(!userHasLogined()){hud_toast('请先登录');return;}}
-		
 		switch (row){
 			case 0:openNewPage(pages[0] , '修改资料' , true , {'userinfo':_userinfo || ''});break;
 			case 1:openNewPage('me/me-homepage.html' , _userinfo['name']|| _userinfo['nickName'] , true , {'uid':_userinfo['user_id']});break;
@@ -260,16 +253,10 @@
 			var msgNum = mui('#new-msgnumber-id')[0];
 			msgNum.style.display = 'none';
 			openNewPage('me/me-message.html' , '消息' , true);break;	
-			
 			case 3:openNewPage('me/me-collection.html' , '收藏' , true);break;	
 			case 4:openNewPage('me/me-fans.html' , '粉丝关注' , false);break;	
 			case 5:shareShow();break;
 			case 6:openNewPage('me/me-setter.html' , '设置' , true);break;
-			case 7:
-			//隐藏'新动态'提示,下次启动应用还是正常显示
-			var _sh = mui('#new-sh-id')[0];
-			_sh.style.display = 'none';
-			openNewPage('me/me-shenhe.html' , '待审核' , true);break;
 			default:break;
 		}
 	}
@@ -298,7 +285,6 @@
 	   */
 	function shareAction(sb,bh) {
 		if(!sb||!sb.s){console.log('无效的分享服务！');return;}
-		
 		var msg={content:'专注老家生活信息服务，关注分享家乡身边新动态，赶快告诉身边的小伙伴吧!',extra:{scene:sb.x}};
 		if(bh){
 			msg.href= 'http://dancheng0394.com/a/d/downloadapk.html';
@@ -329,10 +315,8 @@
 	function shareMessage(msg, s){
 		s.send(msg, function(){
 			console.log('分享到"'+s.description+'"成功！');
-			
 			if(userHasLogined()){
 				var d = {"uid":getLoginUid(), "type":"1","score":5};
-				
 				api_post(update_profile_url , d , function(res){
 					hud_toast('分享成功，积分+5');
 					getUserProfile();
@@ -361,27 +345,22 @@
 			_userinfo = res;
 			baseinfo.islogined();
 			baseinfo.item = res;
-			
-			
 		});
 	}
 	
+	/*<li class="mui-table-view-cell">
+		<a onclick="tableDidSelected(7)" class="mui-navigate-right">
+			<img src="../images/me/me_list_icon7.png" class="list-icon">
+			<div class="list-title">审核</div>
+			<span id="new-sh-id" class="mui-badge mui-badge-danger" style="display: none; padding: 5px 8px;">新动态</span>
+		</a>
+	</li>*/
 	if(userHasLogined()){
 		getUserProfile();
 		getNewMsgNumber();
-		
-		/*var _l = document.getElementById('me-tableview-id');
-		var li = document.createElement('li');
-		li.className = 'mui-table-view-cell';
-		li.innerHTML = "<a onclick='tableDidSelected(7)' class='mui-navigate-right'><img src='../images/me/me_list_icon7.png' class='list-icon'><div class='list-title'>审核</div></a>"
-		_l.appendChild(li);*/
 	}else{
 		document.getElementById('user-login-id').addEventListener('tap',function(){
-			if(userHasLogined()){
-				console.log('logined.');
-				return;
-			}
-			
+			if(userHasLogined()){return;}
 			openNewPage('login.html' , '登录' , true);	
 		})
 	}
@@ -390,29 +369,35 @@
 	function getNewMsgNumber(){
 		var lastTime = localStorage.getItem('lastTimeGetMessageList');
 		var d = {"uid": getLoginUid() , "type":0};//'lastTime':'2019-01-17 14:53:55'
-		if(lastTime){
-			d['lastTime'] = lastTime;
-		}
-		
+		if(lastTime){d['lastTime'] = lastTime;}
 		api_post(get_msglist_url , d , function(res){
 			var num = Number(res['num']);
 			var shNum = res['sh'];
-			
-			console.log(JSON.stringify(res));
-			
+			//console.log(JSON.stringify(res));
 			if(num > 0){
 				var msgNum = mui('#new-msgnumber-id')[0];
 				msgNum.style.display = 'inline-block';
 				msgNum.innerText = num;
 			}
 			
-			if (shNum > 0) {
-				var _sh = mui('#new-sh-id')[0];
-				_sh.style.display = 'inline-block';
+			if (res['can']) {
+				var _l = document.getElementById('me-tableview-id');
+				var li = document.createElement('li');
+				li.className = 'mui-table-view-cell';
+				li.innerHTML = "<a onclick='tosh();' class='mui-navigate-right'><img src='../images/me/me_list_icon7.png' class='list-icon'><div class='list-title'>审核</div><span id='new-sh-id' class='mui-badge mui-badge-danger' style='display: none; padding: 5px 8px;'>有新动态</span></a>";_l.appendChild(li);
+				if (shNum > 0) {
+					var _sh = mui('#new-sh-id')[0];
+					_sh.style.display = 'inline-block';
+				}
 			}
 		})
 	}
 
+	function tosh(){//隐藏'新动态'提示,下次启动应用还是正常显示
+		var _sh = mui('#new-sh-id')[0];
+		_sh.style.display = 'none';
+		openNewPage('me/me-shenhe.html','待审核',true);
+	}
 </script>
 </body>
 </html>

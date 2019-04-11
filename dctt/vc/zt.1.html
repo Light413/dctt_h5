@@ -8,11 +8,11 @@
 		<style type="text/css">
 			.mui-segmented-control .mui-control-item {
 				color: forestgreen;
-				background-color: #f0f0f0;
+				background-color: #ff4500;
 			}
 			.mui-segmented-control .mui-control-item.mui-active {
-				color: #fff;
-				background-color: #FF4500;
+				color: #ff4500;
+				background-color: #fff;
 			}
 			
 			/* 外边框 */
@@ -40,20 +40,16 @@
 				text-align: center;
 				white-space: nowrap;
 				text-overflow: ellipsis; */
-				color: #555;
+				color: lightgray;
 				border-color: #fff;
-				border-left: 0px solid #fff;
+				border-left: 1px solid #fff;
 			}
 			
 		</style>
 	</head>
 
 <body>
-	<div id=""  style="height: 74px; background-color:white;margin-top: 0px;">
-		<div style="float: left;margin-top: 45px; margin-left: 20px;" onclick="toBack();"> 
-		 <img src="../images/back_icon.png" width="20px" height="20px" style="padding: 2px;">
-		 </div>
-		
+	<div id=""  style="height: 74px; background-color:#ff4500;margin-top: 0px;">
 		<div style="margin-left: 70px;margin-right: 70px;">
 				<div id="slider" class="mui-slider" style=" margin-top:0px;padding-left: 5px;padding-right: 5px; ">
 				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control " style="color:#dcdcdc; margin-top: 38px;">
@@ -66,17 +62,14 @@
 	
 	</div>
 	<!-- color:dcdcdc -->
-	<div id="add-zt-action" onclick="toCreatZt();" style="position: fixed; top: 40px;right: 20px;font-size: 28px;color: #FF0000;padding: 5px;">
-		+
+	<div id="add-zt-action" onclick="toCreatZt();" style="position: fixed; top: 40px;right: 20px;font-size: 13px;color: #fff;padding: 5px;">
+		创建
 	</div>
 		
 	<script src="../js/mui.js"></script>
 	<script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
 	var currentIndex = 1;
-	function toBack(){
-		mui.back();
-	}
 	
 	function toCreatZt(){
 		openNewPage('publish/publish-dt.html', '创建话题' , true,{'itemType':{'id':'6' , 'title':'创建话题'}});

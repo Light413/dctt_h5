@@ -171,18 +171,22 @@
 				<div style="margin-left: 6px;display: inline-block;color: #808080;">写评论</div>
 			</button>
 			
-			<div id="bottom-bar-id" style="display: inline-block;margin-top: 10px;margin-left: 10%;">
-				<img src="../images/tab_comment@2x.png" width="25px" height="25px" style="margin-bottom: -10px;">
-				<div v-if="item.commentCnt > 0" id="comment-cnt-bandge" style="display: inline-block; background-color: #FF5053;color: white;font-size: 10px;margin-left: -15px;padding: 0px 6px; border-radius: 8px;height: 15px;" v-cloak>
+			<div id="bottom-bar-id" style="display: inline-block;margin-top: 10px;margin-left: 6%;"  v-cloak>
+				<img src="../images/tab_comment@2x.png" width="22px" height="22px" style="margin-bottom: -8px;">
+				<div v-if="item.commentCnt > 0" id="comment-cnt-bandge" style="display: inline-block; background-color: #FF5053;color: white;font-size: 10px;margin-left: -15px;padding: 0px 6px; border-radius: 6px;height: 15px;">
 					{{item.commentCnt}}
 				</div>
 			</div>
 			
-			<div id="sc-button-id" style="display: inline-block;float: right;margin-right: 50px;font-size: 12px;color: #808080;">
+			<div id="sc-button-id" style=" margin-left: 10%; display: inline-block;font-size: 12px;color: #808080;">
 				<img v-if="item.issc > 0" src="../images/likeicon_actionbar_details_press@2x.png" width="20px" height="20px" style="margin-top: 12px;margin-bottom: -6px;" >
 				<img v-else src="../images/likeicon_actionbar_details@2x.png" width="20px" height="20px" style="margin-top: 12px;margin-bottom: -6px;" >
 				<div v-if="item.issc > 0" style="display: inline-block;">取消收藏</div>
 				<div v-else style="display: inline-block;">添加收藏</div>
+			</div>
+			
+			<div id="share-id" style="display: inline-block;margin-right: 0px; float: right;margin-right: 40px;">
+				<img src="../images/share_icon@2x.png" width="25px" height="25px" style="margin-top: 8px;" >
 			</div>
 		</div>
 	</div>
@@ -203,6 +207,13 @@
 	var issc = false;//是否收藏
 	var iszan = false;//是否点赞
 	var _myId = getLoginUid();
+	//分享相关定义
+	var shares=null;
+	var shareUsername = '';
+	var shareUserid = '';
+	var shareContent = '';
+	var shareTitle = '';
+	
 	mui.init()
 	
 	///动态赞,不能取消
@@ -377,6 +388,10 @@
 		});
 
 		baseInfo.item = postInfo;
+		shareUsername = baseInfo.user_name;
+		
+		//console.log(JSON.stringify(postInfo));
+		
 		setTimeout(function(){
 			displayImageList(baseInfo.images);
 			
@@ -390,15 +405,21 @@
 			div1.setAttribute('style',"white-space: pre-wrap;padding-left: 10px;");
 			
 			switch (category){
-				case dt_type_sy:div1.innerText = _content;break;
+				case dt_type_sy:div1.innerText = _content;
+				shareContent = _content;
+				break;
 				case dt_type_zt:
 					var div20 = document.createElement('div');
 					div20.setAttribute('style',"font-size:18px;color:#333; font-weight:bolder; margin:15px 0;");
-					div20.innerText = _content['title'];
+					var content_t = _content['title'];
+					div20.innerText = content_t;
 					
 					var div21 = document.createElement('div');
 					div21.style.fontSize = '17px';
 					var conntetn_s = _content['content'];
+					
+					shareContent = conntetn_s;
+					shareTitle = content_t;
 					
 					// content.replace(/\n/g," ")
 					div21.innerText = conntetn_s.replace(/\$/g,"\n");
@@ -408,6 +429,8 @@
 				break;
 				
 				case dt_type_life:
+					var _subTitlePre = '';
+				
 					if(_type == 21 || _type == 23 || _type == 24 || _type == 25){
 						var subContent;
 						var _subType = _content['type'];
@@ -434,13 +457,14 @@
 						var span_subtype = document.createElement('span');
 						span_subtype.setAttribute('style','color:white;font-size:15px;margin-top:5px;background-color:#ff6000;padding:5px 10px;border-radius:5px;');
 						span_subtype.innerText = subContent;
-						
 						div_subtype.appendChild(span_subtype);
 						div1.appendChild(div_subtype);
-					}
+						
+						_subTitlePre = '(' + subContent + ')';
+					}//含有title
 					
 					var div20 = document.createElement('div');
-					div20.setAttribute('style',"font-size:17px;color:#333;  margin:15px 0;");
+					div20.setAttribute('style',"font-size:18px;color:#333; font-weight:bolder;color:#333;  margin:25px 0;");
 					div20.innerText = _content['title'];
 					
 					var div21 = document.createElement('div');
@@ -449,6 +473,9 @@
 					var conntetn_s = _content['content'];
 					div21.innerText = conntetn_s.replace(/\$/g,"\n");
 					//div21.innerText = _content['content'];
+					shareTitle = _subTitlePre + _content['title'];
+					shareContent = conntetn_s;
+					
 					
 					div1.appendChild(div20);
 					div1.appendChild(div21);
@@ -517,6 +544,9 @@
 				"type":"0",
                 "category":category
 			}
+			if(postInfo['issh']){//是否是审核操作
+				d['issh'] = 1;
+			}
 			
 			if(_myId){d['uid'] = _myId;}
 			
@@ -553,6 +583,93 @@
 				hud_close(error || '操作失败,请稍后重试!');
 			})
 		})
+		
+		//分享操作
+		document.getElementById('share-id').addEventListener('tap',function(){
+			shareShow();
+		} , false);
+		
+		//获取分享服务
+		plus.share.getServices(function(s){//
+			shares={};
+			for(var i in s){
+				var t=s[i];
+				shares[t.id]=t;
+			}
+		}, function(e){
+			outSet('获取分享服务列表失败：'+e.message);
+		});
+		
+			// 打开分享
+		function shareShow(){
+			var shareBts=[];
+			// 更新分享列表
+			var ss=shares['weixin'];
+			ss&&ss.nativeClient&&(shareBts.push({title:'微信朋友圈',s:ss,x:'WXSceneTimeline'}),
+			shareBts.push({title:'微信好友',s:ss,x:'WXSceneSession'}));
+			
+			ss=shares['qq'];
+			ss&&ss.nativeClient&&shareBts.push({title:'QQ',s:ss});
+			// 弹出分享列表
+			shareBts.length>0?plus.nativeUI.actionSheet({title:'分享到',cancel:'取消',buttons:shareBts}, function(e){
+				(e.index>0)&&shareAction(shareBts[e.index-1],true);
+			}):plus.nativeUI.alert('当前环境无法支持分享操作!');
+		}
+		
+		/**
+		   * 分享操作
+		   * @param {JSON} sb 分享操作对象s.s为分享通道对象(plus.share.ShareService)
+		   * @param {Boolean} bh 是否分享链接
+		   */
+		function shareAction(sb,bh) {
+			if(!sb||!sb.s){console.log('无效的分享服务！');return;}
+			var msg={content:shareContent,extra:{scene:sb.x}};
+			if(bh){
+				var s = '?' + 'c=' + category + '&id=' + postInfo['pid'];
+				msg.href= 'http://dancheng0394.com/tt/p/d.html' + s;
+				msg.title= shareTitle || shareContent;//'郸城新动态';
+				msg.thumbs=["../images/app_logo_60.png"];
+				msg.pictures=["../images/app_logo_60.png"];
+			}
+			
+			// 发送分享
+			if(sb.s.authenticated){
+				console.log('---已授权---');
+				shareMessage(msg, sb.s);
+			}else{
+				console.log('---未授权---');
+				sb.s.authorize(function(){
+					shareMessage(msg,sb.s);
+				}, function(e){
+					console.log('认证授权失败：'+e.code+' - '+e.message);
+				});
+			}
+		}
+		
+		/**
+		   * 发送分享消息
+		   * @param {JSON} msg
+		   * @param {plus.share.ShareService} s
+		   */
+		function shareMessage(msg, s){
+			s.send(msg, function(){
+				console.log('分享到"'+s.description+'"成功！');
+				if(userHasLogined()){
+					var d = {"uid":getLoginUid(), "type":"1","score":5};
+					api_post(update_profile_url , d , function(res){
+						hud_toast('分享成功，积分+5');
+						// getUserProfile();
+					} );
+				}else{
+					hud_toast('分享成功，感谢你的支持和关注!');
+				}
+		
+			}, function(e){
+				hud_close('分享到"'+s.description+'"失败: '+JSON.stringify(e));
+				console.log('分享到"'+s.description+'"失败: '+JSON.stringify(e));
+			});
+		}
+		
 		
 		///方法操作声明
 		window.addEventListener('refresh-comment-event' , function(){
@@ -611,11 +728,11 @@
 		//显示图片列表
 		function displayImageList(imagesArr){
 			var _divi = 3.0;
-			if(imagesArr.length == 1){
-				_divi = 1.0;
-			}else if(imagesArr.length == 2){
-				_divi = 2.0;
-			}
+// 			if(imagesArr.length == 1){
+// 				_divi = 1.0;
+// 			}else if(imagesArr.length == 2){
+// 				_divi = 2.0;
+// 			}
 			
 			var _width = (plus.screen.resolutionWidth - 60) / _divi;
 			var root = document.getElementById('image-list');

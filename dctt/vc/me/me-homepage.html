@@ -14,6 +14,7 @@
 				font-size: 17px ;
 				text-indent: 0px;
 				/* font-weight: bold; */
+				color: #505050;
 			}
 			
 			.list-detail{
@@ -131,12 +132,10 @@
 					<div class="mui-media-body">
 						<div class="mui-ellipsis-2">
 							{{getContent(item)}}
-							
-							<span v-if="item.status == 0 || item.status == 2" style="padding: 0px 5px; border-radius: 5px; float: right;font-size: 11px;background-color: red;color: white;">{{item.status == 0 ? '待审核' : '未通过'}}</span>
 						</div>
 						
 						<div class="list-detail mui-ellipsis-2">
-							{{item.content.content}}
+							{{_formatterContent(item.content.content)}}
 						</div>
 					</div>
 					
@@ -150,9 +149,10 @@
 							</div>
 							<div style="display: inline-block;color: #666;font-size: 13px;margin-left: 10px;">
 								{{item.postDateFormatter}} <span style="margin-left: 8px;font-size: 12px;">阅读{{item.readCnt}}</span>
+								
+								<span v-if="item.status == 0 || item.status == 2" style="padding: 0px 3px; border-radius: 5px; float: right; margin-left: 25px; font-size: 11px;background-color: red;color: white;">{{item.status == 0 ? '待审核' : '未通过'}}</span>
 							</div>
-							<!-- <img src="../../images/dislikeicon_details@2x.png" alt="" class="dislike-icon" > -->
-							<!-- <a v-if="isMySelf(item)" v-on:click.stop="deleteMyPost(item)" style="float: right;margin-right: 8px;font-size: 12px;background-color: #F0F0F0;margin-top: 10px;padding: 1px 8px;border-radius: 5px; color: #666;"> -->
+							
 							<a v-if="isMySelf(item)" v-on:click.stop="deleteMyPost(item)" style="float: right;margin-right: 8px;margin-top: 5px;padding: 5px;">
 								<img src="../../images/shanchu.png" width="20px" height="18px" >
 							</a>
@@ -237,7 +237,14 @@
 			isMySelf:function(item){
 				var user = item;
 				return user['uid'] == getLoginUid();
+			},
+			
+			_formatterContent:function(s){
+				if(!s)return s;
+				var _s = s.replace(/\$/g , '');
+				return _s;
 			}
+			
 		}
 	});
 	
@@ -289,8 +296,11 @@
 	   ttRefreshInit('#dt-list-id', homepage_url , pars , function(res){
 		   // console.log(JSON.stringify(res[0]));
 			_dataConvert(res);
+			hud_close();
+			hud_toast('加载完成');
 	   });
 	   
+	   hud_show('加载中');
 	   refreshRequestData();
 	})
 

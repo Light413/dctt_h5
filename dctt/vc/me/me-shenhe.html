@@ -131,6 +131,7 @@
 <script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/p/base-data.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/user-operation.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	mui.init({
 		pullRefresh: {
@@ -257,16 +258,19 @@
 		var h = plus.nativeUI.showWaiting();
 		setTimeout(function(){
 			h.close();
-			openNewPage('../home-detail.html', '详情' , true,{'item':item , 'category':_category});
+			item['issh'] = 1;
+			openNewPage('../home-detail.html', '审帖' , true,{'item':item , 'category':_category});
 		} , 500)
 		
 	}
 	
 	
 function operationBtnAction(item){
-	plus.nativeUI.actionSheet({'title':'选择操作' , 'cancel':'取消' , 'buttons':[{'title':'通过'},{'title':'拒绝'}]} , function(e){
+	plus.nativeUI.actionSheet({'title':'选择操作' , 'cancel':'取消' , 'buttons':[{'title':'通过'},{'title':'拒绝'},{'title':'删除'}]} , function(e){
 		console.log(e.index);
-		if (e.index > 0) {
+		//console.log(JSON.stringify(item));
+		
+		if (e.index < 3) {
 			var _category = getItemCategory(item['type']);
 			var d = {"uid":getLoginUid() ,
 			     "pid": item['pid'],
@@ -283,9 +287,9 @@ function operationBtnAction(item){
 				hud_close('已成功审核');
 			} , function(error){
 				hud_close(error);
-			})	 
-				 
-				 
+			});	  
+		}else{
+			USER_OP.deletePost(item);
 		}
 	})
 	

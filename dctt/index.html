@@ -23,9 +23,10 @@
 			<span class="mui-icon iconfont icon-shouye"></span>
 			<span class="mui-tab-label">新动态</span>
 		</a>
-		<a class="mui-tab-item" href="vc/zt.html">
+		<!-- <a class="mui-tab-item" href="vc/zt.html"> -->
+		<a class="mui-tab-item" href="vc/zoo/index.html">
 			<span class="mui-icon iconfont icon-theme"></span>
-			<span class="mui-tab-label">话题</span>
+			<span class="mui-tab-label">圈子</span>
 		</a>
 		
 		<a class="mui-tab-item" href= "vc/publish-select-type.html">
@@ -33,7 +34,7 @@
 			<span class="mui-tab-label" style = "color :orangered;">发布</span>	
 		</a>
 		
-		<a class="mui-tab-item" href="vc/life.html">
+		<a class="mui-tab-item" href="vc/life-list.html">
 			<span class="mui-icon iconfont icon-category "></span>
 			<span class="mui-tab-label">郸城生活</span>
 		</a>
@@ -50,7 +51,7 @@
 	<script>
 		mui.init();
 		var _index = 0;			
-		var subpages = ['vc/home.html', 'vc/zt.html', 'vc/publish-select-type.html', 'vc/life.html','vc/me.html'];
+		var subpages = ['vc/home.html', 'vc/zoo/index.html', 'vc/publish-select-type.html', 'vc/life-list.html','vc/me.html'];
 
 		
 		function navigationBarStyle(index){
@@ -59,8 +60,8 @@
 				bottom: '51px'
 			};
 			
-			var _titles = ['','','发布动态','郸城生活','个人中心']
-			if(index != 1){
+			var _titles = ['','圈子','发布动态','郸城生活','个人中心']
+			if(1){//index != 
 				subpage_style['titleNView'] = {
 					titleText:_titles[index],
 					titleColor:"#FFFFFF",             // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
@@ -68,7 +69,7 @@
 					backgroundColor:'#ff4500',        //#089DDD 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
 					splitLine:{                       // 标题栏控件的底部分割线，类似borderBottom
 					color:"#CCCCCC",                // 分割线颜色,默认值为"#CCCCCC"  
-					height:"1px"  
+					height:"0px"  
 					},
 				}
 			}

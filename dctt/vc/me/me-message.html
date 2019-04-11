@@ -186,16 +186,18 @@
 			return contentObj['commentDetail'];
 		}
 		
-		// console.log(typeof(obj))
+
 		if (category == 'sy'){
 			return obj['content'];
 		}else{
 			try{
-				var _subContentObj = JSON.parse(obj['content']) ;
-				// console.log(typeof(obj['content']));
+				var _jsonStr = obj['content'];
+				var  _str = _jsonStr.replace(/\n/g,"");
+				var _subContentObj = JSON.parse(_str) ;
 				return _subContentObj['title'];
 			}catch(e){
 				//TODO handle the exception
+				//console.log(typeof(obj))
 				return '动态不存在!';
 			}
 		}
@@ -243,16 +245,17 @@
 		var category = contentObj['category'];
 		if(category != dt_type_sy){
 			try{
-				var _subContentObj = JSON.parse(obj['content']) ;
+				var _jsonStr = obj['content'];
+				var  _str = _jsonStr.replace(/\n/g,"");
+				var _subContentObj = JSON.parse(_str) ;
 				obj['content'] = _subContentObj;
 			}catch(e){
 				//TODO handle the exception
 				return;
 			}
 		}
-		console.log(JSON.stringify(obj));
-		
-		openNewPage('../home-detail.html', '郸城头条' , true,{'item':obj , 'category':category});
+		//console.log(JSON.stringify(obj));
+		openNewPage('../home-detail.html', '详情' , true,{'item':obj , 'category':category});
 	}
 </script>
 </body>

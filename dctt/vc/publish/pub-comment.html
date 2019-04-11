@@ -64,7 +64,14 @@
 					 "category":category,//评论别人的，实际应该加上,便于消息推送
 					 "content":_text}
 			
-			// console.valueOf(JSON.stringify(d));
+			/*{
+			"type":"add",
+			"pid":"99b6bda5f06678c29a0bcfaac9f4ab20",
+			"uid":"93934365750117c461e391e95ee99cf8",
+			"category":"sy",
+			"content":"辣鸡。"}
+			*/
+			//console.log(JSON.stringify(d));
 					 
 			hud_show('提交中!');	
 			api_post(comment_url , d , function(res){

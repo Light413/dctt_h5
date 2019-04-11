@@ -69,7 +69,22 @@ function refreshRequestData(){
 			}else{
 				mui(_id).pullRefresh().disablePullupToRefresh();
 				mui(_id).pullRefresh().endPullupToRefresh(true);
-				plus.nativeUI.toast('加载完成');return;
+				plus.nativeUI.toast('加载完成');
+				
+				var isexistnodatadiv = document.getElementById('refreshtablenodataid');
+				if(!isexistnodatadiv){
+					var nodatadiv = document.createElement('div');
+					nodatadiv.id = 'refreshtablenodataid';
+					nodatadiv.innerText = '已经是底线了^_^';
+					nodatadiv.setAttribute('style','text-align:center;margin-top:30px;color:#999;font-size:13px;');
+					
+					var _root = document.getElementById(_id.substr(1));
+					_root.appendChild(nodatadiv);
+					mui(_id).pullRefresh().disablePullupToRefresh();
+					mui(_id).pullRefresh().endPullupToRefresh(true);
+				}
+				
+				return;
 			}
 		}
 		
@@ -111,7 +126,7 @@ function refreshRequestData(){
 					mui(_id).pullRefresh().refresh(true);
 				}
 			}
-
+			return;
 		}
 		
 		// if(arr && _successCallBack){_successCallBack(arr);}		
