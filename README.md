@@ -20,6 +20,9 @@ HBuilder X 1.6.2
 * 阿里巴巴矢量图标库[http://www.iconfont.cn](http://www.iconfont.cn) 字体库的引入和使用
 * 微信QQ第三方分享操作
 
+#### 下载项目运行注意事项
+
+* 必须把 `dctt` 目录 而不是`dctt_h5-master`目录 放置HBuilder X 项目中根目录，否则不能正常运行。
 
 #### 运行效果
 
