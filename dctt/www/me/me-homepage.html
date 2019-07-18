@@ -296,8 +296,7 @@
 	   ttRefreshInit('#dt-list-id', homepage_url , pars , function(res){
 		   // console.log(JSON.stringify(res[0]));
 			_dataConvert(res);
-			hud_close();
-			hud_toast('加载完成');
+			hud_close('加载完成');
 	   });
 	   
 	   hud_show('加载中');

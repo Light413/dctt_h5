@@ -120,7 +120,7 @@
 	mui.plusReady(function () {
 		mui.init({
 			beforeback:function () {
-// 				var wv = plus.webview.getWebviewById('vc/me.html');
+// 				var wv = plus.webview.getWebviewById('www/me.html');
 // 				mui.fire(wv , 'update-profile-success' , {});
 			}
 		})
@@ -235,7 +235,7 @@
 		d['mark'] = detail || '';//判断是否和原来的数据相同
 		
 		submitToServer(update_profile_url , d ,function(){
-			var wv = plus.webview.getWebviewById('vc/me.html');
+			var wv = plus.webview.getWebviewById('www/me.html');
 			mui.fire(wv , 'update-profile-success' , {});
 			
 			plus.nativeUI.toast('修改资料成功' , {verticalAlign: 'center'});

@@ -14,54 +14,49 @@
 		
 		.mui-bar-tab .mui-tab-item.mui-active {color: #444444;}
 		.mui-title{color:#454545;font-weight: 450;}
+		* { touch-action: pan-y; } 
 	</style>
 </head>
 
 <body>
 	<nav class="mui-bar mui-bar-tab globe-color">
-		<a id="defaultTab" class="mui-tab-item mui-active" href="vc/home.html">
+		<a id="defaultTab" class="mui-tab-item mui-active" href="www/home.html">
 			<span class="mui-icon iconfont icon-shouye"></span>
-			<span class="mui-tab-label">新动态</span>
-		</a>
-		<!-- <a class="mui-tab-item" href="vc/zt.html"> -->
-		<a class="mui-tab-item" href="vc/zoo/index.html">
-			<span class="mui-icon iconfont icon-theme"></span>
-			<span class="mui-tab-label">圈子</span>
+			<span class="mui-tab-label">首页</span>
 		</a>
 		
-		<a class="mui-tab-item" href= "vc/publish-select-type.html">
+		<a class="mui-tab-item" href="www/zt.html">
+			<span class="mui-icon iconfont icon-theme"></span>
+			<span class="mui-tab-label">话题</span>
+		</a>
+		
+		<a class="mui-tab-item" href= "www/publish-select-type.html">
 			<span class="mui-icon iconfont icon-fabu" style= "font-size: 30px; color: orangered;" ></span>
 			<span class="mui-tab-label" style = "color :orangered;">发布</span>	
 		</a>
 		
-		<a class="mui-tab-item" href="vc/life-list.html">
+		<a class="mui-tab-item" href="www/life-list.html">
 			<span class="mui-icon iconfont icon-category "></span>
-			<span class="mui-tab-label">郸城生活</span>
+			<span class="mui-tab-label">生活</span>
 		</a>
-		<a class="mui-tab-item" href="vc/me.html">
+		<a class="mui-tab-item" href="www/me.html">
 			<span class="mui-icon iconfont icon-wode"></span>
 			<span class="mui-tab-label">个人中心</span>
 		</a>
 	</nav>
 	
-	
 	<script src="js/mui.min.js"></script>
-	<script src="js/update.js" type="text/javascript" charset="utf-8"></script>
-	<script src = "js/appconstant.js"></script>
+	<script src="js/p/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 		mui.init();
 		var _index = 0;			
-		var subpages = ['vc/home.html', 'vc/zoo/index.html', 'vc/publish-select-type.html', 'vc/life-list.html','vc/me.html'];
+		var subpages = ['www/home.html', 'www/zt.html', 'www/publish-select-type.html', 'www/life-list.html','www/me.html'];
 
-		
 		function navigationBarStyle(index){
-			var subpage_style = {
-				top: '0px',
-				bottom: '51px'
-			};
-			
-			var _titles = ['','圈子','发布动态','郸城生活','个人中心']
-			if(1){//index != 
+			var subpage_style = {top: '0px',bottom: '51px'};
+			var _titles = ['','话题','发布动态','生活','个人中心']
+			if(index != 1){//index != 
 				subpage_style['titleNView'] = {
 					titleText:_titles[index],
 					titleColor:"#FFFFFF",             // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
@@ -82,11 +77,7 @@
 		 //创建子页面，首个选项卡页面显示，其它均隐藏；
 		mui.plusReady(function() {
 			var h = plus.nativeUI.showWaiting();
-			
-			//仅支持竖屏显示
 			plus.screen.lockOrientation("portrait-primary");
-			//有值，说明已经显示过了，无需显示；
-			//关闭splash页面；
 			plus.navigator.closeSplashscreen();
 			plus.navigator.setFullscreen(false);
 	
@@ -100,15 +91,13 @@
 				}else{
 // 						temp[subpages[i]] = "true";
 // 						mui.extend(aniShow,temp);
-// 						setTitle('首页')
 				}
 				self.append(sub);
 			}
 			
 			setTimeout(function(){
 				h.close();
-			},1500)
-			
+			},1500);
 		});
 		
 		function setTitle(t){//
@@ -120,24 +109,24 @@
 // 				});
 		}
 		
-		 //当前激活选项
 		var activeTab = subpages[0];
 		var title = document.getElementById("title");
 		 //选项卡点击事件
+		 var publishClicked = false;
 		mui('.mui-bar-tab').on('tap', 'a', function(e) {
 			var targetTab = this.getAttribute('href');
-			if (targetTab == activeTab) {
-				return;
+			if (targetTab == activeTab)return;
+			if(targetTab == 'www/publish-select-type.html' && !publishClicked){
+				// publishClicked = true;
+				mui.confirm('请发布真实有效信息，否则审核无法通过。','提示',['发布须知','取消'],function (e) {
+					if (e.index == 0) {
+						openNewPage('www/me/webpage.html' , '发布须知' , true , {'url':BASE_URL + publish_note_url});	
+					} 
+				});
 			}
-			
-			//更换标题
-			//title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
-			
-			var t = this.querySelector('.mui-tab-label').innerHTML;
-			setTitle(t)
-			
-			//显示目标选项卡
-			//若为iOS平台或非首次显示，则直接显示
+			// var t = this.querySelector('.mui-tab-label').innerHTML;
+			// setTitle(t);
+			//显示目标选项卡，若为iOS平台或非首次显示，则直接显示
 			if(mui.os.ios||aniShow[targetTab]){
 				plus.webview.show(targetTab);
 			}else{
@@ -152,6 +141,7 @@
 			//更改当前活跃的选项卡
 			activeTab = targetTab;
 		});
+		
 		 //自定义事件，模拟点击“首页选项卡”
 		document.addEventListener('gohome', function() {
 			var defaultTab = document.getElementById("defaultTab");
@@ -166,5 +156,4 @@
 		});			
 	</script>
 </body>
-
 </html>

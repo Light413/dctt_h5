@@ -21,6 +21,8 @@ var jubao_url = "jubao.php"
 var feedback_url = "feedback.php"
 var check_version_url = 'checkUpdate.php';
 
+//html
+var publish_note_url = 'p/publishNotes.html';//发布须知
 var user_agreement_url = "p/userAgreement.html"
 var aboutus_url = "p/aboutus.html"
 var contactus_url = "p/contactus.html"
@@ -66,19 +68,18 @@ function _ajax (type , url , pars , success , error){
 		plus.nativeUI.closeWaiting();
 		plus.nativeUI.toast('无法连接网络!', {
 			verticalAlign: 'top'
-		});return;
+		});//return;
 	}
 	
 	var u = BASE_URL + url;
 	var token = localStorage.getItem("userToken");
-
 	mui.ajax(u,{
 			data:pars,
 			dataType:'json',
 			type:type,
 			timeout:20000,
 			headers:{//'Content-Type':'application/json',
-			'Authorization' : 'eyJraWQiOiJzaWcwMTU0MjY5OTU0MTA3MCIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiIyNEEzOTkxNjA3MEY0NTMyOTJGNzcwQUE5QjM0RkZBQiIsImF1ZCI6IkNMSUVOVF9VU0VSIiwiaXNzIjoiaHR0cDpcL1wvd3d3LmdlbmVyLXNvZnQuY29tXC9hcGNtIiwiaWF0IjoxNTQyNzY4NzI4LCJqdGkiOiI0MGYxOTgwZi01OTIxLTQ0MWMtOTcxOC1hMDZiYjRjNmMzNDcifQ.1wigxPRf95N4OQFKp_zgCpNBwmxiAzt7ZOw5xBp7aF8' 
+			'Authorization' :  token || '' 
 			},
 			
 			success:function(data){

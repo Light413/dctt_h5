@@ -153,7 +153,7 @@
 		document.getElementById('logout-btn-id').addEventListener('tap',function(){
 			plus.nativeUI.actionSheet({cancel:'取消' , buttons:[{title:'退出账号'}] }, function(e){
 				if(e.index == 1){
-					var wv = plus.webview.getWebviewById('vc/me.html');
+					var wv = plus.webview.getWebviewById('www/me.html');
 					localStorage.setItem('loginuserinfo' , '{}');
 					
 					mui.fire(wv , 'logout-event' , {});
