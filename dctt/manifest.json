@@ -134,7 +134,7 @@
                         "spotlight" : "unpackage/res/icons/40x40.png",
                         "spotlight@2x" : "unpackage/res/icons/80x80.png"
                     },
-                    "appstore" : "/Users/wangyongguang/Desktop/DCTT相关文件/图标/dctt/new/iTunesArtwork@2x.png"
+                    "appstore" : "/Users/wangyongguang/Desktop/DCTT相关文件/图标/dctt/1024X1024.png"
                 },
                 "android" : {
                     "mdpi" : "unpackage/res/icons/48x48.png", /*必选，48x48，普通屏程序图标*/
