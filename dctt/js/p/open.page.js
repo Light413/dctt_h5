@@ -18,8 +18,8 @@ function openNewPage( url , title , displayNavigationBar , datasource , navIsTra
 											titleSize:"17px",                 // 字体大小,默认17px
 											backgroundColor:"#fff",        // 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
 											splitLine:{                       // 标题栏控件的底部分割线，类似borderBottom
-											color:"#CCCCCC",                // 分割线颜色,默认值为"#CCCCCC"  
-											height:"1px"                    // 分割线高度,默认值为"2px"
+											color:"#ddd",                // 分割线颜色,默认值为"#CCCCCC"  
+											height:"0.8px"                    // 分割线高度,默认值为"2px"
 											},
 											type: (url.indexOf('me-homepage') != -1) || navIsTransparent ? 'transparent' : 'default'
 									} : '';

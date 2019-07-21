@@ -7,7 +7,7 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	
-	<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
 	<style type="text/css">
 		.list-icon{
 			width: 25px;
@@ -60,7 +60,7 @@
 	<div id="user-baseinfo-id"  v-cloak>
 		<div v-if = "!login" id="user-login-id" class="mui-navigate-right" style="height: 120px;background-color: white;margin-bottom: 8px;">
 			<div style="padding-top: 40px;padding-left: 20px;display: inline-block;float: left;">
-				<img src="../images/default_sdk_login@2x.png" width="60px" height="60px" >
+				<img src="../../images/default_sdk_login@2x.png" width="60px" height="60px" >
 			</div>
 			
 			<div style="float: left;margin-top: 60px;margin-left: 15px; display: inline-block; font-size: 15px; color: #888888;">
@@ -68,7 +68,7 @@
 			</div>
 			
 			<div style="float: right;margin-top: 60px;margin-right: 15px;">
-				<img src="../images/arrow_icon@2x.png" width="20px" height="20px" >
+				<img src="../../images/arrow_icon@2x.png" width="20px" height="20px" >
 			</div>
 			
 		</div>
@@ -112,50 +112,50 @@
 	<ul id="me-tableview-id" class="mui-table-view" style="margin-bottom: 20px;">
 			<li class="mui-table-view-cell">
 				<a onclick="tableDidSelected(1)" class="mui-navigate-right">
-					<img src="../images/me/me_list_icon1.png" class="list-icon">
+					<img src="../../images/me/me_list_icon1.png" class="list-icon">
 					<div class="list-title">我的主页</div>
 				</a>
 			</li>
 			<li class="mui-table-view-cell">
 				<a onclick="tableDidSelected(2)" class="mui-navigate-right">
-					<img src="../images/me/me_list_icon2.png" class="list-icon">
+					<img src="../../images/me/me_list_icon2.png" class="list-icon">
 					<div class="list-title">消息</div>
 					<span id="new-msgnumber-id" class="mui-badge mui-badge-danger" style="display: none; padding: 2px 8px;"></span>
 				</a>
 			</li>
 			<li class="mui-table-view-cell">
 				<a onclick="tableDidSelected(3)" class="mui-navigate-right">
-					<img src="../images/me/me_list_icon3.png" class="list-icon">
+					<img src="../../images/me/me_list_icon3.png" class="list-icon">
 					<div class="list-title">收藏</div>
 				</a>
 			</li>
 			<li class="mui-table-view-cell">
 				<a onclick="tableDidSelected(4)" class="mui-navigate-right">
-					<img src="../images/me/me_list_icon4.png" class="list-icon">
+					<img src="../../images/me/me_list_icon4.png" class="list-icon">
 					<div class="list-title">粉丝关注</div>
 				</a>
 			</li>
 			<li class="mui-table-view-cell">
 				<a onclick="tableDidSelected(5)" class="mui-navigate-right">
-					<img src="../images/me/me_list_icon5.png" class="list-icon">
+					<img src="../../images/me/me_list_icon5.png" class="list-icon">
 					<div class="list-title">分享给好友</div>
 				</a>
 			</li>
 			<li class="mui-table-view-cell">
 				<a onclick="tableDidSelected(6)" class="mui-navigate-right">
-					<img src="../images/me/me_list_icon6.png" class="list-icon">
+					<img src="../../images/me/me_list_icon6.png" class="list-icon">
 					<div class="list-title">设置</div>
 				</a>
 			</li>
 		</ul>
 </div>
 
-<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/api.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/user.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	var _userinfo;
 	var isfromloginsuccess = false;
@@ -187,8 +187,8 @@
 			avatar:function(){
 				var d = this.item;
 				var _avatarUrl = d['avatar_thumb'];
-				// var u_avatar = getUserAvatarUrl(_avatarUrl , "../images/default_avatar.png");
-				var u_avatar = _avatarUrl || "../images/default_avatar.png";
+				// var u_avatar = getUserAvatarUrl(_avatarUrl , "../../images/default_avatar.png");
+				var u_avatar = _avatarUrl || "../../images/default_avatar.png";
 				return u_avatar;
 			},
 			
@@ -222,6 +222,18 @@
 		
 		//检测版本更新
 		checkUpdate();
+		
+		if(userHasLogined()){
+			getUserProfile();
+			getNewMsgNumber();
+		}else{
+			document.getElementById('user-login-id').addEventListener('tap',function(){
+				if(userHasLogined()){return;}
+				openNewPage('login.html' , '登录' , true);	
+			})
+		}
+	
+	
 	})
 
 	function checkUpdate(){//0:Android 1:iOS
@@ -243,20 +255,20 @@
 		})
 	}
 
-	var pages = ['me/me-baseinfo.html'];
+	var pages = ['me-baseinfo.html'];
 	function tableDidSelected(row){
 		if(row == 1 || row == 2 || row ==3 || row == 4){if(!userHasLogined()){hud_toast('请先登录');return;}}
 		switch (row){
 			case 0:openNewPage(pages[0] , '修改资料' , true , {'userinfo':_userinfo || ''});break;
-			case 1:openNewPage('me/me-homepage.html' , _userinfo['name']|| _userinfo['nickName'] , true , {'uid':_userinfo['user_id']});break;
+			case 1:openNewPage('me-homepage.html' , _userinfo['name']|| _userinfo['nickName'] , true , {'uid':_userinfo['user_id']});break;
 			case 2:
 			var msgNum = mui('#new-msgnumber-id')[0];
 			msgNum.style.display = 'none';
-			openNewPage('me/me-message.html' , '消息' , true);break;	
-			case 3:openNewPage('me/me-collection.html' , '收藏' , true);break;	
-			case 4:openNewPage('me/me-fans.html' , '粉丝关注' , false);break;	
+			openNewPage('me-message.html' , '消息' , true);break;	
+			case 3:openNewPage('me-collection.html' , '收藏' , true);break;	
+			case 4:openNewPage('me-fans.html' , '粉丝关注' , false);break;	
 			case 5:shareShow();break;
-			case 6:openNewPage('me/me-setter.html' , '设置' , true);break;
+			case 6:openNewPage('me-setter.html' , '设置' , true);break;
 			default:break;
 		}
 	}
@@ -289,8 +301,8 @@
 		if(bh){
 			msg.href= 'http://dancheng0394.com/a/d/downloadapk.html';
 			msg.title='咱郸城人自己的手中APP';
-			msg.thumbs=["../images/app_logo_60.png"];
-			msg.pictures=["../images/app_logo_60.png"];
+			msg.thumbs=["../../images/app_logo_60.png"];
+			msg.pictures=["../../images/app_logo_60.png"];
 		}
 		
 		// 发送分享
@@ -348,22 +360,6 @@
 		});
 	}
 	
-	/*<li class="mui-table-view-cell">
-		<a onclick="tableDidSelected(7)" class="mui-navigate-right">
-			<img src="../images/me/me_list_icon7.png" class="list-icon">
-			<div class="list-title">审核</div>
-			<span id="new-sh-id" class="mui-badge mui-badge-danger" style="display: none; padding: 5px 8px;">新动态</span>
-		</a>
-	</li>*/
-	if(userHasLogined()){
-		getUserProfile();
-		getNewMsgNumber();
-	}else{
-		document.getElementById('user-login-id').addEventListener('tap',function(){
-			if(userHasLogined()){return;}
-			openNewPage('login.html' , '登录' , true);	
-		})
-	}
 
 	//获取最新消息数
 	function getNewMsgNumber(){
@@ -384,11 +380,15 @@
 				var _l = document.getElementById('me-tableview-id');
 				var li = document.createElement('li');
 				li.className = 'mui-table-view-cell';
-				li.innerHTML = "<a onclick='tosh();' class='mui-navigate-right'><img src='../images/me/me_list_icon7.png' class='list-icon'><div class='list-title'>审核</div><span id='new-sh-id' class='mui-badge mui-badge-danger' style='display: none; padding: 5px 8px;'>有新动态</span></a>";_l.appendChild(li);
+				li.innerHTML = "<a onclick='tosh();' class='mui-navigate-right'><img src='../../images/me/me_list_icon7.png' class='list-icon'><div class='list-title'>审核</div><span id='new-sh-id' class='mui-badge mui-badge-danger' style='display: none; padding: 5px 8px;'>有新动态</span></a>";_l.appendChild(li);
 				if (shNum > 0) {
 					var _sh = mui('#new-sh-id')[0];
 					_sh.style.display = 'inline-block';
+					
+					///提示
+					mui.alert('有新的动态待审核!','提示','确定');
 				}
+				
 			}
 		})
 	}
@@ -396,7 +396,7 @@
 	function tosh(){//隐藏'新动态'提示,下次启动应用还是正常显示
 		var _sh = mui('#new-sh-id')[0];
 		_sh.style.display = 'none';
-		openNewPage('me/me-shenhe.html','待审核',true);
+		openNewPage('me-shenhe.html','待审核',true);
 	}
 </script>
 </body>

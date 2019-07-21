@@ -66,13 +66,18 @@ function getItemCategory(type){
 function _ajax (type , url , pars , success , error){
 	if(window.plus && plus.networkinfo.getCurrentType() === plus.networkinfo.CONNECTION_NONE) {
 		plus.nativeUI.closeWaiting();
-		plus.nativeUI.toast('无法连接网络!', {
-			verticalAlign: 'top'
-		});//return;
+		plus.nativeUI.toast('无法连接网络!', {verticalAlign: 'top'});//return;
 	}
 	
 	var u = BASE_URL + url;
-	var token = localStorage.getItem("userToken");
+	var token , userJsonStr = localStorage.getItem("loginuserinfo");
+	if(userJsonStr){
+		var _u = JSON.parse(userJsonStr);
+		if(_u && _u['token']){
+			token = _u['token'];pars['t'] = token;
+		}
+	}
+	
 	mui.ajax(u,{
 			data:pars,
 			dataType:'json',
@@ -84,7 +89,7 @@ function _ajax (type , url , pars , success , error){
 			
 			success:function(data){
 				// console.log(JSON.stringify(data));
-				if('200' == data.status) {
+				if('200' == data.status || '2001' == data.status ) {
 					success(data.body );//|| data
 				}else{
 					if(error){

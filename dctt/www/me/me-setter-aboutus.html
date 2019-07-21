@@ -41,20 +41,18 @@
     transform: scaleY(.5);
     background-color: #c8c7cc;
 }
-
-	</style>
+</style>
 </head>
-<body>
+<body style="background-color: white;">
 	
-<div class="mui-content">
+<div class="mui-content" style="background-color: white;">
 	<div style="padding: 20px 0; margin-top: 30px;">
 		<img id="logo-icon-id" src="../../images/new/Icon-60@2x.png" width="100px" height="100px" style="border-radius: 8px;" >
-		<div id="app-version-id" style="text-align: center;margin-top: 2px;font-size: 13px;color: #666666;">
-			当前版本1.0.0(20190101)
+		<div id="" style="text-align: center;margin-top: 5px;font-size: 13px;color: #333;">郸城头条 <span id="app-version-id">(v1.0.0)</span> 
 		</div>
 	</div>
 	
-	<ul class="mui-table-view" style="margin-top: 0px;">
+	<ul class="mui-table-view" style="margin-top: 10px;">
 			<li onclick="tableDidSelected(0)" class="mui-table-view-cell">
 				<a class="mui-navigate-right">
 					简介
@@ -106,7 +104,7 @@
 			plus.runtime.getProperty(appid , function(info){
 				var appver =  info['version'];	
 				var des = info['description'];
-				mui('#app-version-id')[0].innerText = '当前版本' + appver + '(' + des + ')';
+				mui('#app-version-id')[0].innerText = '(v' + appver + des + ')';
 			});
 		}
 		

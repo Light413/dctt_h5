@@ -39,19 +39,34 @@
 			<span class="mui-icon iconfont icon-category "></span>
 			<span class="mui-tab-label">生活</span>
 		</a>
-		<a class="mui-tab-item" href="www/me.html">
+		<a class="mui-tab-item" href="www/me/me.html">
 			<span class="mui-icon iconfont icon-wode"></span>
 			<span class="mui-tab-label">个人中心</span>
 		</a>
 	</nav>
 	
+			<!-- APP更新界面弹框 -->
+		<div id="popover" class="mui-popover" style=" width: 90%;margin-top: -50%;margin-left: 5%;">
+			<div style="text-align: center;font-size: 17px;margin-top: 25px;color: #333;">
+				应用程序更新中
+			</div>
+			<div style="background-color: white; height: 70px;margin-bottom: 10px;">
+				<div id="progress-bar" class="mui-progressbar" style="margin-top: 40px;height: 6px;">
+					<span></span>
+				 </div>
+				 <div style="text-align: center;font-size: 15px;margin-top: 15px;color: #666;">
+					<span id="download-progerss">0%</span>
+				</div>
+			</div>
+		</div>
+		<!-- APP更新界面弹框 -->
+		
 	<script src="js/mui.min.js"></script>
-	<script src="js/p/api.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/p/app-check-update.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 		mui.init();
 		var _index = 0;			
-		var subpages = ['www/home.html', 'www/zt.html', 'www/publish-select-type.html', 'www/life-list.html','www/me.html'];
+		var subpages = ['www/home.html', 'www/zt.html', 'www/publish-select-type.html', 'www/life-list.html','www/me/me.html'];
 
 		function navigationBarStyle(index){
 			var subpage_style = {top: '0px',bottom: '51px'};
@@ -76,6 +91,8 @@
 		
 		 //创建子页面，首个选项卡页面显示，其它均隐藏；
 		mui.plusReady(function() {
+			appCheckUpdate();
+			
 			var h = plus.nativeUI.showWaiting();
 			plus.screen.lockOrientation("portrait-primary");
 			plus.navigator.closeSplashscreen();
@@ -112,18 +129,9 @@
 		var activeTab = subpages[0];
 		var title = document.getElementById("title");
 		 //选项卡点击事件
-		 var publishClicked = false;
 		mui('.mui-bar-tab').on('tap', 'a', function(e) {
 			var targetTab = this.getAttribute('href');
 			if (targetTab == activeTab)return;
-			if(targetTab == 'www/publish-select-type.html' && !publishClicked){
-				// publishClicked = true;
-				mui.confirm('请发布真实有效信息，否则审核无法通过。','提示',['发布须知','取消'],function (e) {
-					if (e.index == 0) {
-						openNewPage('www/me/webpage.html' , '发布须知' , true , {'url':BASE_URL + publish_note_url});	
-					} 
-				});
-			}
 			// var t = this.querySelector('.mui-tab-label').innerHTML;
 			// setTitle(t);
 			//显示目标选项卡，若为iOS平台或非首次显示，则直接显示

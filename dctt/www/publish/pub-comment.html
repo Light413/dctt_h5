@@ -69,18 +69,17 @@
 			"pid":"99b6bda5f06678c29a0bcfaac9f4ab20",
 			"uid":"93934365750117c461e391e95ee99cf8",
 			"category":"sy",
-			"content":"辣鸡。"}
+			"content":"认真评论是一种美德"}
 			*/
-			//console.log(JSON.stringify(d));
+			// console.log(JSON.stringify(d));
 					 
-			hud_show('提交中!');	
+			hud_show('提交中...');	
 			api_post(comment_url , d , function(res){
 				hud_close('评论成功');
 				setTimeout(function(){
 					mui.back();
-				},1000);
+				},600);
 			},function(error){
-				console.log('comment err');
 				hud_close(error);
 			})
 		})

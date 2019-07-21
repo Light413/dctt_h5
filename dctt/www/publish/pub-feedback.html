@@ -18,7 +18,7 @@
 	<div style="margin-top: 5px; text-align: right;color: darkgray;font-size: 13px;padding-right: 20px;">
 		已输入字数 <span id="text-number-id">0/100</span> 
 	</div>
-	<button id="submit-button-id" type="button" class="mui-btn mui-btn-block" style="border-bottom-width: 0; background-color: orange;color: white; font-size: 15px; position: fixed;bottom: 0;margin-bottom: 0;height: 45px;">看看大伙说的啥</button>
+	<!-- <button id="submit-button-id" type="button" class="mui-btn mui-btn-block" style="border-bottom-width: 0; background-color: orange;color: white; font-size: 15px; position: fixed;bottom: 0;margin-bottom: 0;height: 45px;">看看大伙说的啥</button> -->
 </div>
 
 <script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
@@ -52,14 +52,12 @@
 
 		var wv = plus.webview.currentWebview();
 		var dtInfo = wv.dtInfo;
-		//console.log(JSON.stringify(dtInfo));
-				//
-		
 		wv.setStyle({
 			titleNView:{
 					buttons:[{
-						color:'#666',
+					color:'#FF4500',
 					text:'提交 ',
+					width:'60px',
 					fontSize:'14px',
 					float:'right', //按钮不像绘制的方法，是不能用position绝对定位的，只能左右浮动
 					onclick:submitAction 
@@ -88,9 +86,9 @@
 		}
 		
 		//看看大伙说的啥
-		document.getElementById('submit-button-id').addEventListener('tap',function(){
-			openNewPage('../me/webpage.html' , '反馈列表' , true , {'url':BASE_URL + feedbackList_url});	
-		})
+		// document.getElementById('submit-button-id').addEventListener('tap',function(){
+		// 	openNewPage('../me/webpage.html' , '反馈列表' , true , {'url':BASE_URL + feedbackList_url});	
+		// })
 	});
 </script>
 </body>

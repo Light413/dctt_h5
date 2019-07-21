@@ -101,6 +101,7 @@ function refreshRequestData(){
 				
 				mui(_id).pullRefresh().disablePullupToRefresh();
 				// mui(_id).pullRefresh().disablePulldownToRefresh();
+				_successCallBack(arr || '');
 			}else{
 				if(arr.length < pageItemsLen){
 					var notanydata = document.getElementById('notanydataid');

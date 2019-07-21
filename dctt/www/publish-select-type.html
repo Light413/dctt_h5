@@ -65,6 +65,7 @@
 <script src="../js/p/base-data.js" type="text/javascript" charset="utf-8"></script>
 <script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/api.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	mui.init();
 	
@@ -91,21 +92,20 @@
 	
 	
 	function tableDidSelected(item){
-		if(!isFirstTap){return}
-		isFirstTap = false;
-		
-		var hud = plus.nativeUI.showWaiting();
-		setTimeout( function(){
-			console.log(JSON.stringify(item));
-			
-			openNewPage('publish/publish-dt.html', '发布动态' , true,{'itemType':item});
-			isFirstTap = true;
-			hud.close();
-		},500)
-
-	
+		mui.confirm('请发布真实有效信息，否则审核无法通过。','提示',['发布须知','知道了'],function (e) {
+			if (e.index == 0) {
+				openNewPage('me/webpage.html' , '发布须知' , true , {'url':BASE_URL + publish_note_url});	
+			} else{
+				var hud = plus.nativeUI.showWaiting();
+				setTimeout( function(){
+					console.log(JSON.stringify(item));
+					
+					openNewPage('publish/publish-dt.html', '发布动态' , true,{'itemType':item});
+					hud.close();
+				},500);
+			}
+		});
 	}
-	
 </script>
 </body>
 

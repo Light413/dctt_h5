@@ -91,7 +91,7 @@
 					localStorage.setItem('loginuserinfo' , JSON.stringify(res));
 					
 					setTimeout(function(){
-						var wv = plus.webview.getWebviewById('www/me.html');
+						var wv = plus.webview.getWebviewById('www/me/me.html');
 						mui.fire(wv , 'update-profile-success' , {});
 						
 						hud_close('登录成功');
