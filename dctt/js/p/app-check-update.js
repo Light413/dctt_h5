@@ -45,13 +45,13 @@ function appCheckUpdate () {
  * 下载安装app,仅适用于Android系统
  */
 function _startDownloadTask(url){
-	mui('#popover').popover('show');
-	mui("#progress-bar").progressbar({progress:0}).show();
+	// mui('#popover').popover('show');
+	// mui("#progress-bar").progressbar({progress:0}).show();
 	
-	plus.nativeUI.showWaiting('更新中...');
+	plus.nativeUI.showWaiting('APP更新中...');
 	var downloadTask = plus.downloader.createDownload(url , {} , function(download , status){
 		plus.nativeUI.closeWaiting();
-		mui('#popover').popover('hide');
+		// mui('#popover').popover('hide');
 		
 		if(200 != status)return;
 		var _filename = download.filename;
@@ -77,10 +77,10 @@ function _startDownloadTask(url){
 		if(download.totalSize > 0){
 			_has = download.downloadedSize / download.totalSize;
 			_has = Math.round(_has * 1000)/10; 
-			mui("#progress-bar").progressbar().setProgress(_has);
+			// mui("#progress-bar").progressbar().setProgress(_has);
 		}
 	
-		mui('#download-progerss')[0].innerText = _has + '%';
+		// mui('#download-progerss')[0].innerText = _has + '%';
 	});
 	
 	downloadTask.start();

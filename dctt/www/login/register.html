@@ -7,7 +7,7 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	
-	<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
 </head>
 <body style="background-color: white;">
 <div class="mui-content" style="background-color: white;">
@@ -30,18 +30,18 @@
 		<button id="register-btn-id" type="button" class="mui-btn " style="width: 100%;height: 45px;margin-top: 20px;background-color: #ce1c1f;color: white;border-width: 0;font-size: 16px;">{{item == 0  ? '注册' : '确定修改'}}</button>
 		
 		<div v-if="item == 0" style="margin-top: 20px;padding: 0 10px; font-size: 12px;">
-			<img src="../images/select_reviewbar_all_press@2x.png" height="20px" width="20px" style="padding-top: 1px;margin-top: 0px;"> 
+			<img src="../../images/select_reviewbar_all_press@2x.png" height="20px" width="20px" style="padding-top: 1px;margin-top: 0px;"> 
 			<a onclick="userAgreement(0)" style="color: #434343;font-size: 12px;">注册即已同意郸城头条 <span style="color: #007AFF;">"用户协议"</span>
 			</a>
 		</div>	
 	</div>
 </div>
 
-<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/api.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	var seconds = 180;//剩余时间
 	var isBeginCnt = false;
@@ -101,7 +101,7 @@
 	}
 	
 	function userAgreement(type){
-		openNewPage('me/webpage.html' , '用户协议' , true , {'url':BASE_URL + user_agreement_url});
+		openNewPage('../me/webpage.html' , '用户协议' , true , {'url':BASE_URL + user_agreement_url});
 	}
 	
 document.getElementById('register-btn-id').addEventListener('tap' , function(){
