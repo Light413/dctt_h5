@@ -107,7 +107,7 @@
 			</div>
 			
 			<div style="margin-top: 10px;font-size: 12px;color: #888888;padding: 5px 5px;">
-				提示: 平台不对该信息承担任何责任，若发现虚假信息等违法行为请迅速<span v-on:click="connectUsAction(0)" style="color: #FF4500;padding: 5px 0;">点击举报</span> 或者<span v-on:click="connectUsAction(1)" style="color: #FF4500;padding: 5px 0;">联系我们删除</span>
+				提示: 平台不对该信息承担任何责任，若发现虚假信息等违法行为请<span v-on:click="connectUsAction(0)" style="color: #FF4500;padding: 5px 0;">举报</span> 或者<span v-on:click="connectUsAction(1)" style="color: #FF4500;padding: 5px 0;">联系我们</span>删除
 			</div>
 			
 		</div>
@@ -293,7 +293,7 @@
 	function deleteMyComment(item) {
 		plus.nativeUI.confirm('确定删除这条评论?' , function(e){
 			if(e.index == 0){
-				var d = {"type":"delete","id":item['id']};
+				var d = {"type":"delete","id":item['id'] , "uid":_myId};
 				hud_show('删除评论');
 				api_post(comment_url , d , function(res){
 					hud_close('删除评论成功');
@@ -302,7 +302,7 @@
 					var w = plus.webview.currentWebview();
 					mui.fire(w , 'refresh-comment-event');
 				},function(err){
-					hud_close('删除评论失败');
+					hud_close(err);
 				})
 			}
 		},{title:'提示' , buttons:['确定' , '取消']});

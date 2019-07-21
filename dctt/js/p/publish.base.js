@@ -183,7 +183,7 @@ function zipImageFile(imagesArr){
 			}
 		} , function(errorMsg){
 			hud.close();
-			plus.nativeUI.toast('提交服务器失败,请稍后重试',{verticalAlign: 'center'});
+			plus.nativeUI.toast(errorMsg , {verticalAlign: 'center'});
 		});
 	});
 }
@@ -237,7 +237,7 @@ function uploadFileData(url , params , filesArr , success,failure){
 			}
 		} , function(error){
 			if(failure){
-				failure();
+				failure(error);
 			}
 		})
 	}
