@@ -297,12 +297,12 @@
 	   */
 	function shareAction(sb,bh) {
 		if(!sb||!sb.s){console.log('无效的分享服务！');return;}
-		var msg={content:'专注老家生活信息服务，关注分享家乡身边新动态，赶快告诉身边的小伙伴吧!',extra:{scene:sb.x}};
+		var msg={content:'专注本地生活信息服务，关注分享身边新动态，赶快告诉身边的小伙伴吧!',extra:{scene:sb.x}};
 		if(bh){
 			msg.href= 'http://dancheng0394.com/a/d/downloadapk.html';
-			msg.title='咱郸城人自己的手中APP';
-			msg.thumbs=["../../images/app_logo_60.png"];
-			msg.pictures=["../../images/app_logo_60.png"];
+			msg.title='郸城人自己的手中APP';
+			msg.thumbs=["../../images/new/app_logo60.png"];
+			msg.pictures=["../../images/new/app_logo60.png"];
 		}
 		
 		// 发送分享

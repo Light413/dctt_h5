@@ -3,10 +3,10 @@
     "id" : "com.light.dctt", /*必选，应用的标识*/
     "name" : "郸城头条", /*必选，应用名称*/
     "version" : {
-        "name" : "1.0.4", /*必选，版本名称*/
-        "code" : 104
+        "name" : "1.0.5", /*必选，版本名称*/
+        "code" : 105
     },
-    "description" : "build190721", /*可选，应用描述信息*/
+    "description" : "build190730", /*可选，应用描述信息*/
     "icons" : {
         "72" : "icon.png"
     },
@@ -42,7 +42,7 @@
         "splashscreen" : {
             "autoclose" : false, /*如果为true，程序启动的图片可以自动关闭，如果为false，开发者需要手动关闭*/
             "waiting" : false,
-            "delay" : 2000
+            "delay" : 6000
         },
         "runmode" : "normal", /*两个值，liberate或normal，前者在应用安装时释放资源，后者不需要释放资源*/
         "signature" : "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==", /*可选，保留给应用签名，暂不使用*/
