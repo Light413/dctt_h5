@@ -1,11 +1,10 @@
 <!doctype html>
 <html>
 <head>
-	<!-- 3.22 完善首页ui  -->
 	<meta charset="utf-8">
 	<title></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-	<link href="../css/mui.min.css" rel="stylesheet" />
+	<link href="../../css/mui.min.css" rel="stylesheet" />
 	<style type="text/css">
 	.mui-media {
 		font-size: 15px;
@@ -52,7 +51,7 @@
 
 	.mui-ellipsis-2{
 		-webkit-line-clamp: 3;
-		font-size: 16px;
+		font-size: 17px;
 		text-indent: 0px;
 		color: #333;
 		/* #4d4b4a */
@@ -159,35 +158,29 @@
 									<div style="margin-left: 20px;display: inline-block;color: #8f8f94;font-size: 13px;margin-left: 15px;"> {{postDate(item)}}</div>
 							</div>
 							
-							<img v-on:click.stop="dislikeThisItem(item)" src="../images/dislikeicon_details@2x.png" class="dislike-icon" >
+							<img v-on:click.stop="dislikeThisItem(item)" src="../../images/dislikeicon_details@2x.png" class="dislike-icon" >
 						</div>
 						
+						<!-- 有图片 -->
 						<div v-if="item.imageUrl">
-							<div v-if="item.imageUrl.length == 1">
-								<div class="mui-media-body" style="width: 50%;display:inline-block">
+							<div v-if="item.imageUrl.length == 1"><!-- 1张图 -->
+								<div class="mui-media-body" style="width: 65%;display:inline-block">
 									<div class="mui-ellipsis-2">{{item.content}}</div>
 								</div>
-									
-								<img v-bind:src="item.imageUrl[0]" v-bind:style="{width:item.width + 'px' , height:item.width * 0.8 + 'px' , marginTop:'5px' , borderRadius:'2px' , float:'right' , display:'inline-block' }"  >
-									
-									
+								<img v-bind:src="item.imageUrl[0]" v-bind:style="{width:item.width + 'px' , height:item.width * 0.8 + 'px' , borderRadius:'2px' , float:'right' , display:'inline-block' , padding:'2px' }">	
 							</div>	
-							<div v-else >
+							<div v-else > <!-- 多张图 -->
 								<div class="mui-media-body">
 									<div class="mui-ellipsis-2">{{item.content}}</div>	
-									
 								</div>	
 								<div v-if="item.imageUrl">
 									<div style="display: inline-block; margin-right: 5px;" v-for="ig in item.imageUrl">
 										<img v-bind:src="ig" v-bind:style="{width:item.width + 'px' , height:item.width * 0.8 + 'px' , marginTop:'10px' , borderRadius:'2px' , }"  >
 									</div>
 								</div>
-								
 							</div>
-
-							
-							
 						</div>
+						<!-- 无图 -->
 						<div v-else>
 							<div class="mui-media-body">
 								<div class="mui-ellipsis-2">{{item.content}}</div>
@@ -212,16 +205,16 @@
 	</div>
 </body>
 		
-<script src="../js/mui.js"></script>
-<script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/mui.pullToRefresh.js"></script>
-<script src="../js/mui.pullToRefresh.material.js"></script>
-<script src="../js/p/api.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/base-data.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/user.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.js"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.pullToRefresh.js"></script>
+<script src="../../js/mui.pullToRefresh.material.js"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/base-data.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	var pageNum = 1;//当前页
 	var pageItemsLen = 20;//每页条数
@@ -254,7 +247,7 @@
 			avatar:function(item){
 				var u_avatar = item['user']['avatar_thumb'];
 				if(u_avatar == null || u_avatar == ''){
-					u_avatar = "../images/default_avatar.png";
+					u_avatar = "../../images/default_avatar.png";
 				}
 				return u_avatar;
 			},
@@ -341,7 +334,7 @@ function _dataConvert(arr , isNew){
 			var _len = igurlArr.length > 3 ? 3 : igurlArr.length;
 			var thumbArr = Array();
 			for (var k = 0; k < _len; k++) {
-					var thumb = getDtImageUrl(igurlArr[k] , '../images/default_image2@2x.png');
+					var thumb = getDtImageUrl(igurlArr[k] , '../../images/default_image2@2x.png');
 					thumbArr.push(thumb);
 				}
 			

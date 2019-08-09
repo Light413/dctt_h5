@@ -7,8 +7,8 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	
-	<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/tt/list-table-cell.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/tt/list-table-cell.css"/>
 	<style type="text/css">
 		.mui-ellipsis-2{
 			-webkit-line-clamp: 3;
@@ -97,7 +97,7 @@
 				<div style=" bottom: 0;">
 						<img v-bind:src="item.user.avatar_thumb" class="avatar-icon"  style="border-radius: 50%;width:30px;height: 30px; margin-top: 8px;" >
 						<div style="color: #666;font-size: 13px; margin-top: 2px;margin-bottom: 0px;height: 20px;">
-							<span style="margin-left: 6px;">{{item.user.name}}</span> <span style="margin-left: 20px;font-size: 12px;">{{item.postDateFormatter}}</span>
+							<span style="margin-left: 6px;">{{item.user.name || item.user.nickName}}</span> <span style="margin-left: 20px;font-size: 12px;">{{item.postDateFormatter}}</span>
 						</div>
 						
 						<div style="display: inline-block; color: #666;font-size: 13px;margin-left: 10px;margin-top: 3px;">
@@ -111,16 +111,16 @@
 		</ul>
 	</div>
 
-	<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/p/api.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/p/base-data.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/base-data.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
 		mui.init({
 			pullRefresh: {
@@ -210,7 +210,7 @@
 		var h = plus.nativeUI.showWaiting();
 		setTimeout(function(){
 			h.close();
-			openNewPage('home-detail.html', titleForType[item['type']] , true,{'item':item , 'category':'life'});
+			openNewPage('../home/home-detail.html', titleForType[item['type']] , true,{'item':item , 'category':'life'});
 		} , 500)
 		
 	}	

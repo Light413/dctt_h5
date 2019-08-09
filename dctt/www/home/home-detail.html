@@ -7,8 +7,8 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	
-	<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/tt/list-table-cell.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/tt/list-table-cell.css"/>
 	<style type="text/css">
 		.top-content{
 			margin-top: 15px;
@@ -102,7 +102,7 @@
 		<div style="margin-top: 8px;margin-left: 10px;">
 			<div style="color: darkgray;font-size: 12px;display: inline-block;">{{item.readCnt}}阅读</div>
 			<div @tap="zanAction();" style="display: inline-block;float: right;margin-right: 50px;font-size: 12px;color: #808080;">
-				<img id="zan-icon-id" src="../images/comment_like_icon_normal@2x.png" width="20px" height="20px" style="margin-top: 2px;margin-bottom: -6px;" >
+				<img id="zan-icon-id" src="../../images/comment_like_icon_normal@2x.png" width="20px" height="20px" style="margin-top: 2px;margin-bottom: -6px;" >
 				<div id="zan-number-id" style="display: inline-block;"></div>
 			</div>
 			
@@ -122,11 +122,11 @@
 		<ul  v-if="items.length > 0"   class="mui-table-view" >
 			<li class="mui-table-view-cell" v-for="item in items">
 				<a >
-					<img v-on:click.stop="openHomePage(item)" v-bind:src = "item.avatar_thumb || '../images/default_avatar.png'"  class = "avatar-icon" style="border-radius: 15px;width:30px;height: 30px;margin-top: 3px;">
+					<img v-on:click.stop="openHomePage(item)" v-bind:src = "item.avatar_thumb || '../../images/default_avatar.png'"  class = "avatar-icon" style="border-radius: 15px;width:30px;height: 30px;margin-top: 3px;">
 					
 					<div v-bind:id="item.id" @tap="commentZanAction($event ,item)" style="display: inline-block;float: right;margin-right: 20px;font-size: 12px;color: #808080;">
-						<img v-if="item.isPraised > 0" src="../images/comment_like_icon_press@2x.png" width="15px" height="15px" style="margin-top: 2px;margin-bottom: -2px;" >
-						<img v-else src="../images/comment_like_icon_normal@2x.png" width="15px" height="15px" style="margin-top: 2px;margin-bottom: -2px;" >
+						<img v-if="item.isPraised > 0" src="../../images/comment_like_icon_press@2x.png" width="15px" height="15px" style="margin-top: 2px;margin-bottom: -2px;" >
+						<img v-else src="../../images/comment_like_icon_normal@2x.png" width="15px" height="15px" style="margin-top: 2px;margin-bottom: -2px;" >
 						<div v-if="item.praise > 0" style="display: inline-block;">{{item.praise}}</div>
 					</div>
 					
@@ -166,40 +166,40 @@
 		<div  style="margin-top: 5px;margin-left: 15px;" >
 			<button id="write-comment-id" type="button" style="font-size: 12px;border-width: 0;background-color: #FFFFFF;">
 				<div style="display: inline-block;">
-					<img src="../images/write_icon@2x.png" width="20px" height="20px" style="margin-top: 2px;margin-bottom: -3px;">
+					<img src="../../images/write_icon@2x.png" width="20px" height="20px" style="margin-top: 2px;margin-bottom: -3px;">
 				</div>
 				<div style="margin-left: 6px;display: inline-block;color: #808080;">写评论</div>
 			</button>
 			
 			<div id="bottom-bar-id" style="display: inline-block;margin-top: 10px;margin-left: 6%;"  v-cloak>
-				<img src="../images/tab_comment@2x.png" width="22px" height="22px" style="margin-bottom: -8px;">
+				<img src="../../images/tab_comment@2x.png" width="22px" height="22px" style="margin-bottom: -8px;">
 				<div v-if="item.commentCnt > 0" id="comment-cnt-bandge" style="display: inline-block; background-color: #FF5053;color: white;font-size: 10px;margin-left: -15px;padding: 0px 6px; border-radius: 6px;height: 15px;">
 					{{item.commentCnt}}
 				</div>
 			</div>
 			
 			<div id="sc-button-id" style=" margin-left: 10%; display: inline-block;font-size: 12px;color: #808080;">
-				<img v-if="item.issc > 0" src="../images/likeicon_actionbar_details_press@2x.png" width="20px" height="20px" style="margin-top: 12px;margin-bottom: -6px;" >
-				<img v-else src="../images/likeicon_actionbar_details@2x.png" width="20px" height="20px" style="margin-top: 12px;margin-bottom: -6px;" >
+				<img v-if="item.issc > 0" src="../../images/likeicon_actionbar_details_press@2x.png" width="20px" height="20px" style="margin-top: 12px;margin-bottom: -6px;" >
+				<img v-else src="../../images/likeicon_actionbar_details@2x.png" width="20px" height="20px" style="margin-top: 12px;margin-bottom: -6px;" >
 				<div v-if="item.issc > 0" style="display: inline-block;">取消收藏</div>
 				<div v-else style="display: inline-block;">添加收藏</div>
 			</div>
 			
 			<div id="share-id" style="display: inline-block;margin-right: 0px; float: right;margin-right: 40px;">
-				<img src="../images/share_icon@2x.png" width="25px" height="25px" style="margin-top: 8px;" >
+				<img src="../../images/share_icon@2x.png" width="25px" height="25px" style="margin-top: 8px;" >
 			</div>
 		</div>
 	</div>
 	
 </div>
 
-<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/api.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	var postInfo = {}//动态详情信息
 	var category;//动态类型 sy ,zt ,life
@@ -247,7 +247,7 @@
 	
 	function setZanIcon(isPraise){
 		var zanIcon = document.getElementById('zan-icon-id');
-		zanIcon.setAttribute('src' , isPraise ? "../images/comment_like_icon_press@2x.png" : "../images/comment_like_icon_normal@2x.png");
+		zanIcon.setAttribute('src' , isPraise ? "../../images/comment_like_icon_press@2x.png" : "../../images/comment_like_icon_normal@2x.png");
 	}
 	
 	//评论点赞
@@ -278,7 +278,7 @@
 			api_post(detail_url ,d,function(res){
 				isliked = !isliked;
 				
-				_img.setAttribute('src' , isliked ? "../images/comment_like_icon_press@2x.png" : "../images/comment_like_icon_normal@2x.png");
+				_img.setAttribute('src' , isliked ? "../../images/comment_like_icon_press@2x.png" : "../../images/comment_like_icon_normal@2x.png");
 				
 				hud_close('点赞成功');
 			},function(error){
@@ -309,7 +309,7 @@
 	}
 	function jubaoComment(item){
 		var d = {"pid":item['id'],"category":'comment'};		
-		openNewPage('publish/pub-jubao.html' , '举报评论' , true , {'info':d});
+		openNewPage('../publish/pub-jubao.html' , '举报评论' , true , {'info':d});
 	}
 	
 	//是否自己的评论
@@ -322,7 +322,7 @@
 	function tableViewDidClick(item){
 		if(!userHasLogined()){hud_toast('请先登录');return;}
 		
-		openNewPage('comment-list.html','评论回复',true , {'originItem':item});
+		openNewPage('../comment-list.html','评论回复',true , {'originItem':item});
 	}
 	
 	mui.plusReady(function () {
@@ -352,8 +352,8 @@
 					var d = this.item;
 // 					console.log('-------');
 					// console.log(JSON.stringify(d));
-					var u_avatar = d['user']['avatar_thumb'] || "../images/default_avatar.png";
-					u_avatar = u_avatar.indexOf('http') != -1 ? u_avatar : "../images/default_avatar.png";
+					var u_avatar = d['user']['avatar_thumb'] || "../../images/default_avatar.png";
+					u_avatar = u_avatar.indexOf('http') != -1 ? u_avatar : "../../images/default_avatar.png";
 					return u_avatar;
 				},
 				postDate:function(){
@@ -382,7 +382,7 @@
 				openHomePage : function(){
 					var d = this.item;
 					var user = d['user'];
-					openNewPage('me/me-homepage.html' , this.user_name , true , {'uid':user['user_id']});
+					openNewPage('../me/me-homepage.html' , this.user_name , true , {'uid':user['user_id']});
 				}
 			}
 		});
@@ -509,7 +509,7 @@
 					var d = item;
 					console.log(JSON.stringify(item));
 					
-					openNewPage('me/me-homepage.html' , item['u_name'] || item['u_nickName'] , true , {'uid':item['uid']});
+					openNewPage('../me/me-homepage.html' , item['u_name'] || item['u_nickName'] , true , {'uid':item['uid']});
 				}
 			}
 		});
@@ -527,7 +527,7 @@
 			for (var i = 0; i < arr.length; i++) {
 				var obj = arr[i];
 				obj['user_name'] = obj["u_name"] || obj['u_nickName'];
-				obj['avatar'] = obj['u_avatar'] || "../images/default_avatar.png";
+				obj['avatar'] = obj['u_avatar'] || "../../images/default_avatar.png";
 				obj['postDate'] = dateUtils.format(obj['date']);
 				_new.push(obj);
 			}
@@ -628,8 +628,8 @@
 				var s = '?' + 'c=' + category + '&id=' + postInfo['pid'];
 				msg.href= 'http://dancheng0394.com/tt/p/d.html' + s;
 				msg.title= shareTitle || shareContent;//'郸城新动态';
-				msg.thumbs=["../images/new/app_logo60.png"];
-				msg.pictures=["../images/new/app_logo60.png"];
+				msg.thumbs=["../../images/new/app_logo60.png"];
+				msg.pictures=["../../images/new/app_logo60.png"];
 			}
 			
 			// 发送分享
@@ -721,7 +721,7 @@
 		  if(!userHasLogined()){hud_toast('请先登录');return;}
 		  
 		  //单独页面去评论
-		  openNewPage('publish/pub-comment.html','写评论',true , {'dtInfo':postInfo , 'category':category});
+		  openNewPage('../publish/pub-comment.html','写评论',true , {'dtInfo':postInfo , 'category':category});
 		})
 		
 		
@@ -739,7 +739,7 @@
 			for (var i = 0; i < imagesArr.length; i++) {
 				var url = imagesArr[i];
 				
-				var thumbUrl = getDtImageUrl(url , '../images/default_image2@2x.png');
+				var thumbUrl = getDtImageUrl(url , '../../images/default_image2@2x.png');
 				var div = document.createElement('div');
 				div.className = 'image-wrap';
 				div.style.width = _width + 'px';
@@ -778,9 +778,9 @@
 	function connectUsAction(index){
 		if(index == 0){
 			var d = {"pid":postInfo['pid'],"category":category};		
-			openNewPage('publish/pub-jubao.html' , '举报动态' , true , {'info':d});
+			openNewPage('../publish/pub-jubao.html' , '举报动态' , true , {'info':d});
 		}else{
-			openNewPage('me/webpage.html' , '联系我们' , true , {'url':BASE_URL + contactus_url});	
+			openNewPage('../me/webpage.html' , '联系我们' , true , {'url':BASE_URL + contactus_url});	
 		}
 	}
 </script>

@@ -75,6 +75,11 @@ function _ajax (type , url , pars , success , error){
 		var _u = JSON.parse(userJsonStr);
 		if(_u && _u['token']){
 			token = _u['token'];pars['t'] = token;
+			if(pars['z'] != 1){//1不需要当前uid , 获取他人
+				pars['uid'] = _u['user_id'];
+			}
+			
+			pars['z'] && delete pars.z;
 		}
 	}
 	

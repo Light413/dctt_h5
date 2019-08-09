@@ -7,8 +7,8 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	
-	<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
-	<link rel="stylesheet" type="text/css" href="../css/tt/list-table-cell.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/tt/list-table-cell.css"/>
 	<style type="text/css">
 		.mui-ellipsis-2{
 			-webkit-line-clamp: 3;
@@ -91,7 +91,7 @@
 					
 					<div>
 						<div style="">
-							<img v-bind:src="item.user.avatar_thumb" alt="../images/default_avatar.png "class="avatar-icon"  style="border-radius: 50%;width:25px;height: 25px; margin-top: 8px;" >
+							<img v-bind:src="item.user.avatar_thumb" alt="../../images/default_avatar.png "class="avatar-icon"  style="border-radius: 50%;width:25px;height: 25px; margin-top: 8px;" >
 							<div style="display: inline-block;color: #666;font-size: 13px;margin-left: 5px;margin-top: 12px;margin-bottom: 0px;height: 20px;">
 								{{item.user.name}} 
 							</div>
@@ -105,14 +105,14 @@
 		</ul>
 	</div>
 
-<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/api.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 		mui.init({
 			pullRefresh: {
@@ -209,7 +209,7 @@ function tableViewDidClicked(item){
 	var h = plus.nativeUI.showWaiting();
 	setTimeout(function(){
 		h.close();
-		openNewPage('home-detail.html', '话题' , true,{'item':item , 'category':'zt'});
+		openNewPage('../home/home-detail.html', '话题' , true,{'item':item , 'category':'zt'});
 	} , 500)
 	
 }		

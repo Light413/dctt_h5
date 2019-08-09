@@ -28,7 +28,7 @@
 	
 	mui.init({
 		beforeback:function () {
-			var wv = plus.webview.getWebviewById('me/me-baseinfo.html');
+			var wv = plus.webview.getWebviewById('me-baseinfo.html');
 			var _name = mui('#name-id')[0].value;
 			mui.fire(wv , 'save-username-event' , {'name':_name || ''});
 		}
@@ -51,6 +51,11 @@
 		mui.back();
 	})
 
+	mui.plusReady(function () {
+		var wv = plus.webview.currentWebview();
+		var name = wv.name;
+		document.getElementById('name-id').value = name;
+	})
 </script>
 </body>
 </html>

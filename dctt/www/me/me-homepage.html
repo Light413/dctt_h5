@@ -255,7 +255,7 @@
 		
 		//用户信息
 		function getUserProfile(){
-			var uinfo = {"uid":_uid, "type":"3"};
+			var uinfo = {"uid":_uid, "type":"3" , 'z':1};
 			api_post(update_profile_url , uinfo , function(res){
 				// console.log(JSON.stringify(res));
 				_userinfo = res;
@@ -284,7 +284,8 @@
 	   	// "category":"sy" ,
 	   	"type":0 ,
 		'uid':_uid,
-		'pageNumber':1
+		'pageNumber':1,
+		'z':1
 	   }
 	   
 // 	   {
@@ -363,7 +364,7 @@
 		var h = plus.nativeUI.showWaiting();
 		setTimeout(function(){
 			h.close();
-			openNewPage('../home-detail.html', '详情' , true,{'item':item , 'category':_category});
+			openNewPage('../home/home-detail.html', '详情' , true,{'item':item , 'category':_category});
 		} , 500)
 		
 	}

@@ -102,15 +102,12 @@
 <script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	var _userinfo;
-	
 	var u_avatar;
 	var u_name;
 	var u_sex;
 	var u_age;
 	var u_city;
 	var u_detail;
-	
-
 	
 	document.addEventListener('save-username-event',function(e){
 		mui('#user-name-id')[0].innerText = e.detail.name;
@@ -171,11 +168,9 @@
 	function tableDidSelected(row){
 		switch (row){
 			case 0:
-			openNewPage('xiugai-name.html' , '修改名称' , true);
-				break;
+			openNewPage('xiugai-name.html' , '修改名称' , true , {name:mui('#user-name-id')[0].innerText});break;
 			case 1:
 			plus.nativeUI.actionSheet({cancel:"取消",buttons:[{title:"男"},{title:"女"}]}, function(e){
-				console.log("User pressed: "+e.index);
 				mui("#user-sex-id")[0].innerText = e.index == 1 ? '男':'女';
 				u_sex = e.index == 1 ? '男':'女';
 			} );break;
@@ -214,9 +209,8 @@
 		var sex = mui('#user-sex-id')[0].innerText;
 		var city = mui('#user-city-id')[0].innerText;
 		var detail = mui('#text-area-id')[0].value;
-		
 		if(!(u_avatar || u_name || u_sex || u_age || u_city || _userinfo['notes'] != detail)){
-			plus,plus.nativeUI.alert('你还没有修改资料!' ,'' ,'' ,'知道了');return;
+			plus.nativeUI.alert('你还没有修改资料!' ,'' ,'' ,'知道了');return;
 		}
 		
 		if(u_avatar){//是否更新头像
@@ -226,18 +220,15 @@
 		}
 		
 		var d = {"uid":getLoginUid(), "type":"0"};
-		
 		if(u_name){d['name'] = u_name;}
 		if(u_sex){d['sex'] = u_sex;}
 		if(u_city){d['city'] = u_city;}
 		if(u_age){d['bornDate'] = u_age;}
 		
 		d['mark'] = detail || '';//判断是否和原来的数据相同
-		
 		submitToServer(update_profile_url , d ,function(){
-			var wv = plus.webview.getWebviewById('www/me.html');
+			var wv = plus.webview.getWebviewById('www/me/me.html');
 			mui.fire(wv , 'update-profile-success' , {});
-			
 			plus.nativeUI.toast('修改资料成功' , {verticalAlign: 'center'});
 			mui.back();
 		});
@@ -257,8 +248,7 @@
 		mui('#user-sex-id')[0].innerText = d['sex'] == '1' ? '男':'女';
 		mui('#user-city-id')[0].innerText = d['location'];
 		mui('#text-area-id')[0].value = d['notes'];
-	}
-			
+	}	
 </script>
 </body>
 </html>

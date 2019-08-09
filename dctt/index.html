@@ -8,10 +8,7 @@
 	<link rel="stylesheet" href="css/mui.min.css">
 	<link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
 	<style type="text/css">
-		body {
-			background-color: #efeff4;
-		}
-		
+		body {background-color: #efeff4;}
 		.mui-bar-tab .mui-tab-item.mui-active {color: #444444;}
 		.mui-title{color:#454545;font-weight: 450;}
 		* { touch-action: pan-y; } 
@@ -20,22 +17,22 @@
 
 <body>
 	<nav class="mui-bar mui-bar-tab globe-color">
-		<a id="defaultTab" class="mui-tab-item mui-active" href="www/home.html">
+		<a id="defaultTab" class="mui-tab-item mui-active" href="www/home/home.html">
 			<span class="mui-icon iconfont icon-shouye"></span>
 			<span class="mui-tab-label">首页</span>
 		</a>
 		
-		<a class="mui-tab-item" href="www/zt.html">
+		<a class="mui-tab-item" href="www/quanzi/zt.html">
 			<span class="mui-icon iconfont icon-theme"></span>
 			<span class="mui-tab-label">话题</span>
 		</a>
 		
-		<a class="mui-tab-item" href= "www/publish-select-type.html">
+		<a class="mui-tab-item" href= "www/publish/publish-select-type.html">
 			<span class="mui-icon iconfont icon-fabu" style= "font-size: 30px; color: orangered;" ></span>
 			<span class="mui-tab-label" style = "color :orangered;">发布</span>	
 		</a>
 		
-		<a class="mui-tab-item" href="www/life-list.html">
+		<a class="mui-tab-item" href="www/life/life-list.html">
 			<span class="mui-icon iconfont icon-category "></span>
 			<span class="mui-tab-label">生活</span>
 		</a>
@@ -48,15 +45,13 @@
 	<script src="js/mui.min.js"></script>
 	<script src="js/p/app-check-update.js" type="text/javascript" charset="utf-8"></script>
 	<script>
-		mui.init();
-		
-		var _index = 0;			
-		var subpages = ['www/home.html', 'www/zt.html', 'www/publish-select-type.html', 'www/life-list.html','www/me/me.html'];
+		mui.init();	
+		var subpages = ['www/home/home.html', 'www/quanzi/zt.html', 'www/publish/publish-select-type.html', 'www/life/life-list.html','www/me/me.html'];
 
 		function navigationBarStyle(index){
 			var subpage_style = {top: '0px',bottom: '51px'};
 			var _titles = ['','话题','发布动态','生活','个人中心']
-			if(index != 1){//index != 
+			if(index != 1){
 				subpage_style['titleNView'] = {
 					titleText:_titles[index],
 					titleColor:"#FFFFFF",             // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
@@ -73,11 +68,8 @@
 		}
 		
 		var aniShow = {};
-		
-		 //创建子页面，首个选项卡页面显示，其它均隐藏；
 		mui.plusReady(function() {
 			appCheckUpdate();
-			
 			var h = plus.nativeUI.showWaiting();
 			plus.screen.lockOrientation("portrait-primary");
 			plus.navigator.closeSplashscreen();

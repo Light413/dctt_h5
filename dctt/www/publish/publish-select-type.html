@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<title></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-	<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
 	<style type="text/css">
 		.mui-grid-view.mui-grid-9 .mui-table-view-cell {
 			margin: 0px;
@@ -61,11 +61,11 @@
 		
 		
 		
-<script src="../js/mui.js"></script>
-<script src="../js/p/base-data.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.js"></script>
+<script src="../../js/p/base-data.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	mui.init();
 	
@@ -94,13 +94,13 @@
 	function tableDidSelected(item){
 		mui.confirm('请发布真实有效信息，否则审核无法通过。','提示',['发布须知','知道了'],function (e) {
 			if (e.index == 0) {
-				openNewPage('me/webpage.html' , '发布须知' , true , {'url':BASE_URL + publish_note_url});	
+				openNewPage('../me/webpage.html' , '发布须知' , true , {'url':BASE_URL + publish_note_url});	
 			} else{
 				var hud = plus.nativeUI.showWaiting();
 				setTimeout( function(){
 					console.log(JSON.stringify(item));
 					
-					openNewPage('publish/publish-dt.html', '发布动态' , true,{'itemType':item});
+					openNewPage('../publish/publish-dt.html', '发布动态' , true,{'itemType':item});
 					hud.close();
 				},500);
 			}
