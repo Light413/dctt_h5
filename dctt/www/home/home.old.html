@@ -1,0 +1,266 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			.mui-media {
+				font-size: 15px;
+				padding-left: 0px;
+				margin-left: 0px;
+			}
+			
+			.mui-media.img3{
+				margin-top: 5px;
+				margin-right: 35px;
+			}
+			
+			.mui-table-view .mui-media-object {
+				max-width: initial;
+				width: 80px;
+				height: 70px;
+			}
+			
+			.meta-info {
+				/* position: absolute; */
+				left: 15px;
+				right: 15px;
+				bottom: 8px;
+				margin-top: 5px;
+				margin-bottom: 2px;
+				color: #8f8f94;
+				font-size: 14px;
+			}
+			
+			.meta-info .author,
+			.meta-info .time {
+				display: inline-block;
+			}
+			
+			.meta-info .time {
+				/* float: left; */
+			}
+			
+			.mui-table-view:before {
+				height: 0px;
+				
+			}
+
+
+
+		li{
+			margin-top: 8px;
+			padding-bottom: 5px;
+/* 			border-width: 0;
+			border-bottom-width: 1px;
+			border-style: solid;
+			border-color: #e8e8e8; */
+			margin: 1px;
+		}
+
+		.mui-ellipsis-2{
+			-webkit-line-clamp: 5;
+		}
+		
+		.content-type{
+			background-color: darkorange;
+			padding: 2px 10px 0px 10px; 
+			color: white;
+			font-size: 15px;
+			border-radius: 8px;
+			margin-right: 2px;
+		}
+		.mui-table-view-cell.mui-media.mui-col-xs-4{
+			height: 40px;
+		}
+		
+		.mui-grid-view.mui-grid-9 .mui-table-view-cell>a:not(.mui-btn) {
+			margin: auto;
+			padding: 0px;
+		}
+
+		.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+			margin: 0;
+			padding: 11px 15px;
+			vertical-align: top;
+			border-right: 0;
+			border-bottom: 0;
+		}
+		.mui-grid-view.mui-grid-9 {
+			border-top: 0px solid #eee;
+			border-left: 0px solid #eee;
+		}
+		
+		.mui-icon.iconfont.icon-theme {
+			font-size: 10px;
+		}
+		
+		/* 图标的大小 */
+		.mui-grid-view.mui-grid-9 .mui-media .mui-icon {
+			font-size: 1.6em;
+			position: relative;
+			/* color: red; */
+		}
+
+		.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+			margin: 0;
+			padding: 5px 15px;
+			vertical-align: top;
+			border-right: 0;
+			border-bottom: 0;
+		}
+
+		img{
+			width: 30px; 
+			height: 30px;
+		}
+		
+		/* 图标-文字的间距 */
+		.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+			font-size: 13px;
+		/*    line-height: 15px;
+			display: block;
+			width: 100%;
+			height: 15px; */
+			margin-top: 5px;
+			/* text-overflow: ellipsis; */
+			color: #333;
+		}
+		
+		.top{
+			height: 90px;
+			margin-top: 0;
+			width: 100%;
+			background-color: #fafafa;
+			border-bottom-width: 0.8px;
+			border-bottom-color: lightgray;
+			border-bottom-style: solid;
+		}
+		
+		/* 清除列表选中时背景色 */
+		.mui-table-view-cell > a:not(.mui-btn).mui-active {
+			background-color: #fff;
+		}
+		
+		*{ touch-action: none;}
+</style>
+		
+<link rel="stylesheet" type="text/css" href="../../css/iconfont_hometop.css"/>
+</head>
+
+	<body >
+		<div class="mui-content">
+		<div class="top" style="position: fixed;">
+			<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top: 0px;padding-left: 0px;padding-right: 0px;padding-top: 20px;padding-bottom: 5px;  background-color: white;">
+				<li class="mui-table-view-cell mui-media mui-col-xs-3" style="background-color: white;">
+					<a style="margin: auto;" onclick="tableDidSelected(1 , '热门');">
+						<!-- <span class="mui-icon iconfont_hometop icon-sy_1" ></span> -->
+						<img src="../../images/heme-top1.png"  alt="">
+						<div id="00" class="mui-media-body">热门</div>
+					</a>
+				</li> 
+				<li class="mui-table-view-cell mui-media mui-col-xs-3"  style="background-color: white;">
+					<a href="#" onclick="tableDidSelected(11 , '打听');">
+						<img src="../../images/heme-top2.png"  alt="">
+						<div class="mui-media-body">打听</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-3" style="background-color: white;">
+					<a href="#" onclick="tableDidSelected(12 , '吐槽');">
+						<img src="../../images/heme-top3.png"  alt="">
+						<div class="mui-media-body">吐槽</div>
+					</a>
+				</li> 
+				<li class="mui-table-view-cell mui-media mui-col-xs-3" style="background-color: white;">
+					<a href="#" onclick="tableDidSelected(13 , '公告');">
+						<img src="../../images/heme-top4.png"  alt="">
+						<div class="mui-media-body">公告</div>
+					</a>
+				</li>
+				
+
+			</ul>
+			<div style="height: 1px;background-color: #F0F0F0;width: 100%;"></div>
+		</div>
+
+		
+		</div>
+	</body>
+		
+<script src="../../js/mui.js"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	mui.init({
+		subpages:[{
+			url:'home_sub.html',
+			id:'home_sub.html',
+			styles:{
+				top: '162px',
+				bottom: '0px',
+			}
+		}]
+	});
+		
+function tableDidSelected(type , cat_title){
+	console.log(type);
+	openNewPage('home_sub.html' , cat_title , true , {'typeId':type});
+}
+
+mui.plusReady(function () {
+	var tags = [
+		{//用图片做图标
+		id:'img',
+		tag:'img',//*
+		src:'../../images/logo.png',//*
+		position:{
+		top: "15px",
+		left: "10px",
+		width: "100px",
+		height: "15px"
+		}
+		}];
+	
+    plus.webview.currentWebview().setStyle({
+	titleNView:{
+	'backgroundcolor': '#f7f7f7',
+	'titletext': '郸城头条',
+	// 'titlecolor': '#dcdcdc',
+	'titlecolor': 'white',
+	'titlesize':'17px',
+	// tags:tags
+	}
+	});
+	
+	//每日登陆-积分奖励
+	if(userHasLogined()){
+		var date = new Date();
+		var _uid = getLoginUid();
+		var _key = 'todaylanuched' + _uid;
+		var _todayStr = date.getFullYear() +'-' + (date.getMonth() + 1) +'-' + date.getDate();
+		var is = localStorage.getItem(_key);
+		if(!(is && is == _todayStr)){
+			localStorage.setItem(_key , _todayStr);
+
+			{
+				var d = {"uid":_uid, "type":"1","score":add_score_login};
+				api_post(update_profile_url , d , function(res){
+					mui.alert('每日登陆，奖励积分+' + add_score_login,'提示','确定');
+				} );
+			}
+			
+			var wv = plus.webview.getWebviewById('www/me/me.html');
+			mui.fire(wv , 'update-profile-success' , {});
+		}
+	}
+})
+
+</script>
+</html>

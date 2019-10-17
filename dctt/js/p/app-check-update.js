@@ -4,39 +4,39 @@
 function appCheckUpdate () {
 	var d = {'_api_key':'ebe6e53b3237688c541d87544b55dfbc'};
 	if (mui.os.ios) {
-		d['appKey'] = '---';
+		d['appKey'] = 'e4baef4023fca4396c54c20e1199108e';
 	} else{
 		d['appKey'] = '0e082a5068be599f54f7919486ffab05';
 	}
-
+	
+	var appid = plus.runtime.appid;
+	if(appid == 'HBuilder')return;
+			
 	mui.post('https://www.pgyer.com/apiv2/app/check' , d , function(res){		
 		if(!(res && res['data']))return;
 		var appdata = res['data'];
 		var newVersion = appdata['buildVersion'];
 		var url = appdata['downloadURL'];
 		var versDes = appdata['buildUpdateDescription'];
-		var appid = plus.runtime.appid;
-		
+
 		// console.log(JSON.stringify(res));
-		if(appid != 'HBuilder'){
-			plus.runtime.getProperty(appid , function(info){
-				var appver =  info['version'];		
-				if (newVersion > appver) {
-					mui.confirm(versDes,'新版本(' + newVersion + ')' ,  ["下载更新", "取消"], function(e) {
-						if(e.index == 0){
-							//iOS - 4.3+ (支持): 不支持ipa包的安装，Android - 2.2+ (支持): 可支持apk包的安装
-							if(mui.os.ios){
-								window.location.href = url;//文件下载，任务栏弹框不会自动安装
-							}else{
-								_startDownloadTask(url);
-							}
-							
-							//plus.runtime.openURL(url);
+		plus.runtime.getProperty(appid , function(info){
+			var appver =  info['version'];		
+			if (newVersion > appver) {
+				mui.confirm(versDes,'新版本(' + newVersion + ')' ,  ["下载更新", "取消"], function(e) {
+					if(e.index == 0){
+						//iOS - 4.3+ (支持): 不支持ipa包的安装，Android - 2.2+ (支持): 可支持apk包的安装
+						if(mui.os.ios){
+							window.location.href = url;//文件下载，任务栏弹框不会自动安装
+						}else{
+							_startDownloadTask(url);
 						}
-					});
-				}	
-			});
-		}
+						
+						//plus.runtime.openURL(url);
+					}
+				});
+			}	
+		});
 	} , 'json');	
 }
 

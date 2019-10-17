@@ -328,9 +328,9 @@
 		s.send(msg, function(){
 			console.log('分享到"'+s.description+'"成功！');
 			if(userHasLogined()){
-				var d = {"uid":getLoginUid(), "type":"1","score":5};
+				var d = {"uid":getLoginUid(), "type":"1","score":add_score_share};
 				api_post(update_profile_url , d , function(res){
-					hud_toast('分享成功，积分+5');
+					hud_toast('分享成功，积分+' + add_score_share);
 					getUserProfile();
 				} );
 			}else{

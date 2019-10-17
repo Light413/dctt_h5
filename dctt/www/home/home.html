@@ -1,250 +1,463 @@
 <!doctype html>
 <html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="../../css/mui.min.css" rel="stylesheet" />
+	<style type="text/css">
+	.mui-media {
+		font-size: 15px;
+		padding-left: 0px;
+		margin-left: 0px;
+	}
+	
+	.mui-media.img3{
+		margin-top: 5px;
+		margin-right: 35px;
+	}
+	
+	.mui-table-view .mui-media-object {
+		max-width: initial;
+		width: 80px;
+		height: 70px;
+	}
+	
+	.meta-info {
+		/* position: absolute; */
+		left: 15px;
+		right: 15px;
+		bottom: 8px;
+		margin-top: 5px;
+		margin-bottom: 0px;
+		color: #8f8f94;
+		font-size: 12px;
+	}
+	
+	.meta-info .author,
+	.meta-info .time {
+		display: inline-block;
+	}
+	
+	li{
+		margin-top: 8px;
+		padding-bottom: 2px;
+		margin: 1px;
+	}
 
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-		
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="../../css/mui.min.css" rel="stylesheet" />
-		<style type="text/css">
-			.mui-media {
-				font-size: 15px;
-				padding-left: 0px;
-				margin-left: 0px;
-			}
-			
-			.mui-media.img3{
-				margin-top: 5px;
-				margin-right: 35px;
-			}
-			
-			.mui-table-view .mui-media-object {
-				max-width: initial;
-				width: 80px;
-				height: 70px;
-			}
-			
-			.meta-info {
-				/* position: absolute; */
-				left: 15px;
-				right: 15px;
-				bottom: 8px;
-				margin-top: 5px;
-				margin-bottom: 2px;
-				color: #8f8f94;
-				font-size: 14px;
-			}
-			
-			.meta-info .author,
-			.meta-info .time {
-				display: inline-block;
-			}
-			
-			.meta-info .time {
-				/* float: left; */
-			}
-			
-			.mui-table-view:before {
-				height: 0px;
-				
-			}
+	.mui-ellipsis-2{
+		-webkit-line-clamp: 3;
+		font-size: 17px;
+		text-indent: 0px;
+		color: #333;
+		/* #4d4b4a */
+	}
+	
+	.content-type{
+		background-color: darkorange;
+		padding: 2px 10px 0px 10px; 
+		color: white;
+		font-size: 15px;
+		border-radius: 8px;
+		margin-right: 2px;
+	}
+	.mui-table-view-cell.mui-media.mui-col-xs-4{
+		height: 40px;
+	}
+	
+	.mui-grid-view.mui-grid-9 .mui-table-view-cell>a:not(.mui-btn) {
+		margin: auto;
+		padding: 0px;
+	}
 
+	.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+		margin: 0;
+		padding: 8px 15px;
+		vertical-align: top;
+		border-right: 0;
+		border-bottom: 0;
+	}
+	
+	.mui-table-view-cell {
+		padding: 10px 15px;
+	}
+	
+	.avatar-icon{
+		height : 25px;
+		width : 25px ;
+		border-radius: 50%;
+		margin-top: 2px;
+		float: left;
+	}
+	
+	a > div:first-child {
+		height: 50px;
+		margin-bottom: 2px;
+	}
+	
+	.dislike-icon{
+		width: 20px;
+		height: 20px;
+		float: right;
+		margin-right: 8px;
+		margin-top: 0px;
+		padding: 5px;
+	}
+	
+	.images{
+		margin-top: 6px;
+		margin-right: 2px;
+		background-repeat : repeat-y;
+	}
+	
+	/* 清除列表选中时背景色 */
+	.mui-table-view-cell > a:not(.mui-btn).mui-active {
+		background-color: #fff;
+	}
 
+	.list-image{
+		width: 60px;
+		height: 60px;
+		background-repeat:no-repeat; 
+		background-size:100% 100%;
+		display: inline-block;
+		margin-right: 5px;
+		margin-top: 5px;
+		border-radius: 3px;
+	}
+	/* ,.mui-table-view:after */
+	.mui-table-view:before {
+		height: 1px;
+		
+	}
+	.mui-table-view:after {
+		height: 1px;
+	}
 
-		li{
-			margin-top: 8px;
-			padding-bottom: 5px;
-/* 			border-width: 0;
-			border-bottom-width: 1px;
-			border-style: solid;
-			border-color: #e8e8e8; */
-			margin: 1px;
-		}
+	li img{
+		width: 25px; 
+		height: 25px;
+	}
 
-		.mui-ellipsis-2{
-			-webkit-line-clamp: 5;
-		}
-		
-		.content-type{
-			background-color: darkorange;
-			padding: 2px 10px 0px 10px; 
-			color: white;
-			font-size: 15px;
-			border-radius: 8px;
-			margin-right: 2px;
-		}
-		.mui-table-view-cell.mui-media.mui-col-xs-4{
-			height: 40px;
-		}
-		
-		.mui-grid-view.mui-grid-9 .mui-table-view-cell>a:not(.mui-btn) {
-			margin: auto;
-			padding: 0px;
-		}
-
-		.mui-grid-view.mui-grid-9 .mui-table-view-cell {
-			margin: 0;
-			padding: 11px 15px;
-			vertical-align: top;
-			border-right: 0;
-			border-bottom: 0;
-		}
-		.mui-grid-view.mui-grid-9 {
-			border-top: 0px solid #eee;
-			border-left: 0px solid #eee;
-		}
-		
-		.mui-icon.iconfont.icon-theme {
-			font-size: 10px;
-		}
-		
-		/* 图标的大小 */
-		.mui-grid-view.mui-grid-9 .mui-media .mui-icon {
-			font-size: 1.6em;
-			position: relative;
-			/* color: red; */
-		}
-
-		.mui-grid-view.mui-grid-9 .mui-table-view-cell {
-			margin: 0;
-			padding: 5px 15px;
-			vertical-align: top;
-			border-right: 0;
-			border-bottom: 0;
-		}
-
-		img{
-			width: 30px; 
-			height: 30px;
-		}
-		
-		/* 图标-文字的间距 */
-		.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
-			font-size: 13px;
-		/*    line-height: 15px;
-			display: block;
-			width: 100%;
-			height: 15px; */
-			margin-top: 5px;
-			/* text-overflow: ellipsis; */
-			color: #333;
-		}
-		
-		#section-title{
-			font-size: 12px;
-			/* font-weight: bold; */
-			margin-top: 10px;
-			bottom: 5px;
-			padding-left: 15px;
-			color: #666;
-		}
-		
-		.top{
-			height: 90px;
-			margin-top: 0;
-			width: 100%;
-			background-color: #fafafa;
-			border-bottom-width: 0.8px;
-			border-bottom-color: lightgray;
-			border-bottom-style: solid;
-		}
-		
-		/* 清除列表选中时背景色 */
-		.mui-table-view-cell > a:not(.mui-btn).mui-active {
-			background-color: #fff;
-		}
-		
-		*{ touch-action: none;}
+	/* 图标-文字的间距 */
+	.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+		font-size: 12px;
+	/*    line-height: 15px;
+		display: block;
+		width: 100%;
+		height: 15px; */
+		margin-top: 5px;
+		/* text-overflow: ellipsis; */
+		color: #333;
+	}
+	
+	.top{
+		/* height: 90px; */
+		margin-top: 0px;
+		width: 100%;
+		background-color: #fafafa;
+		border-bottom-width: 0px;
+		border-bottom-color: lightgray;
+		border-bottom-style: solid;
+		border-width: 0;
+		padding-top: 0px ;
+		padding-bottom: 10px;
+	}
+	
+	[v-cloak]{
+		display: none;
+	}	
+	
+	.mui-slider , .banner-img{
+		height: 165px;
+	}
+	
 </style>
-		
 <link rel="stylesheet" type="text/css" href="../../css/iconfont_hometop.css"/>
+<link rel="stylesheet" type="text/css" href="../../css/ios.css"/>
+<link rel="stylesheet" type="text/css" href="../../css/comm.css"/>
 </head>
+<body>
+<!-- 	<header id="header" class="mui-bar mui-bar-nav" style="opacity: 1;">
+		<h1 class="mui-title">郸城头条</h1>
+	</header> -->
 
-	<body >
-		<div class="mui-content">
-		<div class="top" style="position: fixed;">
-			<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top: 0px;padding-left: 0px;padding-right: 0px;padding-top: 20px;padding-bottom: 5px;  background-color: white;">
-				<li class="mui-table-view-cell mui-media mui-col-xs-3" style="background-color: white;">
-					<a style="margin: auto;" onclick="tableDidSelected(1 , '热门');">
-						<!-- <span class="mui-icon iconfont_hometop icon-sy_1" ></span> -->
-						<img src="../../images/heme-top1.png"  alt="">
-						<div id="00" class="mui-media-body">热门</div>
-					</a>
-				</li> 
-				<li class="mui-table-view-cell mui-media mui-col-xs-3"  style="background-color: white;">
-					<a href="#" onclick="tableDidSelected(11 , '打听');">
-						<img src="../../images/heme-top2.png"  alt="">
-						<div class="mui-media-body">打听</div>
+	<div id="slider" class="mui-slider" style="">
+		<div class="mui-slider-group mui-slider-loop">
+			<div class="mui-slider-item mui-slider-item-duplicate">
+				<a>
+					<img class="banner-img" src="../../images/home/home_top_banner3.png">
+				</a>
+			</div>
+			
+			<div class="mui-slider-item">
+				<a>
+					<img class="banner-img" src="../../images/home/home_top_banner1.png">
+				</a>
+			</div>
+			<div class="mui-slider-item">
+				<a>
+					<img class="banner-img" src="../../images/home/home_top_banner2.png">
+				</a>
+			</div>
+			<div class="mui-slider-item">
+				<a>
+					<img class="banner-img" src="../../images/home/home_top_banner3.png">
+				</a>
+			</div>
+			
+			<div class="mui-slider-item mui-slider-item-duplicate">
+				<a>
+					<img class="banner-img" src="../../images/home/home_top_banner1.png">
+				</a>
+			</div>
+		</div>
+		<div class="mui-slider-indicator">
+			<div class="mui-indicator mui-active"></div>
+			<div class="mui-indicator"></div>
+			<div class="mui-indicator"></div>
+		</div>
+	</div>
+	
+	<div id="home-top-item" class="top" style="background-color: white;" v-cloak>
+		<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top: 0px;padding-left: 0px;padding-right: 0px;padding-top: 10px;padding-bottom: 0px;  background-color: white;" >
+			<li class="mui-table-view-cell mui-media mui-col-xs-3" style="background-color: white;" v-for="item in items" >
+				<a style="margin: auto;" v-on:click="tableDidSelected(item);">
+					<img :src="'../../images/' + item.icon">
+					<div class="mui-media-body">{{item.title}}</div>
+				</a>
+			</li> 
+		</ul>
+	</div>
+	
+	<div id="list" class="mui-scroll-wrapper" style="margin-top: 0px; padding-bottom: 30px;">
+		<div id = "scroll" class="mui-scroll">
+			<ul class="mui-table-view" id="table-view-id" style="padding-top: 0px;"  v-cloak>	
+				<li v-bind:id="item.pid" class="mui-table-view-cell"  v-for="item in items">
+					<a v-on:click="openDetailPage(item)">
+						<div style="height: 38px;margin-top: 2px;">
+							<img :src= "avatar(item)" class = "avatar-icon" style="">
+							<div style="float: left;">
+									<div style="margin-top: 0px;color: #8f8f94;font-size: 13px;margin-left: 10px;margin-top: 0px;margin-bottom: 0px;height: 18px;display: inline-block;">{{item.user.name || item.user.nickName}}
+									</div>
+									<div style="margin-left: 20px;display: inline-block;color: #8f8f94;font-size: 13px;margin-left: 15px;"> {{postDate(item)}}</div>
+							</div>
+							
+							<img v-on:click.stop="dislikeThisItem(item)" src="../../images/dislikeicon_details@2x.png" class="dislike-icon" >
+						</div>
+						
+						<!-- 有图片 -->
+						<div v-if="item.imageUrl">
+							<div v-if="item.imageUrl.length == 1"><!-- 1张图 -->
+								<div class="mui-media-body" style="width: 65%;display:inline-block">
+									<div class="mui-ellipsis-2">{{item.content}}</div>
+								</div>
+								<img v-bind:src="item.imageUrl[0]" v-bind:style="{width:item.width + 'px' , height:item.width * 0.8 + 'px' , borderRadius:'2px' , float:'right' , display:'inline-block' , padding:'2px' }">	
+							</div>	
+							<div v-else > <!-- 多张图 -->
+								<div class="mui-media-body">
+									<div class="mui-ellipsis-2">{{item.content}}</div>	
+								</div>	
+								<div v-if="item.imageUrl">
+									<div style="display: inline-block; margin-right: 5px;" v-for="ig in item.imageUrl">
+										<img v-bind:src="ig" v-bind:style="{width:item.width + 'px' , height:item.width * 0.8 + 'px' , marginTop:'10px' , borderRadius:'2px' , }"  >
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- 无图 -->
+						<div v-else>
+							<div class="mui-media-body">
+								<div class="mui-ellipsis-2">{{item.content}}</div>
+							</div>	
+						</div>
+
+						
+						<!-- <div v-if="item.imageUrl">
+							<div style="display: inline-block; margin-right: 5px;" v-for="ig in item.imageUrl">
+								<img v-bind:src="ig" v-bind:style="{width:item.width + 'px' , height:item.width * 0.8 + 'px' , marginTop:'10px' , borderRadius:'2px' , }"  >
+							</div>
+						</div>	 -->
+						
+						<div class="meta-info" style="margin-top: 5px; padding: 5px 0;">
+							<div class="author">阅读{{item.readCnt}} </div>
+								<div class="time" style="margin-left: 15px;color:white;background-color:#ff4500;font-size:10px;padding-left:3px;padding-right:3px; padding-bottom: 0px; border-radius:6px;height:18px;"> {{itemType(item)}} </div>
+						</div>				
 					</a>
 				</li>
-				<li class="mui-table-view-cell mui-media mui-col-xs-3" style="background-color: white;">
-					<a href="#" onclick="tableDidSelected(12 , '吐槽');">
-						<img src="../../images/heme-top3.png"  alt="">
-						<div class="mui-media-body">吐槽</div>
-					</a>
-				</li> 
-				<li class="mui-table-view-cell mui-media mui-col-xs-3" style="background-color: white;">
-					<a href="#" onclick="tableDidSelected(13 , '公告');">
-						<img src="../../images/heme-top4.png"  alt="">
-						<div class="mui-media-body">公告</div>
-					</a>
-				</li>
-				
-
 			</ul>
-			<div style="height: 1px;background-color: #F0F0F0;width: 100%;"></div>
 		</div>
-
-		
-		</div>
-	</body>
+	</div>
+</body>
 		
 <script src="../../js/mui.js"></script>
 <script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.pullToRefresh.js"></script>
+<script src="../../js/mui.pullToRefresh.material.js"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/base-data.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script src="home-top-item.js" type="text/javascript" charset="utf-8"></script>
+<script src="_home.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
+var pageNum = 1;//当前页
+var pageItemsLen = 20;//每页条数
+var isPullDownRefreshing = true;//正在下拉刷新
+var dataSourceArr = [];//当前列表数据源
+var _listType = 0;
+var _isHome = true;
+
+var slider = mui("#slider");
+slider.slider({
+	interval: 5000
+});
+
+
+function writeObj(obj) {
+    var description = "";
+    for (var i in obj) {
+        var property = obj[i];
+        var des = i + " = " + property + "\n";
+		console.log(des);
+    }
+    
+}
+
+function getScrollTop() {
+	var scrollTop = 0;
+	if(document.documentElement && document.documentElement.scrollTop) {
+		scrollTop = document.documentElement.scrollTop;
+	} else if(document.body) {
+		scrollTop = document.body.scrollTop;
+	}
+	return scrollTop;
+}
+
+// var scroll = mui('.mui-scroll-wrapper').scroll({
+// 	
+// });
+
+var HEIGHT = 80.0;
+// document.querySelector('.mui-scroll-wrapper').addEventListener('scroll',function (e) {
+// 	// var _h = getScrollTop();
+// 	// console.log(scroll.y);
+// 	
+// 	// var s = mui('#scroll')[0];
+// 	// var h = s.offsetHeight;
+// 	
+// 	// var t = document.documentElement.scrollTop || document.body.scrollTop;
+// 	// var t = document.documentElement.scrollTop;
+// 	// console.log(t);
+// 	// 
+// 	// var _v = mui('#header')[0];
+// 	// var op = 0;
+// 	// if(t > HEIGHT){
+// 	// 	op = 1
+// 	// }else{
+// 	// 	op = 0//1 - (HEIGHT - t) / 80
+// 	// }
+// 	// 
+// 	// _v.style.opacity = op;
+// 	
+// })
+
 	mui.init({
-		subpages:[{
-			url:'home_sub.html',
-			id:'home_sub.html',
-			styles:{
-				top: '162px',
-				bottom: '0px',
+		pullRefresh: {
+			container: '#list',
+			down: {
+				style: 'circle',
+				// offset: '1px',
+				auto: false,
+				callback: pulldownRefresh
+			},
+			up: {
+				contentrefresh: '正在加载...',
+				callback: loadMoreData
 			}
-		}]
+		}
 	});
-		
+	var topItem_v = new Vue({
+		el:'#home-top-item',
+		data:{
+			items:[]
+		},
+		methods:{
+			tableDidSelected: function(item){
+				var i = item.type;
+				switch (i){
+					case 1:case 11:case 12: case 13:
+					openNewPage('home_sub.html' , item.title , true , {'typeId':item.type});break;
+					case 14: case 15:
+					openNewPage('../life/life-list-sub.html' , item['title'] , true , {'typeId':i == 14 ? '22' : '23'});
+					break;
+					case 16://qiandao
+					hud_show('签到操作！');
+					_addScore('todaysignin' , '签到成功，奖励积分+' ,true);break
+					case 17://more
+					hud_toast('更多精彩，敬请期待!')
+					break;
+					
+					default:
+						break;
+				}		
+	}
+		}
+	});
+	
+	//banner事件
+	mui('.mui-slider').on('tap' , '.mui-slider-item' , function(){
+		openNewPage('../me/webpage.html' , '加入我们' , true , {'url':BASE_URL + joinus_url});
+	});
+
+// var boforeData = localStorage.getItem('homedislikeitemdata');
+// console.log(boforeData)	;
 function tableDidSelected(type , cat_title){
 	console.log(type);
 	openNewPage('home_sub.html' , cat_title , true , {'typeId':type});
 }
 
 mui.plusReady(function () {
-	var tags = [
-		{//用图片做图标
-		id:'img',
-		tag:'img',//*
-		src:'../../images/logo.png',//*
-		position:{
-		top: "15px",
-		left: "10px",
-		width: "100px",
-		height: "15px"
-		}
-		}];
-	
-    plus.webview.currentWebview().setStyle({
-	titleNView:{
-	'backgroundcolor': '#f7f7f7',
-	'titletext': '郸城头条',
-	// 'titlecolor': '#dcdcdc',
-	'titlecolor': 'white',
-	'titlesize':'17px',
-	// tags:tags
-	}
-	});
-})
+// 	(function($){
+// 	//获取系统状态栏高度
+//         var StatusbarHeight = plus.navigator.getStatusbarHeight();
+//         var headerH = $('.mui-bar-nav').height();
+// 		console.log(headerH);
+// 		
+//         $('.mui-bar-nav').css({height: (headerH + StatusbarHeight) + 'px', 'paddingTop': StatusbarHeight + 'px'});
+// })(mui)
 
-	</script>
+    //每日登陆-积分奖励
+	_addScore('todaylanuched' , '每日登陆，奖励积分+' );
+});
+
+function _addScore(key , msg ,sign){
+	if(userHasLogined()){
+	var date = new Date();
+	var _uid = getLoginUid();
+	var _key = key + _uid;
+	var _todayStr = date.getFullYear() +'-' + (date.getMonth() + 1) +'-' + date.getDate();
+	var is = localStorage.getItem(_key);
+	if(!(is && is == _todayStr)){
+		{
+			var d = {"uid":_uid, "type":"1","score":add_score_login};
+			api_post(update_profile_url , d , function(res){
+				hud_close();
+				localStorage.setItem(_key , _todayStr);
+				mui.alert(msg + add_score_login,'提示','确定');
+			} );
+		}
+		
+		var wv = plus.webview.getWebviewById('www/me/me.html');
+		mui.fire(wv , 'update-profile-success' , {});
+	}else{
+		sign && hud_close('今天已操作，明日再来吧!');
+	}
+}
+}
+
+</script>		
 </html>

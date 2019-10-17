@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+	<style type="text/css">
+			.avatar-icon{
+			height : 40px;
+			width : 40px 
+			/* border-radius: 50%; */
+			margin-top: 2px;
+			float: left;
+		}
+		
+		.mui-ellipsis-2{
+		-webkit-line-clamp: 3;
+		
+		font-size: 16px;
+		text-indent: 0px;
+	}
+	
+	[v-cloak] {
+  display: none;
+}
+
+.ig-list{
+	width: 50%; 
+	/* height: 100px; */
+	/* background-color: red; */
+	float: left;
+	padding:  3px;
+}
+
+</style>
+</head>
+<body style="background-color: white;">
+<div class="mui-content" style="background-color: white;margin-top: 10px;">
+	<div style="padding: 5px 20px; font-size: 13px; color: #777;">
+		达人榜排行由系统根据用户日活跃度、积分值等因素自动计算
+	</div>
+	<div id="refreshContainer" class=" mui-scroll-wrapper" style="padding: 5px;">
+		<div id="left-list" class="ig-list">
+		
+		</div>
+		<div id="right-list" class="ig-list">
+			
+		</div>
+	</div>
+</div>
+
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	var _type = 0;//0:关注 1:粉丝
+	
+	mui.init({
+			pullRefresh: {
+				container: '#refreshContainer',
+				down: {
+					style: 'circle',
+					// offset: '1px',
+					auto: false,
+					callback: pulldownRefresh
+				},
+				// up: {
+				// 	contentrefresh: '正在加载...',
+				// 	callback: loadMoreData
+				// }
+			}
+	});
+	
+	var ztlist = new Vue({
+		el: '#table-view-id',
+		data: {
+			items: []
+		}
+	});
+	
+	mui.plusReady(function () {
+	    var wv = plus.webview.currentWebview();
+		_type = wv.type; //0:关注 1:粉丝
+		
+		///0:检测是否关注 1://查询我的粉丝 2://查询我的关注
+	   var d = {"uid":getLoginUid() , "auhorId":"_author" , "type": _type ? 1 : 2};
+	   ttRefreshInit('#refreshContainer', daren_url , d , function(res){
+		   // console.log(JSON.stringify(res[0]));
+		   hud_close();
+		   
+			_dataConvert(res);
+	   });
+	   
+	   hud_show('数据加载中');
+	   refreshRequestData();
+	})
+	
+	
+	function _dataConvert(arr){
+		if(arr == null || arr.length < 1){return;}
+		for (var i = 0; i < arr.length; i++) {
+// 			var d = arr[i];
+// 			var content = d['content'];
+	
+		}
+		
+		dataSourceArr.push.apply(dataSourceArr ,arr);
+		
+		//渲染列表
+		// ztlist.items = dataSourceArr;
+		_addList(dataSourceArr , 0);
+	}
+	
+	
+	function _addList(arr , index){
+		var left = mui('#left-list')[0];
+		var right = mui('#right-list')[0];
+		var obj =  arr[index];
+		
+		var div = document.createElement('div');
+		var ig = document.createElement('img');
+		var url  =obj.avatar;
+		
+		ig.src  = url || "../../images/mm.jpg";
+		ig.style = "width:100%;";
+		ig.onload =  function(){
+			if(++index < arr.length){
+				_addList(arr , index);
+			}
+		};
+		
+		ig.onerror = function(){
+			console.log('not exist');
+			if(++index < arr.length){
+				_addList(arr , index);
+			}
+		}
+		
+		div.appendChild(ig);
+					
+		var _leftH = left.offsetHeight, _rightH = right.offsetHeight;
+		if(_leftH <= _rightH){
+			left.appendChild(div);
+		}else{
+			right.appendChild(div);
+		}
+	}
+	
+	
+	function tableViewClicked(item){
+		if(!item['user_id']){hud_toast('用户不存在');return;}
+		
+		openNewPage('../me/me-homepage.html' , item['name'] || item['nickName'] , true , {'uid':item['user_id']});
+	}
+	
+</script>
+</body>
+</html>

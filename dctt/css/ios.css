@@ -1,0 +1,32 @@
+.mui-bar-nav {
+    height: 64px;
+    padding-top: 20px;
+	background-color: #FF4500;
+	opacity: 1;
+}
+
+.mui-bar-nav ~ .mui-content
+{
+    padding-top: 64px;
+}
+
+.mui-bar-nav ~ .mui-content .mui-pull-top-pocket
+{
+    top: 64px;
+}
+
+.mui-bar-nav ~ .mui-content.mui-scroll-wrapper .mui-scrollbar-vertical
+{
+    top: 64px;
+}
+
+.mui-bar-nav ~ .mui-content .mui-slider.mui-fullscreen
+{
+    top: 64px;
+}
+
+.mui-bar .mui-title {
+	margin-top: 0px;
+	font-size: 17px;
+	color: #fff;
+}

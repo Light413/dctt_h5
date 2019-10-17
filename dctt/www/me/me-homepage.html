@@ -99,7 +99,7 @@
 		
 		<div style="margin-top: 8px;">
 			<img v-if="item.sex == 0" src="../../images/girl@2x.png" width="14px" height="14px" style="margin-top: 3px;" > 
-			<img  v-else src="../../images/boy@2x.png" width="14px" height="14px" style="margin-top: 3px;" >
+			<img  v-else-if="item.sex == 1" src="../../images/boy@2x.png" width="14px" height="14px" style="margin-top: 3px;" >
 			
 			<div style="margin-left: 10px; font-size: 14px;display: inline-block;margin-top: 0px;">{{item.age}}岁</div>
 		<div v-if="!isMySelf()" style="display: inline-block;float: right;margin-right: 20px;">
@@ -143,18 +143,18 @@
 					
 					<div>
 						<div style="">
-							<img v-bind:src="item.user.avatar_thumb || '../../images/default_avatar.png'" class="avatar-icon"  style="border-radius: 50%;width:25px;height: 25px; margin-top: 8px;" >
-							<div style="display: inline-block;color: #666;font-size: 13px;margin-left: 5px;margin-top: 5px;margin-bottom: 0px;height: 20px; max-width: 100px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-top: 5px;">
+							<!-- <img v-bind:src="item.user.avatar_thumb || '../../images/default_avatar.png'" class="avatar-icon"  style="border-radius: 50%;width:25px;height: 25px; margin-top: 8px;" >
+							<div style="display: inline-block;color: #666;font-size: 13px;margin-left: 5px;margin-top: 5px;margin-bottom: 0px; max-width: 100px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-top: 5px;">
 								{{item.user.name}} 
-							</div>
-							<div style="display: inline-block;color: #666;font-size: 13px;margin-left: 10px;">
-								{{item.postDateFormatter}} <span style="margin-left: 8px;font-size: 12px;">阅读{{item.readCnt}}</span>
+							</div> -->
+							<div style="display: inline-block;color: #666;font-size: 12px;margin-left: 0px; margin-top: 3px;">
+								<span style="margin-right: 10px;">阅读{{item.readCnt}}</span><span>{{item.postDateFormatter}} </span>
 								
 								<span v-if="item.status == 0 || item.status == 2" style="padding: 0px 3px; border-radius: 5px; float: right; margin-left: 25px; font-size: 11px;background-color: red;color: white;">{{item.status == 0 ? '待审核' : '未通过'}}</span>
 							</div>
 							
-							<a v-if="isMySelf(item)" v-on:click.stop="deleteMyPost(item)" style="float: right;margin-right: 8px;margin-top: 5px;padding: 5px;">
-								<img src="../../images/shanchu.png" width="20px" height="18px" >
+							<a v-if="isMySelf(item)" v-on:click.stop="deleteMyPost(item)" style="float: right;margin-right: 8px;margin-top: 0px;padding: 5px;">
+								<img src="../../images/shanchu.png" width="15px" height="15px" >
 							</a>
 						</div>
 					</div>

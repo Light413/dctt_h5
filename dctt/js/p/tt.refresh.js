@@ -48,11 +48,14 @@ function refreshRequestData(){
 	_requestParamters['pageNumber'] = pageNum;	
 	
 	// plus.nativeUI.showWaiting('数据加载中');
+	// console.log('---本次请求参数：' + JSON.stringify(_requestParamters));
 	api_post(_url , _requestParamters ,function(result){
+		
 		console.log('当前页:' + pageNum + '\t本次返回数据长度:' + (result ? result.length : 0));
 		// plus.nativeUI.closeWaiting();
 		var arr = result;
 		if(isPullDownRefreshing){
+			// console.log(_id);
 				mui(_id).pullRefresh().endPulldownToRefresh();
 				mui(_id).pullRefresh().refresh(true);
 				

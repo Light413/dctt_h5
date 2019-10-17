@@ -46,13 +46,16 @@
 <body style="background-color: white;">
 	
 <div class="mui-content" style="background-color: white;">
+		<div class="mui-scroll-wrapper">
+		<div class="mui-scroll">
 	<div style="padding: 20px 0; margin-top: 30px;">
 		<img id="logo-icon-id" src="../../images/new/Icon-60@2x.png" width="100px" height="100px" style="border-radius: 8px;" >
 		<div id="" style="text-align: center;margin-top: 5px;font-size: 13px;color: #333;">郸城头条 <span id="app-version-id">(v1.0.0)</span> 
 		</div>
 	</div>
 	
-	<ul class="mui-table-view" style="margin-top: 10px;">
+
+			<ul class="mui-table-view" style="margin-top: 10px;">
 			<li onclick="tableDidSelected(0)" class="mui-table-view-cell">
 				<a class="mui-navigate-right">
 					简介
@@ -84,6 +87,10 @@
 				</a>
 			</li>
 		</ul>
+		</div>
+	</div>
+	
+	
 		
 </div>
 
@@ -92,6 +99,15 @@
 <script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	mui.init()
+// 	var scroll = mui('.mui-scroll-wrapper').scroll({
+//           // deceleration: 0.005 ,//flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006 
+// 		  scrollY: true,
+// });
+// 
+// document.querySelector('.mui-scroll-wrapper').addEventListener('scroll',function (e) {
+// 　　console.log(scroll.y);
+// })
+
 	mui.plusReady(function () {
 	    var _width = plus.screen.resolutionWidth;
 	    var _avatar_w = (_width - 100) / 2.0;

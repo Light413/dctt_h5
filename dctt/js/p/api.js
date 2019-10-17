@@ -1,5 +1,6 @@
 //api接口定义
 var BASE_URL = 'http://39.106.164.101:80/tt/';
+// var BASE_URL = 'http://212.64.71.126:80/www/tt/';
 var get_sy_url = 'getPostList.php'; //首页列表
 var publish_url = "publish.php"//发布动态
 var comment_url = "comment.php";//评论
@@ -10,6 +11,7 @@ var fans_url = "fan.php" //粉丝关注
 var blackList_url = "blackList.php"//黑名单
 var delete_sc_url = "deletesc.php"//删除动态，删除收藏
 var sh_url = "sh.php";
+var daren_url = "darenList.php"
 
 //登录注册
 var login_url= "login.php";
@@ -30,6 +32,7 @@ var disclaimer_url = "p/disclaimer.html"
 var usehelp_url = "p/usehelp.html"
 var privacy_agreement_url = "p/userPrivacy.html"
 var feedbackList_url = "p/feedbackList.html"
+var joinus_url = "p/joinus.html"
 
 //http://39.106.164.101:80/tt/p/feedbackList.html
 //动态类型
@@ -76,12 +79,14 @@ function _ajax (type , url , pars , success , error){
 		if(_u && _u['token']){
 			token = _u['token'];pars['t'] = token;
 			if(pars['z'] != 1){//1不需要当前uid , 获取他人
-				pars['uid'] = _u['user_id'];
+				pars['uid'] = _u['user_id'];//UID和token一起为了验证用户合法性
 			}
 			
-			pars['z'] && delete pars.z;
+			// pars['z'] && delete pars.z;
 		}
 	}
+	
+	// console.log('+++本次请求参数：' + JSON.stringify(pars));
 	
 	mui.ajax(u,{
 			data:pars,
@@ -126,3 +131,5 @@ function api_post(url , pars , success , error){
 	_ajax('post' , url , pars , success , error);
 }
 
+var add_score_share = 2;//分享
+var add_score_login = 1;//每日登陆

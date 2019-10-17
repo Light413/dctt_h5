@@ -3,10 +3,10 @@
     "id" : "com.light.dctt", /*必选，应用的标识*/
     "name" : "郸城头条", /*必选，应用名称*/
     "version" : {
-        "name" : "1.0.6", /*必选，版本名称*/
-        "code" : 106
+        "name" : "1.1.3", /*必选，版本名称*/
+        "code" : 113
     },
-    "description" : "build190806", /*可选，应用描述信息*/
+    "description" : "build190904", /*可选，应用描述信息*/
     "icons" : {
         "72" : "icon.png"
     },
@@ -22,7 +22,6 @@
             "description" : "应用扩展事件"
         },
         "Share" : {},
-        "Push" : {},
         "Statistic" : {},
         "Messaging" : {}
     },
@@ -34,6 +33,19 @@
         // 				"titlecolor": "#000000"
         // 			}
         // 		},
+        "confusion" : {
+            "resources" : {
+                "js/p/api.js" : {},
+                "js/p/tt.refresh.js" : {},
+                "js/p/app-check-update.js" : {},
+                "js/p/publish.base.js" : {},
+                "js/p/base-data.js" : {},
+                "js/p/tt.image.picker.js" : {},
+                "js/p/user.js" : {},
+                "www/home/_home.js" : {},
+                "important!.js" : {}
+            }
+        },
         "statusbar" : {
             "immersed" : "supportedDevice",
             "style" : "dark"
@@ -134,7 +146,7 @@
                         "spotlight" : "unpackage/res/icons/40x40.png",
                         "spotlight@2x" : "unpackage/res/icons/80x80.png"
                     },
-                    "appstore" : "/Users/wangyongguang/Desktop/DCTT相关文件/图标/dctt/1024X1024.png"
+                    "appstore" : "/Users/wangyongguang/Desktop/DCTT/图标/dctt/1024X1024.png"
                 },
                 "android" : {
                     "mdpi" : "unpackage/res/icons/48x48.png", /*必选，48x48，普通屏程序图标*/
@@ -149,8 +161,13 @@
                 "ios" : {
                     "iphone" : {
                         "default" : "", /*必选，320x480，iPhone3启动图片*/
-                        "retina35" : "", /*必选，640x960，3.5英寸设备(iPhone4)启动图片*/
-                        "retina40" : ""
+                        "retina35" : "/Users/wangyongguang/Desktop/DCTT/图标/dctt/iphone_lanuch/640x960.png", /*必选，640x960，3.5英寸设备(iPhone4)启动图片*/
+                        "retina40" : "/Users/wangyongguang/Desktop/DCTT/图标/dctt/iphone_lanuch/640x1136.png",
+                        "portrait-896h@3x" : "/Users/wangyongguang/Desktop/DCTT/图标/dctt/iphone_lanuch/1242x2688.png",
+                        "portrait-896h@2x" : "/Users/wangyongguang/Desktop/DCTT/图标/dctt/iphone_lanuch/828x1792.png",
+                        "iphonex" : "/Users/wangyongguang/Desktop/DCTT/图标/dctt/iphone_lanuch/1125x2436.png",
+                        "retina55" : "/Users/wangyongguang/Desktop/DCTT/图标/dctt/iphone_lanuch/1242x2208.png",
+                        "retina47" : "/Users/wangyongguang/Desktop/DCTT/图标/dctt/iphone_lanuch/750x1334.png"
                     },
                     "ipad" : {
                         "portrait" : "", /*可选，768x1004，需支持iPad时必选，iPad竖屏启动图片*/

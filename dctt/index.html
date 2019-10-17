@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no , viewport-fit=cover">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<link rel="stylesheet" href="css/mui.min.css">
@@ -22,9 +22,9 @@
 			<span class="mui-tab-label">首页</span>
 		</a>
 		
-		<a class="mui-tab-item" href="www/quanzi/zt.html">
+		<a class="mui-tab-item" href="www/quanzi/index.html">
 			<span class="mui-icon iconfont icon-theme"></span>
-			<span class="mui-tab-label">话题</span>
+			<span class="mui-tab-label">社区</span>
 		</a>
 		
 		<a class="mui-tab-item" href= "www/publish/publish-select-type.html">
@@ -46,22 +46,34 @@
 	<script src="js/p/app-check-update.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 		mui.init();	
-		var subpages = ['www/home/home.html', 'www/quanzi/zt.html', 'www/publish/publish-select-type.html', 'www/life/life-list.html','www/me/me.html'];
+		var subpages = ['www/home/home.html', 'www/quanzi/index.html', 'www/publish/publish-select-type.html', 'www/life/life-list.html','www/me/me.html'];
 
+		// console.log(mui.os.version);
+		
 		function navigationBarStyle(index){
 			var subpage_style = {top: '0px',bottom: '51px'};
-			var _titles = ['','话题','发布动态','生活','个人中心']
-			if(index != 1){
+			var _titles = ['','社区','发布动态','生活','个人中心']
+			if(true){//index != 1   , mui.os.android
 				subpage_style['titleNView'] = {
-					titleText:_titles[index],
-					titleColor:"#FFFFFF",             // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
-					titleSize:"17px",                 // 字体大小,默认17px
-					backgroundColor:'#ff4500',        //#089DDD 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
-					splitLine:{                       // 标题栏控件的底部分割线，类似borderBottom
-					color:"#CCCCCC",                // 分割线颜色,默认值为"#CCCCCC"  
+					titleText:_titles[index] || '郸城头条',
+					titleColor:"#fff",       
+					titleSize:"17px",  
+					// height:'64px',
+					backgroundColor:'#ff4500', 
+					splitLine:{// 标题栏控件的底部分割线，类似borderBottom
+					color:"#CCCCCC",             
 					height:"0px"  
 					},
+					
+					type: index == 0 ? 'transparent' : 'default'
 				}
+				
+				// subpage_style['subNViews'] = [{
+				// 		id:'subnview1',
+				// 		styles:{top:'0px',height:'64px',backgroundColor:'#FF4500' , opacity:1},
+				// 		tags:[{tag:'font',id:'font',text:'原生子View控件',textStyles:{size:'18px',color:'#fff'} , position:{top:'5px',left:'0px',width:'100%',height:'100%'},}]
+				// 	}]
+				
 			}
 			
 			return subpage_style;
@@ -94,15 +106,6 @@
 			},1500);
 		});
 		
-		function setTitle(t){//
-// 				var wv = plus.webview.currentWebview();
-// 				wv.setStyle({
-// 					titleNView: {
-// 						titleText: t
-// 					}
-// 				});
-		}
-		
 		var activeTab = subpages[0];
 		var title = document.getElementById("title");
 		 //选项卡点击事件
@@ -110,16 +113,13 @@
 			var targetTab = this.getAttribute('href');
 			if (targetTab == activeTab)return;
 			// var t = this.querySelector('.mui-tab-label').innerHTML;
-			// setTitle(t);
-			//显示目标选项卡，若为iOS平台或非首次显示，则直接显示
 			if(mui.os.ios||aniShow[targetTab]){
 				plus.webview.show(targetTab);
 			}else{
-				//否则，使用fade-in动画，且保存变量
 				var temp = {};
 				temp[targetTab] = "true";
 				mui.extend(aniShow,temp);
-				plus.webview.show(targetTab,"fade-in",300);
+				plus.webview.show(targetTab,"none");
 			}
 			//隐藏当前;
 			plus.webview.hide(activeTab);
@@ -132,7 +132,6 @@
 			var defaultTab = document.getElementById("defaultTab");
 			//模拟首页点击
 			mui.trigger(defaultTab, 'tap');
-			//切换选项卡高亮
 			var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
 			if (defaultTab !== current) {
 				current.classList.remove('mui-active');

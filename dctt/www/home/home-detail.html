@@ -9,6 +9,7 @@
 	
 	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
 	<link rel="stylesheet" type="text/css" href="../../css/tt/list-table-cell.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/comm.css"/>
 	<style type="text/css">
 		.top-content{
 			margin-top: 15px;
@@ -162,7 +163,7 @@
 		</div>
 	</div>
 	
-	<div class="bottom-bar">
+	<div id="bottom-bar-id"  class="bottom-bar"  v-cloak>
 		<div  style="margin-top: 5px;margin-left: 15px;" >
 			<button id="write-comment-id" type="button" style="font-size: 12px;border-width: 0;background-color: #FFFFFF;">
 				<div style="display: inline-block;">
@@ -171,10 +172,10 @@
 				<div style="margin-left: 6px;display: inline-block;color: #808080;">写评论</div>
 			</button>
 			
-			<div id="bottom-bar-id" style="display: inline-block;margin-top: 10px;margin-left: 6%;"  v-cloak>
+			<div style="display: inline-block;margin-top: 10px;margin-left: 6%;">
 				<img src="../../images/tab_comment@2x.png" width="22px" height="22px" style="margin-bottom: -8px;">
-				<div v-if="item.commentCnt > 0" id="comment-cnt-bandge" style="display: inline-block; background-color: #FF5053;color: white;font-size: 10px;margin-left: -15px;padding: 0px 6px; border-radius: 6px;height: 15px;">
-					{{item.commentCnt}}
+				<div v-if="item.cnt > 0" id="comment-cnt-bandge" style="display: inline-block; background-color: #FF5053;color: white;font-size: 10px;margin-left: -15px;padding: 0px 6px; border-radius: 6px;height: 15px;">
+					{{item.cnt}}
 				</div>
 			</div>
 			
@@ -622,7 +623,14 @@
 		   * @param {Boolean} bh 是否分享链接
 		   */
 		function shareAction(sb,bh) {
+			// console.log('shareContent:' + shareContent);
+			// console.log('shareTitle:' + shareTitle);
 			if(!sb||!sb.s){console.log('无效的分享服务！');return;}
+			
+			if(shareContent && shareContent.length > 50){
+				shareContent = shareContent.substring(0 , 50);
+			}
+			
 			var msg={content:shareContent,extra:{scene:sb.x}};
 			if(bh){
 				var s = '?' + 'c=' + category + '&id=' + postInfo['pid'];
@@ -632,6 +640,15 @@
 				msg.pictures=["../../images/new/app_logo60.png"];
 			}
 			
+			
+		// 	var msg={content:'专注本地生活信息服务，关注分享身边新动态，赶快告诉身边的小伙伴吧!',extra:{scene:sb.x}};
+		// if(bh){
+		// 	msg.href= 'http://dancheng0394.com/a/d/downloadapk.html';
+		// 	msg.title='郸城人自己的手中APP';
+		// 	msg.thumbs=["../../images/new/app_logo60.png"];
+		// 	msg.pictures=["../../images/new/app_logo60.png"];
+		// }
+		
 			// 发送分享
 			if(sb.s.authenticated){
 				console.log('---已授权---');
@@ -655,9 +672,9 @@
 			s.send(msg, function(){
 				console.log('分享到"'+s.description+'"成功！');
 				if(userHasLogined()){
-					var d = {"uid":getLoginUid(), "type":"1","score":5};
+					var d = {"uid":getLoginUid(), "type":"1","score":add_score_share};
 					api_post(update_profile_url , d , function(res){
-						hud_toast('分享成功，积分+5');
+						hud_toast('分享成功，积分+' + add_score_share);
 						// getUserProfile();
 					} );
 				}else{
@@ -695,7 +712,7 @@
 					comment_v.nodata = true;
 					comment_v.items = _new;
 					//显示评论数
-					bottomBar_v.item = {'commentCnt':res.length};
+					bottomBar_v.item = {'cnt':res.length};
 					// console.log(JSON.stringify(res[0]));
 				}else{
 					comment_v.nodata = false;

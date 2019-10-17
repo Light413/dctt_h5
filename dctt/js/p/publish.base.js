@@ -8,11 +8,6 @@ var maxImageNum = 9;//最大选择图片数
 var selectedImagesArr = [];//已选择的图片
 	
 document.write("<script src='../../js/p/tt.image.picker.js'><\/script>");
-// var oHead = document.getElementsByTagName('HEAD').item(0);
-// var oScript= document.createElement("script");
-// oScript.type = "text/javascript";
-// oScript.src="../../js/p/tt.image.picker.js";
-// oHead.appendChild(oScript);
 
 //显示图片列表
 function displayImageList(imagesArr){
@@ -57,12 +52,10 @@ function displayImageList(imagesArr){
 		
 		//删除事件
 		del.addEventListener('tap',function(){
-			console.log('delete');
 			var btnid  = this.id;
 			var delImage = document.getElementById('image-index-' + btnid);
-			console.log(btnid);
+			// console.log(btnid);
 			var _ig = delImage.getElementsByClassName('single-image')[0];
-			
 			for (let i = 0; i < selectedImagesArr.length; i++) {
 				var s = selectedImagesArr[i];
 				if(s == _ig.src){
@@ -71,7 +64,6 @@ function displayImageList(imagesArr){
 				}
 			} 
 			
-			//console.log('num :' + selectedImagesArr.length);
 			root.removeChild(delImage);
 			if(selectedImagesArr.length == maxImageNum - 1){
 				appendLastAddImage(root);
@@ -86,7 +78,6 @@ function displayImageList(imagesArr){
 	if(selectedImagesArr.length < maxImageNum){
 		appendLastAddImage(root);
 	}
-	
 }
 
 ///添加操作按钮
@@ -134,6 +125,15 @@ function submitToServer(url , params , successCallback , errorCallback){
 	_publishSuccessCallback = successCallback;
 	_publishErrorCallback = errorCallback;
 	
+	var token , userJsonStr = localStorage.getItem("loginuserinfo");
+	if(userJsonStr){
+		var _u = JSON.parse(userJsonStr);
+		if(_u && _u['token']){
+			token = _u['token'];_params['t'] = token;
+		}
+	}
+	
+	
 	//压缩并上传提交
 	zipImageFile(selectedImagesArr);
 }
@@ -148,7 +148,7 @@ function zipImageFile(imagesArr){
 		var path = imagesArr[i];
 		var pro = new Promise(resolve => {
 			var name = path.substr(path.lastIndexOf('/') + 1);
-			console.log("zip file name:"+name);
+			// console.log("zip file name:"+name);
 			
 			plus.zip.compressImage({
 				src: path,
@@ -156,7 +156,7 @@ function zipImageFile(imagesArr){
 				overwrite: true,
 				quality: 50
 			},function(event){
-				console.log(JSON.stringify(event));
+				// console.log(JSON.stringify(event));
 				files.push(event.target);
 				resolve();
 			},function(error){
@@ -168,7 +168,7 @@ function zipImageFile(imagesArr){
 	}
 	
 	Promise.all(actions).then(function(){
-		console.log('压缩图片完成:' + files.length + ' 个');
+		// console.log('压缩图片完成:' + files.length + ' 个');
 		var hud = plus.nativeUI.showWaiting('数据提交中');
 		uploadFileData(BASE_URL + (_url || publish_url) , _params  , files , function(){
 			hud.close();
@@ -176,7 +176,6 @@ function zipImageFile(imagesArr){
 			if(_publishSuccessCallback){
 				_publishSuccessCallback()
 			}else{
-				// plus.nativeUI.toast('发布成功',{verticalAlign: 'center'});
 				mui.alert('系统24小时内审核通过后才会显示,感谢关注!','发布成功','知道了',function (e) {
 				   mui.back();
 				});
@@ -206,10 +205,7 @@ function uploadFileData(url , params , filesArr , success,failure){
 	if(filesArr.length > 0){
 		var task = plus.uploader.createUpload(url, {method:"POST"},
 			function ( t, status ) {
-				console.log(JSON.stringify(t));
-				
-				console.log(status);
-				
+				// console.log(JSON.stringify(t));
 					if ( status == 200 ) { 
 						if(success){
 							success();

@@ -171,8 +171,10 @@
 			openNewPage('xiugai-name.html' , '修改名称' , true , {name:mui('#user-name-id')[0].innerText});break;
 			case 1:
 			plus.nativeUI.actionSheet({cancel:"取消",buttons:[{title:"男"},{title:"女"}]}, function(e){
-				mui("#user-sex-id")[0].innerText = e.index == 1 ? '男':'女';
-				u_sex = e.index == 1 ? '男':'女';
+				var i = e.index;
+				if(i < 0 )return;
+				mui("#user-sex-id")[0].innerText = i == 1 ? '男':'女';
+				u_sex = i == 1 ? '男':'女';
 			} );break;
 			case 2://选择日期
 				var dtpicker = new mui.DtPicker({
