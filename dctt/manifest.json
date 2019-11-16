@@ -6,7 +6,7 @@
         "name" : "1.1.3", /*必选，版本名称*/
         "code" : 113
     },
-    "description" : "build190904", /*可选，应用描述信息*/
+    "description" : "build191116", /*可选，应用描述信息*/
     "icons" : {
         "72" : "icon.png"
     },

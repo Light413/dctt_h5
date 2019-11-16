@@ -4,15 +4,14 @@
 
 
 #### 开发工具
-HBuilder X 1.6.2
+HBuilder X 2.4.2.20191115
 
 #### APP下载主页
-[测试Beta版本 https://www.pgyer.com/dctt](https://www.pgyer.com/dctt)
-
-[官方正式版本 http://dancheng0394.com](http://dancheng0394.com)
+#### 
+[ http://dancheng0394.com](http://dancheng0394.com)
 更新速度比Beta版本慢
 
-当前版本：1.0.1(20190224)
+当前版本：1.1.3(20191116)
 
 #### 涉及知识点
 * mui 、 h5+
