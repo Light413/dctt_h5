@@ -3,10 +3,10 @@
     "id" : "com.light.dctt", /*必选，应用的标识*/
     "name" : "郸城头条", /*必选，应用名称*/
     "version" : {
-        "name" : "1.0.0", /*必选，版本名称*/
-        "code" : 100
+        "name" : "1.0.1", /*必选，版本名称*/
+        "code" : 101
     },
-    "description" : "build191208", /*可选，应用描述信息*/
+    "description" : "20200125", /*可选，应用描述信息*/
     "icons" : {
         "72" : "icon.png"
     },
@@ -210,7 +210,8 @@
                 }
             }
         },
-        "schemeWhitelist" : [ "market" ]
+        "schemeWhitelist" : [ "market" ],
+        "screenOrientation" : [ "portrait-primary" ]
     },
     "dependencies" : {
         "pages" : {

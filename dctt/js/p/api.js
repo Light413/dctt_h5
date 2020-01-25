@@ -13,6 +13,8 @@ var delete_sc_url = "deletesc.php"//删除动态，删除收藏
 var sh_url = "sh.php";
 var daren_url = "darenList.php"
 
+const sy_getSysMsg = 'sy/getSysMsg.php';//获取系统系统消息
+
 //登录注册
 var login_url= "login.php";
 var register_url = "register.php";

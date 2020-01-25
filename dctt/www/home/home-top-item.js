@@ -32,13 +32,18 @@ var homeTopItems = [
 		invaild:1
 	},
 		{
-		title:'签到',
-		icon:'home-top5.png',
-		type:16,
-		invaild:1
+			title:'求职招聘',
+			icon:'home-top-qz@2x.png',
+			type:16,
+			invaild:1
+			
+		// title:'签到',
+		// icon:'home-top5.png',
+		// type:16,
+		// invaild:1
 	},{
-		title:'更多',
-		icon:'home-top-more@2x.png',
+		title:'便民信息',
+		icon:'item_new_08@2x.png',
 		type:17
 	}
 ];

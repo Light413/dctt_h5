@@ -50,7 +50,8 @@
 		-webkit-line-clamp: 3;
 		font-size: 17px;
 		text-indent: 0px;
-		color: #333;
+		color: #444;
+		/* line-height: 23px; */
 		/* #4d4b4a */
 	}
 	.mui-table-view-cell.mui-media.mui-col-xs-4{
@@ -147,13 +148,11 @@
 		margin-top: 0px;
 		width: 100%;
 		background-color: #eee;
-		padding-top: 10px ;
+		padding-top: 0px ;
 		padding-bottom: 0px;
 	}
 	
-	[v-cloak]{
-		display: none;
-	}	
+
 	
 	.mui-slider , .banner-img{
 		height: 165px;
@@ -163,8 +162,8 @@
 	}
 	
 	.mui-table-view-cell::after{
-		/* height: 0; */
-		background-color: #eee;
+		/* height: 1.5px; */
+		background-color: #ddd;
 		left: 0;
 	}
 </style>
@@ -181,11 +180,11 @@
 				</a>
 			</div>
 			
-			<div class="mui-slider-item">
+<!-- 			<div class="mui-slider-item">
 				<a>
 					<img class="banner-img" src="../../images/home/home_top_banner1.png">
 				</a>
-			</div>
+			</div> -->
 			<div class="mui-slider-item">
 				<a>
 					<img class="banner-img" src="../../images/home/home_top_banner2.png">
@@ -199,18 +198,20 @@
 			
 			<div class="mui-slider-item mui-slider-item-duplicate">
 				<a>
-					<img class="banner-img" src="../../images/home/home_top_banner1.png">
+					<img class="banner-img" src="../../images/home/home_top_banner2.png">
 				</a>
 			</div>
 		</div>
 		<div class="mui-slider-indicator">
 			<div class="mui-indicator mui-active"></div>
 			<div class="mui-indicator"></div>
-			<div class="mui-indicator"></div>
+			<!-- <div class="mui-indicator"></div> -->
 		</div>
 	</div>
-	<div id="display-noti-msg" style="display: flex; align-items: center; font-size: 13px; background-color: #fff; padding: 10px;">
-		<img src="../../images/home/msg_icon.png" style="width: 15px; height: 15px;" > <span id="msg-info" style="margin-left: 5px; color: #666; ">提示：测试通知消息测试通知消息</span>
+	<div id="display-noti-msg" style="display: none; align-items: center; font-size: 13px; background-color: #fff; padding: 10px; padding-bottom: 5px;">
+		<img src="../../images/home/msg_icon.png" style="width: 15px; height: 15px;" > 
+		<span id="msg-info" style="margin-left: 6px; color: #666;word-break: break-all;
+text-overflow: ellipsis; -webkit-line-clamp: 1;overflow: hidden;-webkit-box-orient: vertical;display: -webkit-box;">提示：测试通知消息测试通知消息</span>
 		<!-- <img  src="../../images/dislikeicon_details@2x.png" class="dislike-icon" style="margin-left: 5px; ">	 -->
 		
 	</div>
@@ -230,16 +231,7 @@
 			<ul class="mui-table-view" id="table-view-id" style="padding-top: 0px;"  v-cloak>	
 				<li v-bind:id="item.pid" class="mui-table-view-cell"  v-for="item in items">
 					<a v-on:click="openDetailPage(item)">
-						<div style="height: 38px;margin-top: 2px;">
-							<img :src= "avatar(item)" class = "avatar-icon" style="">
-							<div style="float: left;">
-									<div style="margin-top: 0px;color: #8f8f94;font-size: 13px;margin-left: 10px;margin-top: 0px;margin-bottom: 0px;height: 18px;display: inline-block;">{{item.user.name || item.user.nickName}}
-									</div>
-									<div style="margin-left: 20px;display: inline-block;color: #8f8f94;font-size: 13px;margin-left: 15px;"> {{postDate(item)}}</div>
-							</div>
-							
-							<img v-on:click.stop="dislikeThisItem(item)" src="../../images/dislikeicon_details@2x.png" class="dislike-icon" >
-						</div>
+						<div style="height: 1px;"></div>
 						
 						<!-- 有图片 -->
 						<div v-if="item.imageUrl">
@@ -266,17 +258,13 @@
 								<div class="mui-ellipsis-2">{{item.content}}</div>
 							</div>	
 						</div>
-
 						
-						<!-- <div v-if="item.imageUrl">
-							<div style="display: inline-block; margin-right: 5px;" v-for="ig in item.imageUrl">
-								<img v-bind:src="ig" v-bind:style="{width:item.width + 'px' , height:item.width * 0.8 + 'px' , marginTop:'10px' , borderRadius:'2px' , }"  >
+						<div class="meta-info" style="margin-top: 5px; padding: 5px 0;display: flex;">
+							<div style="margin-top: 0px;color: #8f8f94;font-size: 12px;margin-left: 0px;margin-top: 0px;margin-bottom: 0px;height: 18px; margin-right: 10px;">{{item.user.name || item.user.nickName}}
 							</div>
-						</div>	 -->
-						
-						<div class="meta-info" style="margin-top: 5px; padding: 5px 0;">
 							<div class="author">阅读{{item.readCnt}} </div>
-								<div class="time" style="margin-left: 15px;color:white;background-color:#ff4500;font-size:10px;padding-left:3px;padding-right:3px; padding-bottom: 0px; border-radius:6px;height:18px;"> {{itemType(item)}} </div>
+							<div style="margin-left: 20px;color: #8f8f94;font-size: 13px;margin-left: 15px; align-self: flex-end; display: flex;"> {{postDate(item)}}</div>
+							<!-- <div class="time" style="margin-left: 15px;color:white;background-color:#ff4500;font-size:10px;padding-left:3px;padding-right:3px; padding-bottom: 0px; border-radius:6px;height:18px;"> {{itemType(item)}} </div> -->
 						</div>				
 					</a>
 				</li>
@@ -299,10 +287,6 @@
 <script src="home-top-item.js" type="text/javascript" charset="utf-8"></script>
 <script src="_home.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-var pageNum = 1;//当前页
-var pageItemsLen = 20;//每页条数
-var isPullDownRefreshing = true;//正在下拉刷新
-var dataSourceArr = [];//当前列表数据源
 var _listType = 0;
 var _isHome = true;
 
@@ -311,18 +295,6 @@ slider.slider({
 	interval: 5000
 });
 
-
-function writeObj(obj) {
-    var description = "";
-    for (var i in obj) {
-        var property = obj[i];
-        var des = i + " = " + property + "\n";
-		console.log(des);
-    }
-    
-}
-
-var HEIGHT = 80.0;
 
 mui.init({
 	pullRefresh: {
@@ -350,7 +322,7 @@ var topItem_v = new Vue({
 			switch (i){
 				case 1:case 11:case 12: case 13:
 				openNewPage('home_sub.html' , item.title , true , {'typeId':item.type});break;
-				case 14: case 15:
+				case 14: case 15: case 16: case 17:
 				openNewPage('../life/life-list-sub.html' , item['title'] , true , {'typeId':i == 14 ? '22' : '23'});
 				break;
 				case 16://qiandao
@@ -384,6 +356,17 @@ function tableDidSelected(type , cat_title){
 mui.plusReady(function () {
     //每日登陆-积分奖励
 	_addScore('todaylanuched' , '每日登陆，奖励积分+' );
+	
+	//系统消息通知
+	api_get(sy_getSysMsg ,{} ,function(res){
+		// console.log("res: " + JSON.stringify(res));
+		if(!(res&&res['msg']))return
+		var div = mui('#display-noti-msg')[0];
+		div.style.display = 'flex';
+		
+		var msg = mui('#msg-info')[0];
+		msg.innerText = '系统消息：' + res['msg'];
+	});
 });
 
 function _addScore(key , msg ,sign){

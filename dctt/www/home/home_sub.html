@@ -136,11 +136,13 @@
 		
 	}
 	.mui-table-view:after {
-		height: 1px;
+		height: 0px;
 	}
-	
-	[v-cloak] {
-	  display: none;
+
+	.mui-table-view-cell::after{
+		/* height: 1.5px; */
+		background-color: #ddd;
+		left: 0;
 	}
 	</style>
 </head>
@@ -151,15 +153,15 @@
 			<ul class="mui-table-view" id="table-view-id" style="padding-top: 5px;"  v-cloak>	
 				<li v-bind:id="item.pid" class="mui-table-view-cell"  v-for="item in items">
 					<a v-on:click="openDetailPage(item)">
-						<div style="height: 38px;margin-top: 2px;">
-							<img :src= "avatar(item)" class = "avatar-icon" style="">
+						<div style="height: 1px;">
+							<!-- <img :src= "avatar(item)" class = "avatar-icon" style="">
 							<div style="float: left;">
 									<div style="margin-top: 0px;color: #8f8f94;font-size: 13px;margin-left: 10px;margin-top: 0px;margin-bottom: 0px;height: 18px;display: inline-block;">{{item.user.name || item.user.nickName}}
 									</div>
 									<div style="margin-left: 20px;display: inline-block;color: #8f8f94;font-size: 13px;margin-left: 15px;"> {{postDate(item)}}</div>
 							</div>
 							
-							<img v-on:click.stop="dislikeThisItem(item)" src="../../images/dislikeicon_details@2x.png" class="dislike-icon" >
+							<img v-on:click.stop="dislikeThisItem(item)" src="../../images/dislikeicon_details@2x.png" class="dislike-icon" > -->
 						</div>
 						
 						<!-- 有图片 -->
@@ -195,9 +197,12 @@
 							</div>
 						</div>	 -->
 						
-						<div class="meta-info" style="margin-top: 5px; padding: 5px 0;">
+						<div class="meta-info" style="margin-top: 5px; padding: 5px 0;display: flex;">
+							<div style="margin-top: 0px;color: #8f8f94;font-size: 12px;margin-left: 0px;margin-top: 0px;margin-bottom: 0px;height: 18px; margin-right: 10px;">{{item.user.name || item.user.nickName}}
+							</div>
 							<div class="author">阅读{{item.readCnt}} </div>
-								<div class="time" style="margin-left: 15px;color:white;background-color:#ff4500;font-size:10px;padding-left:5px;padding-right:5px;height:18px;border-radius:6px;"> {{itemType(item)}} </div>
+							<div style="margin-left: 20px;color: #8f8f94;font-size: 13px;margin-left: 15px; align-self: flex-end; display: flex;"> {{postDate(item)}}</div>
+							<!-- <div class="time" style="margin-left: 15px;color:white;background-color:#ff4500;font-size:10px;padding-left:3px;padding-right:3px; padding-bottom: 0px; border-radius:6px;height:18px;"> {{itemType(item)}} </div> -->
 						</div>				
 					</a>
 				</li>
