@@ -22,7 +22,7 @@
 			<span class="mui-tab-label">首页</span>
 		</a>
 		
-		<a class="mui-tab-item" href="www/quanzi/index.html">
+		<a class="mui-tab-item" href="www/quanzi/zt.html">
 			<span class="mui-icon iconfont icon-theme"></span>
 			<span class="mui-tab-label">社区</span>
 		</a>
@@ -44,16 +44,15 @@
 		
 	<script src="js/mui.min.js"></script>
 	<script src="js/p/app-check-update.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/p/api.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 		mui.init();	
-		var subpages = ['www/home/home.html', 'www/quanzi/index.html', 'www/publish/publish-select-type.html', 'www/life/life-list.html','www/me/me.html'];
-
-		// console.log(mui.os.version);
+		var subpages = ['www/home/home.html', 'www/quanzi/zt.html', 'www/publish/publish-select-type.html', 'www/life/life-list.html','www/me/me.html'];
 		
 		function navigationBarStyle(index){
 			var subpage_style = {top: '0px',bottom: '51px'};
 			var _titles = ['','社区','发布动态','生活','个人中心']
-			if(true){//index != 1   , mui.os.android
+			if(index != 1){//   , mui.os.android
 				subpage_style['titleNView'] = {
 					titleText:_titles[index] || '郸城头条',
 					titleColor:"#fff",       
@@ -67,13 +66,6 @@
 					
 					type: index == 0 ? 'transparent' : 'default'
 				}
-				
-				// subpage_style['subNViews'] = [{
-				// 		id:'subnview1',
-				// 		styles:{top:'0px',height:'64px',backgroundColor:'#FF4500' , opacity:1},
-				// 		tags:[{tag:'font',id:'font',text:'原生子View控件',textStyles:{size:'18px',color:'#fff'} , position:{top:'5px',left:'0px',width:'100%',height:'100%'},}]
-				// 	}]
-				
 			}
 			
 			return subpage_style;
@@ -86,7 +78,6 @@
 			plus.screen.lockOrientation("portrait-primary");
 			plus.navigator.closeSplashscreen();
 			plus.navigator.setFullscreen(false);
-	
 			var self = plus.webview.currentWebview();
 			for (var i = 0; i < 5; i++) {
 				var temp = {};
@@ -123,9 +114,8 @@
 				mui.extend(aniShow,temp);
 				plus.webview.show(targetTab,"none");
 			}
-			//隐藏当前;
+
 			plus.webview.hide(activeTab);
-			//更改当前活跃的选项卡
 			activeTab = targetTab;
 		});
 		

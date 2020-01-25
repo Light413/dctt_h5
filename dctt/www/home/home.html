@@ -5,6 +5,7 @@
 	<title></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 	<link href="../../css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="../../css/comm.css"/>
 	<style type="text/css">
 	.mui-media {
 		font-size: 15px;
@@ -51,15 +52,6 @@
 		text-indent: 0px;
 		color: #333;
 		/* #4d4b4a */
-	}
-	
-	.content-type{
-		background-color: darkorange;
-		padding: 2px 10px 0px 10px; 
-		color: white;
-		font-size: 15px;
-		border-radius: 8px;
-		margin-right: 2px;
 	}
 	.mui-table-view-cell.mui-media.mui-col-xs-4{
 		height: 40px;
@@ -125,13 +117,12 @@
 		margin-top: 5px;
 		border-radius: 3px;
 	}
-	/* ,.mui-table-view:after */
 	.mui-table-view:before {
-		height: 1px;
+		height: 0px;
 		
 	}
 	.mui-table-view:after {
-		height: 1px;
+		height: 0px;
 	}
 
 	li img{
@@ -155,13 +146,9 @@
 		/* height: 90px; */
 		margin-top: 0px;
 		width: 100%;
-		background-color: #fafafa;
-		border-bottom-width: 0px;
-		border-bottom-color: lightgray;
-		border-bottom-style: solid;
-		border-width: 0;
-		padding-top: 0px ;
-		padding-bottom: 10px;
+		background-color: #eee;
+		padding-top: 10px ;
+		padding-bottom: 0px;
 	}
 	
 	[v-cloak]{
@@ -171,17 +158,21 @@
 	.mui-slider , .banner-img{
 		height: 165px;
 	}
+	.mui-grid-view.mui-grid-9 {
+	    border: 0px solid #eee;
+	}
 	
+	.mui-table-view-cell::after{
+		/* height: 0; */
+		background-color: #eee;
+		left: 0;
+	}
 </style>
 <link rel="stylesheet" type="text/css" href="../../css/iconfont_hometop.css"/>
 <link rel="stylesheet" type="text/css" href="../../css/ios.css"/>
 <link rel="stylesheet" type="text/css" href="../../css/comm.css"/>
 </head>
 <body>
-<!-- 	<header id="header" class="mui-bar mui-bar-nav" style="opacity: 1;">
-		<h1 class="mui-title">郸城头条</h1>
-	</header> -->
-
 	<div id="slider" class="mui-slider" style="">
 		<div class="mui-slider-group mui-slider-loop">
 			<div class="mui-slider-item mui-slider-item-duplicate">
@@ -218,9 +209,13 @@
 			<div class="mui-indicator"></div>
 		</div>
 	</div>
-	
+	<div id="display-noti-msg" style="display: flex; align-items: center; font-size: 13px; background-color: #fff; padding: 10px;">
+		<img src="../../images/home/msg_icon.png" style="width: 15px; height: 15px;" > <span id="msg-info" style="margin-left: 5px; color: #666; ">提示：测试通知消息测试通知消息</span>
+		<!-- <img  src="../../images/dislikeicon_details@2x.png" class="dislike-icon" style="margin-left: 5px; ">	 -->
+		
+	</div>
 	<div id="home-top-item" class="top" style="background-color: white;" v-cloak>
-		<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top: 0px;padding-left: 0px;padding-right: 0px;padding-top: 10px;padding-bottom: 0px;  background-color: white;" >
+		<ul class="mui-table-view mui-grid-view mui-grid-9" style="background-color: white; padding-bottom: 2px;" >
 			<li class="mui-table-view-cell mui-media mui-col-xs-3" style="background-color: white;" v-for="item in items" >
 				<a style="margin: auto;" v-on:click="tableDidSelected(item);">
 					<img :src="'../../images/' + item.icon">
@@ -230,7 +225,7 @@
 		</ul>
 	</div>
 	
-	<div id="list" class="mui-scroll-wrapper" style="margin-top: 0px; padding-bottom: 30px;">
+	<div id="list" class="mui-scroll-wrapper" style="margin-top: -1px; padding-bottom: 30px;">
 		<div id = "scroll" class="mui-scroll">
 			<ul class="mui-table-view" id="table-view-id" style="padding-top: 0px;"  v-cloak>	
 				<li v-bind:id="item.pid" class="mui-table-view-cell"  v-for="item in items">
@@ -327,91 +322,57 @@ function writeObj(obj) {
     
 }
 
-function getScrollTop() {
-	var scrollTop = 0;
-	if(document.documentElement && document.documentElement.scrollTop) {
-		scrollTop = document.documentElement.scrollTop;
-	} else if(document.body) {
-		scrollTop = document.body.scrollTop;
-	}
-	return scrollTop;
-}
-
-// var scroll = mui('.mui-scroll-wrapper').scroll({
-// 	
-// });
-
 var HEIGHT = 80.0;
-// document.querySelector('.mui-scroll-wrapper').addEventListener('scroll',function (e) {
-// 	// var _h = getScrollTop();
-// 	// console.log(scroll.y);
-// 	
-// 	// var s = mui('#scroll')[0];
-// 	// var h = s.offsetHeight;
-// 	
-// 	// var t = document.documentElement.scrollTop || document.body.scrollTop;
-// 	// var t = document.documentElement.scrollTop;
-// 	// console.log(t);
-// 	// 
-// 	// var _v = mui('#header')[0];
-// 	// var op = 0;
-// 	// if(t > HEIGHT){
-// 	// 	op = 1
-// 	// }else{
-// 	// 	op = 0//1 - (HEIGHT - t) / 80
-// 	// }
-// 	// 
-// 	// _v.style.opacity = op;
-// 	
-// })
 
-	mui.init({
-		pullRefresh: {
-			container: '#list',
-			down: {
-				style: 'circle',
-				// offset: '1px',
-				auto: false,
-				callback: pulldownRefresh
-			},
-			up: {
-				contentrefresh: '正在加载...',
-				callback: loadMoreData
-			}
-		}
-	});
-	var topItem_v = new Vue({
-		el:'#home-top-item',
-		data:{
-			items:[]
+mui.init({
+	pullRefresh: {
+		container: '#list',
+		down: {
+			style: 'circle',
+			// offset: '1px',
+			auto: false,
+			callback: pulldownRefresh
 		},
-		methods:{
-			tableDidSelected: function(item){
-				var i = item.type;
-				switch (i){
-					case 1:case 11:case 12: case 13:
-					openNewPage('home_sub.html' , item.title , true , {'typeId':item.type});break;
-					case 14: case 15:
-					openNewPage('../life/life-list-sub.html' , item['title'] , true , {'typeId':i == 14 ? '22' : '23'});
-					break;
-					case 16://qiandao
-					hud_show('签到操作！');
-					_addScore('todaysignin' , '签到成功，奖励积分+' ,true);break
-					case 17://more
-					hud_toast('更多精彩，敬请期待!')
-					break;
-					
-					default:
-						break;
-				}		
-	}
+		up: {
+			contentrefresh: '正在加载...',
+			callback: loadMoreData
 		}
-	});
-	
-	//banner事件
-	mui('.mui-slider').on('tap' , '.mui-slider-item' , function(){
-		openNewPage('../me/webpage.html' , '加入我们' , true , {'url':BASE_URL + joinus_url});
-	});
+	}
+});
+var topItem_v = new Vue({
+	el:'#home-top-item',
+	data:{
+		items:[]
+	},
+	methods:{
+		tableDidSelected: function(item){
+			var i = item.type;
+			switch (i){
+				case 1:case 11:case 12: case 13:
+				openNewPage('home_sub.html' , item.title , true , {'typeId':item.type});break;
+				case 14: case 15:
+				openNewPage('../life/life-list-sub.html' , item['title'] , true , {'typeId':i == 14 ? '22' : '23'});
+				break;
+				case 16://qiandao
+				hud_show('签到操作！');
+				_addScore('todaysignin' , '签到成功，奖励积分+' ,true);break
+				case 17://more
+				hud_toast('更多精彩，敬请期待!')
+				break;
+				
+				default:
+					break;
+			}		
+}
+	}
+});
+
+//banner事件
+mui('.mui-slider').on('tap' , '.mui-slider-item' , function(){
+	openNewPage('../me/webpage.html' , '加入我们' , true , {'url':BASE_URL + joinus_url});
+});
+
+topItem_v.items = homeTopItems;
 
 // var boforeData = localStorage.getItem('homedislikeitemdata');
 // console.log(boforeData)	;
@@ -421,15 +382,6 @@ function tableDidSelected(type , cat_title){
 }
 
 mui.plusReady(function () {
-// 	(function($){
-// 	//获取系统状态栏高度
-//         var StatusbarHeight = plus.navigator.getStatusbarHeight();
-//         var headerH = $('.mui-bar-nav').height();
-// 		console.log(headerH);
-// 		
-//         $('.mui-bar-nav').css({height: (headerH + StatusbarHeight) + 'px', 'paddingTop': StatusbarHeight + 'px'});
-// })(mui)
-
     //每日登陆-积分奖励
 	_addScore('todaylanuched' , '每日登陆，奖励积分+' );
 });

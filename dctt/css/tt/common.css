@@ -1,0 +1,4 @@
+* { touch-action: pan-y; }
+img{object-fit: cover;}
+[v-cloak] {display: none;}
+.mui-content , body , html{background-color: #eee;}

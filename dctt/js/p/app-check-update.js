@@ -2,25 +2,18 @@
  * 检测APP版本更新
  */
 function appCheckUpdate () {
-	var d = {'_api_key':'ebe6e53b3237688c541d87544b55dfbc'};
-	if (mui.os.ios) {
-		d['appKey'] = 'e4baef4023fca4396c54c20e1199108e';
-	} else{
-		d['appKey'] = '0e082a5068be599f54f7919486ffab05';
-	}
-	
 	var appid = plus.runtime.appid;
 	if(appid == 'HBuilder')return;
-			
-	mui.post('https://www.pgyer.com/apiv2/app/check' , d , function(res){		
-		if(!(res && res['data']))return;
-		var appdata = res['data'];
-		var newVersion = appdata['buildVersion'];
-		var url = appdata['downloadURL'];
-		var versDes = appdata['buildUpdateDescription'];
-
-		// console.log(JSON.stringify(res));
-		plus.runtime.getProperty(appid , function(info){
+	var d = {type:0};		
+	mui.post('http://39.106.164.101:80/tt/checkUpdate.php' , d , function(res){	
+		if(!(res && res['body']))return;
+		var appdata = res['body'];
+		var newVersion = appdata['version_number'];
+		var url = appdata['download_url'];
+		var versDes = appdata['version_log'];
+		// console.log(appid);	
+		// console.log(JSON.stringify(res));//eturn;-'com.light.dctt'
+		plus.runtime.getProperty(plus.runtime.appid, function(info){
 			var appver =  info['version'];		
 			if (newVersion > appver) {
 				mui.confirm(versDes,'新版本(' + newVersion + ')' ,  ["下载更新", "取消"], function(e) {

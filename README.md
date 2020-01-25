@@ -7,9 +7,8 @@
 HBuilder X 2.4.2.20191115
 
 #### APP下载主页
-#### 
+
 [ http://dancheng0394.com](http://dancheng0394.com)
-更新速度比Beta版本慢
 
 当前版本：1.1.3(20191116)
 

@@ -127,7 +127,7 @@
 					
 					
 					<div style=" bottom: 0;">
-							<img v-bind:src="item.user.avatar_thumb" class="avatar-icon"  style="border-radius: 50%;width:30px;height: 30px; margin-top: 8px;float: left;" >
+							<img v-bind:src="item.user.avatar_thumb || '../../images/default_avatar.png'" class="avatar-icon"  style="border-radius: 50%;width:30px;height: 30px; margin-top: 8px;float: left;" >
 							<div style="color: #666;font-size: 13px; margin-top: 2px;margin-bottom: 0px;height: 20px;">
 								<span style="margin-left: 6px;">{{item.user.name || item.user.nickName}}</span> <span style="margin-left: 20px;font-size: 12px;">{{item.postDateFormatter}}</span>
 							</div>
