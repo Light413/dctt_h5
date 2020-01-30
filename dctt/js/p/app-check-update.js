@@ -3,7 +3,7 @@
  */
 function appCheckUpdate () {
 	var appid = plus.runtime.appid;
-	// if(appid == 'HBuilder')return;
+	if(appid == 'HBuilder')return;
 	var d = {type:0};		
 	mui.post('http://39.106.164.101:80/tt/checkUpdate.php' , d , function(res){	
 		if(!(res && res['body']))return;
@@ -11,10 +11,7 @@ function appCheckUpdate () {
 		var newVersion = appdata['version_number'];
 		var url = appdata['download_url'];
 		var versDes = appdata['version_log'];
-		// console.log(appid);	
-		console.log(JSON.stringify(res));//eturn;-'com.light.dctt'
-		return;
-		
+		// console.log(JSON.stringify(res));//eturn;-'com.light.dctt'
 		plus.runtime.getProperty(plus.runtime.appid, function(info){
 			var appver =  info['version'];		
 			if (newVersion > appver) {
@@ -30,6 +27,10 @@ function appCheckUpdate () {
 						//plus.runtime.openURL(url);
 					}
 				});
+			}else{
+				if(location.href.indexOf('setter') > 0){
+					plus.nativeUI.toast('已是最新版本');
+				}
 			}	
 		});
 	} , 'json');	

@@ -64,7 +64,7 @@
 			</li>
 			<li class="mui-table-view-cell">
 				<a onclick = "tableDidSelected(2)" class="mui-navigate-right">
-					 清空缓存 <span id="cache-size-id" style="float: right;margin-right: 40px; color: darkgray;font-size: 15px;">1.1M</span>
+					 清空缓存 <span id="cache-size-id" style="float: right;margin-right: 40px; color: darkgray;font-size: 15px;">0.0M</span>
 				</a>
 			</li>
 			<li class="mui-table-view-cell">
@@ -73,15 +73,15 @@
 				</a>
 			</li>
 			<li class="mui-table-view-cell">
+				<a onclick = "tableDidSelected('versioncheck')" class="mui-navigate-right">
+					 检测更新<span style="margin-left: 5px;font-size: 15px; color: #666;" >(当前版本<span id="appversion">1.0.0</span> )</span> 
+				</a>
+			</li>
+			<li class="mui-table-view-cell">
 				<a  onclick = "tableDidSelected(4)"  class="mui-navigate-right">
 					 关于我们
 				</a>
 			</li>
-			<!-- <li class="mui-table-view-cell">
-				<a class="">
-					 退出登录
-				</a>
-			</li> -->
 		</ul>
 		
 		<div v-if = "islogin" id="logout-btn-id" style="margin-top: 50px;padding-left: 5px; padding-right: 5px;">
@@ -98,6 +98,7 @@
 <script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/app-check-update.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	mui.init()
 	
@@ -112,7 +113,17 @@
 	    plus.cache.calculate(function(size){
 			var _cache = mui('#cache-size-id')[0];
 			_cache.innerText = parseFloat(size / (1024 * 1024)).toFixed(2) + "M";
-		})
+		});
+		
+		///版本信息
+		var appid = plus.runtime.appid;
+		if(appid != 'HBuilder'){
+			plus.runtime.getProperty(appid , function(info){
+				var appver =  info['version'];	
+				var des = info['description'];
+				mui('#appversion')[0].innerText = appver + '.' + des;
+			});
+		}
 	})
 	
 	function tableDidSelected(row){
@@ -145,6 +156,9 @@
 		case 3://意见反馈
 			openNewPage('../publish/pub-feedback.html' , '意见反馈' , true);break;
 		case 4:openNewPage('me-setter-aboutus.html' , '关于我们' , true);break;	
+		case 'versioncheck':
+		appCheckUpdate();
+		break;
 		default:break;
 		}
 	}

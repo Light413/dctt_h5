@@ -323,7 +323,16 @@ var topItem_v = new Vue({
 				case 1:case 11:case 12: case 13:
 				openNewPage('home_sub.html' , item.title , true , {'typeId':item.type});break;
 				case 14: case 15: case 16: case 17:
-				openNewPage('../life/life-list-sub.html' , item['title'] , true , {'typeId':i == 14 ? '22' : '23'});
+				var typeid = '22';
+				if(i == 15){
+					 typeid = '23'
+				}else if(i == 16){
+					typeid = '21'
+				}else if(i == 17){
+					typeid = '27'
+				}
+				
+				openNewPage('../life/life-list-sub.html' , item['title'] , true , {'typeId': typeid});
 				break;
 				case 16://qiandao
 				hud_show('签到操作！');
