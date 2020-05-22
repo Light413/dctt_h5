@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>commentlist</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+</head>
+<body>
+	
+<div class="mui-content">
+	<!-- 评论列表 -->
+	<div id="comment-list-id" v-cloak>
+		<ul  v-if="items.length > 0"   class="mui-table-view" >
+			<li class="mui-table-view-cell" v-for="item in items">
+				<a @tap="tableViewDidClick(item)">
+					<img v-bind:src = item.avatar class = "avatar-icon" style="border-radius: 15px;width:30px;height: 30px;margin-top: 3px;">
+					
+					<div :id= item.id @tap="commentZanAction($event ,item)" style="display: inline-block;float: right;margin-right: 20px;font-size: 12px;color: #808080;">
+						<img v-if="item.isPraised > 0" src="../images/comment_like_icon_press@2x.png" width="15px" height="15px" style="margin-top: 2px;margin-bottom: -2px;" >
+						<img v-else src="../images/comment_like_icon_normal@2x.png" width="15px" height="15px" style="margin-top: 2px;margin-bottom: -2px;" >
+						<div v-if="item.praise > 0" style="display: inline-block;">{{item.praise}}</div>
+					</div>
+					
+					<div style="margin-top: 5px;">
+						<div style="color: #5e86c1;font-size: 14px;margin-left: 40px;margin-top: 0px;margin-bottom: 0px;height: 20px;">
+							{{item.user_name}}
+						</div>
+						
+						<div class="mui-media-body">
+							<div class="top-content" style="white-space: pre-wrap;padding-left: 5px;font-size: 16px;margin-top: 10px;text-indent: 0px;">{{item.content}}</div>
+						</div>
+						
+						<div style="margin-left: 35px; margin-top: 8px; display: inline-block;color: #666;font-size: 12px;">
+							{{item.postDate}} <span style="margin-left: 10px;">回复</span> 
+						</div>
+						
+						<!-- 删除自己的评论 -->
+						<div v-if="isMyPost(item)" @tap="deleteMyComment(item);" id="delete-my-comment"  style="float: right; margin-right: 20px; margin-top: 8px; display: inline-block;color: #666;font-size: 12px;padding: 0 5px;">
+							删除
+						</div>
+						
+					</div>
+				</a>
+			</li>
+		</ul>
+		<div v-else style="text-align: center;font-size: 14px;margin-top: 50px;color: darkgray;">
+			暂无评论
+		</div>
+	</div>
+	
+	<div class="bottom-bar">
+		<div  style="margin-top: 5px;margin-left: 15px;" >
+			<button id="write-comment-id" type="button" style="font-size: 12px;border-width: 0;background-color: #FFFFFF;">
+				<div style="display: inline-block;">
+					<img src="../images/write_icon@2x.png" width="20px" height="20px" style="margin-top: 2px;margin-bottom: -3px;">
+				</div>
+				<div style="margin-left: 6px;display: inline-block;color: #808080;">写评论</div>
+			</button>
+			
+			<div id="bottom-bar-id" style="display: inline-block;margin-top: 10px;margin-left: 10%;">
+				<img src="../images/tab_comment@2x.png" width="25px" height="25px" style="margin-bottom: -10px;">
+				<div v-if="item.commentCnt > 0" id="comment-cnt-bandge" style="display: inline-block; background-color: #FF5053;color: white;font-size: 10px;margin-left: -15px;padding: 0px 6px; border-radius: 8px;height: 15px;" v-cloak>
+					{{item.commentCnt}}
+				</div>
+			</div>
+			
+			<div id="sc-button-id" style="display: inline-block;float: right;margin-right: 50px;font-size: 12px;color: #808080;">
+				<img v-if="item.issc > 0" src="../images/likeicon_actionbar_details_press@2x.png" width="20px" height="20px" style="margin-top: 12px;margin-bottom: -6px;" >
+				<img v-else src="../images/likeicon_actionbar_details@2x.png" width="20px" height="20px" style="margin-top: 12px;margin-bottom: -6px;" >
+				<div v-if="item.issc > 0" style="display: inline-block;">取消收藏</div>
+				<div v-else style="display: inline-block;">添加收藏</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	mui.init()
+</script>
+</body>
+</html>

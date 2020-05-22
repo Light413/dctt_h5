@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+	<style type="text/css">
+		input {
+			text-align: center;
+			font-size: 16px;
+			border-width: 0;
+			
+			/* border-bottom-width: 1px; */
+		}
+		
+	</style>
+</head>
+<body style="background-color: white;">
+	
+<div class="mui-content" style="background-color: white;">
+	<div style="padding: 20px 0; margin-top: 45px; text-align: center;">
+		<img id="logo-icon-id" src="../../images/new/600x153.png" width="240px" height="66px" style="border-radius: 10px;" >
+	</div>
+	
+	<div id="login-form-id" style="padding: 10px 30px; margin-top: 65px;">
+		<div class="mui-input-row">
+			<input id="login-name-id" type="number" placeholder="请输入手机号" class="mui-input-clear" style="font-size: 16px;border-radius: 0; border-width: 0; border-bottom-width: 0.6px;border-color: #F0F0F0;">
+		</div>
+		<div class="mui-input-row" style="margin-top: 15px;">
+			<input id="login-pwd-id" type="password" placeholder="请输入密码"   class="mui-input-clear" style="font-size: 16px; border-radius: 0; border-width: 0; border-bottom-width: 0.6px; border-color: #F0F0F0;">
+		</div>
+		
+		<button v-on:click="login"  id="login-button-id" type="button" class="mui-btn " style="border-radius: 8px; width: 100%;height: 45px;margin-top: 40px;background-color: #FF0000;color: white;border-width: 0;font-size: 16px;">登录</button>
+		
+		<div style="margin-top: 20px;padding: 0 10px;">
+			<a onclick="registerAndFindPwdAction(0)" style="color: #434343;font-size: 13px;">注册账号</a>
+			<a onclick="registerAndFindPwdAction(1)" style="color: #434343;font-size: 13px; float: right;">找回密码</a>
+		</div>
+	</div>
+</div>
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	mui.init({});
+	
+	function registerAndFindPwdAction(type){
+		openNewPage('register.html' , type ? '找回密码' : '注册账号' , true , {'type':type});
+	}
+	
+	mui.plusReady(function () {
+		var _width = plus.screen.resolutionWidth;
+	    var _avatar_w = (_width - 100) / 2.0;
+	    // var useravatar = document.getElementById("logo-icon-id");
+	    // useravatar.style.marginLeft = _avatar_w + 'px';
+	})
+	
+	var loginV = new Vue({
+		el:'#login-form-id',
+		methods:{
+			login:function(){
+				var phone = document.getElementById('login-name-id').value;
+				var pwd = document.getElementById("login-pwd-id").value;
+				if(phone.length != 11){
+					plus.nativeUI.toast('请输入正确的手机号' );//, {verticalAlign:'center'}
+					return;
+				}
+				
+				if(pwd.length < 6){
+					plus.nativeUI.toast('请输入正确的密码');return;
+				}
+				// /^1[0-9]{10}$/
+				// /^1(3|4|5|7|8)\d{9}$/
+				if(!(/^1[0-9]{10}$/.test(phone))){ 
+					mui.alert("请输入正确的手机号"); return false; 
+				} 
+	
+				var d = {'phone_number':phone , 'pwd':pwd};
+				
+				hud_show('正在登录');
+				api_post(login_url , d , function(res){
+					console.log(JSON.stringify(res));
+					localStorage.setItem('loginuserinfo' , JSON.stringify(res));
+					
+					setTimeout(function(){
+						var wv = plus.webview.getWebviewById('www/me/me.html');
+						mui.fire(wv , 'update-profile-success' , {});
+						
+						hud_close('登录成功');
+						mui.back();
+					} , 500)
+					
+
+				} , function(error){
+					hud_close(error);
+				})
+			}
+		}
+	})
+	
+</script>
+</body>
+</html>

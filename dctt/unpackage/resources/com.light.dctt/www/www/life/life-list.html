@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/tt/list-table-cell.css"/>
+	<style type="text/css">
+		.mui-ellipsis-2{
+			-webkit-line-clamp: 3;
+			font-size: 17px ;
+			text-indent: 0px;
+			/* font-weight: bold; */
+		}
+		
+		.list-detail{
+			margin-top: 5px;
+			font-size: 15px;
+			color: darkgrey;
+			text-indent: 0px;
+		}
+		li{
+			margin-top: 8px;
+			padding-bottom: 2px;
+			margin: 1px;
+			
+/* 			border-width: 1px;
+			border-color: #e0e0e0;
+			border-style: solid;
+			border-radius: 5px; */
+		}
+		
+		/* 清除列表选中时背景色 */
+		.mui-table-view-cell > a:not(.mui-btn).mui-active {
+			background-color: #fff;
+		}
+		.mui-table-view-cell:after {
+	/* 	  position: absolute;
+		  right: 0;
+		  bottom: 0;
+		  left: 15px; */
+		/* left: 20px; */
+		  height: 1px;
+/* 		  content: '';
+		  -webkit-transform: scaleY(.5);
+		  transform: scaleY(.5);
+		  background-color: #c8c7cc; */
+		}
+
+		.avatar-icon{
+			height : 40px;
+			width : 40px 
+			/* border-radius: 50%; */
+			margin-top: 2px;
+			float: none;
+		}
+		
+		.mui-table-view-cell{
+			margin-top: 0px;
+			margin-left: 0px;
+			margin-right: 0px;
+			/* padding: 10px 0px; */
+		}
+
+		/* 为何不起作用？ */
+		.mui-table-view:after{
+			height: 1px;
+		}
+		
+		/*  */
+		.mui-table-view-cell{
+			margin-top: 5px;
+		}
+		.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+			/* margin: 0px; */
+			padding: 2px 15px;
+			vertical-align: top;
+			border-right: 0px solid #eee;
+			border-bottom: 0px solid #eee;
+		}
+		
+		img{
+			width: 30px; 
+			height: 30px;
+		}
+		.mui-media {
+			font-size: 13px;
+			padding-left: 0px;
+			margin-left: 0px;
+		}
+		
+	</style>
+</head>
+<body style="background-color: white;">
+	<div id="life-table-view-id" class="mui-scroll" style="margin-top: 0; padding-top: 0px; padding-bottom: 10px;">
+		<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top: 0px;border-width: 0; border-bottom-width: 0px;border-style: solid;border-color: lightgray;" id="life-list-id" v-cloak>
+			<li class="mui-table-view-cell mui-media mui-col-xs-3" style="background-color: white;" v-for="item in items">
+				<a  @tap="lifeCategorytableDidSelected(item);">
+					<img v-bind:src="item.url">
+					<div class="mui-media-body" style="font-size: 12px;">{{item.title}}</div>
+				</a>
+			</li>
+		</ul>
+		
+		<ul class="mui-table-view" id="table-view-id" v-cloak >	
+			<li class="mui-table-view-cell"  v-for="item in items" >
+				<a @tap="tableViewDidClicked(item)">
+					<div class="mui-media-body" style="display: inline-block;">
+						<div class="mui-ellipsis-2">
+							{{item.content.title}}
+						</div>
+						
+						<div class="list-detail mui-ellipsis-2" style="margin-top: 10px;">
+							{{_formatterContent(item.content.content)}}
+						</div>
+					</div>
+					
+					<div style="">
+					<!-- <div style="float: right;"> -->
+						<img  v-if="item.flag" v-bind:src="item.imageUrl" alt="" v-bind:style="{width:item.width + 'px' ,height:item.width + 'px'}" >
+						<!-- <img  v-if="item.flag" v-bind:src=item.imageUrl alt="" v-bind:style="{width:item.width + 'px' ,height:item.width + 'px' , marginTop:'10px' , borderRadius:'5px'}" > -->
+					</div>
+					
+					
+					<div style=" bottom: 0;">
+							<img v-bind:src="item.user.avatar_thumb || '../../images/default_avatar.png'" class="avatar-icon"  style="border-radius: 50%;width:30px;height: 30px; margin-top: 8px;float: left;" >
+							<div style="color: #666;font-size: 13px; margin-top: 2px;margin-bottom: 0px;height: 20px;">
+								<span style="margin-left: 6px;">{{item.user.name || item.user.nickName}}</span> <span style="margin-left: 20px;font-size: 12px;">{{item.postDateFormatter}}</span>
+							</div>
+							
+							<div style="display: inline-block; color: #666;font-size: 13px;margin-left: 10px;margin-top: 3px;">
+								 <span style="margin-left: 0px;font-size: 12px;">{{item.readCnt}}阅读</span>
+							</div>
+							<div style="display: inline-block;margin-left: 45px;color:white;background-color:#ff5500;font-size:10px;padding-left:6px;padding-right:6px;height:18px;border-radius:6px;">
+								{{titleForType[item.type]}}</div>
+					</div>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/base-data.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		mui.init({
+			pullRefresh: {
+				container: '#life-table-view-id',
+				down: {
+					style: 'circle',
+					// offset: '1px',
+					auto: false,
+					callback: pulldownRefresh
+				},
+				up: {
+					contentrefresh: '正在加载...',
+					callback: loadMoreData
+				}
+			}
+		});
+		
+			var lifelist = new Vue({
+			el: '#life-list-id',
+			data: {
+				items: []
+			}
+		});
+		
+		var lifeArr = itemType[1];
+		for (var i = 0; i < lifeArr.length; i++) {
+			var d =	lifeArr[i];
+			var url = "../../images/item_new_0" + (i + 1) + "@2x.png";
+			d['url'] = url;
+		}
+		
+		lifelist.items = lifeArr;
+		
+		
+		function lifeCategorytableDidSelected(item){
+			openNewPage('life-list-sub.html' , item['title'] , true , {'typeId':item['id']});
+		}
+		
+		
+		var ztlist = new Vue({
+			el: '#table-view-id',
+			data: {
+				items: []
+			},
+			methods:{
+				_formatterContent:function(s){
+					var _s = s.replace(/\$/g , '');
+					return _s;
+				}
+			}
+		});
+		
+		mui.plusReady(function () {
+			var wv = plus.webview.currentWebview();
+			var _type = wv.typeId || 0;
+			
+			//刷新处理
+			{
+				///请求参数
+				var pars = {
+					"category":"life" ,
+					"subType":_type 
+				}
+				
+				ttRefreshInit('#life-table-view-id',get_sy_url , pars , function(res){
+					dataConvert(res);
+				});
+			}
+			
+			refreshRequestData();
+		})
+		
+		function dataConvert(arr){
+			// console.log(JSON.stringify(arr[0]));
+			
+			for (var i = 0; i < arr.length; i++) {
+				var d = arr[i];
+				var content = d['content'];
+				var _type = d['type'];
+				// if(!(_type == 20 || _type == 26 || _type == 27)){
+					content = content.replace(/\n/g,"$");
+					var obj = JSON.parse(content);
+					d['content'] = obj;
+				// }
+		
+				var postDate = d['postDate'];
+				d['postDateFormatter'] = dateUtils.format(postDate);
+				
+				//添加图片		
+				var igStr = d['images'];
+				if(igStr != null && igStr.length > 0){
+					var igurlArr = igStr.split(',');
+					// console.log(igurlArr.length);
+					
+					d['imageUrl'] = igurlArr[0];
+					d['flag'] = 1;
+					var w = (plus.screen.resolutionWidth - 30) / 4.0;
+					d['width'] = w;
+					
+				}	
+			}
+			
+			//数据更新了,视图没变化....
+			//console.log('fill data :' + arr.length);
+			ztlist.items = [];
+			ztlist.items = arr;
+		}
+	
+	//跳转详情页
+	function tableViewDidClicked(item){
+		var h = plus.nativeUI.showWaiting();
+		setTimeout(function(){
+			h.close();
+			openNewPage('../home/home-detail.html', titleForType[item['type']] , true,{'item':item , 'category':'life'});
+		} , 500)
+		
+	}	
+		
+	</script>
+</body>
+</html>

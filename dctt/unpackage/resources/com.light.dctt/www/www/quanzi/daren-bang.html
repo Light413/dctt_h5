@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+	<style type="text/css">
+			.avatar-icon{
+			height : 40px;
+			width : 40px 
+			/* border-radius: 50%; */
+			margin-top: 2px;
+			float: left;
+		}
+		
+		.mui-ellipsis-2{
+		-webkit-line-clamp: 3;
+		
+		font-size: 16px;
+		text-indent: 0px;
+	}
+	
+	[v-cloak] {
+  display: none;
+}
+
+</style>
+</head>
+<body style="background-color: white;">
+<div class="mui-content" style="background-color: white;margin-top: 10px;">
+	<div style="padding: 5px 20px; font-size: 13px; color: #777;">
+		达人榜排行由系统根据用户日活跃度、积分值等因素自动计算
+	</div>
+	<div id="refreshContainer" class=" mui-scroll-wrapper">
+	  <div class="mui-scroll">
+		<!--数据列表-->
+		<ul class="mui-table-view " id="table-view-id" v-cloak  style="color: #333;">
+		<li class="mui-table-view-cell" v-for="(item , index) in items" style="background-color: white;">
+		<a v-on:click="tableViewClicked(item)" class="mui-navigate-right">
+		  <img v-bind:src= "item.avatar_thumb || '../../images/default_avatar.png'" class="avatar-icon" style="border-radius: 50%;height: 40px; width: 40px;">
+		  <span style="margin-left: 10px;font-size: 15px;margin-right: 5px;">{{item.name || item.nickName}}</span>
+		  <img v-if="item.sex == 0" src="../../images/girl@2x.png" width="14px" height="14px" style="margin-top: 3px;" > 
+		  <img  v-else src="../../images/boy@2x.png" width="14px" height="14px" style="margin-top: 5px;" >
+		  
+		  	<div style="float: right; margin-top: 2px; margin-right: 30px;text-align: center;">
+				<div style=" height: 20px; color: white;font-size: 12px; background-color: lightsalmon;text-align: center;border-radius: 12px; padding: 0px 3px;">
+					No.  {{index + 1}}
+				</div>
+				<div style="margin-top: 5px; text-align: center; font-size: 13px;">
+					 <img src="../../images/zoo/jinbi2.png" style="margin-top: 5px; width: 20px; height: 20px;"> <span>{{item.score}} </span> 
+				</div>
+			</div>
+			
+		  <span style="margin-left: 10px; font-size: 13px;display: inline-block;margin-top: 0px;">{{(item.age > 0 ? item.age + '岁' : '')}}</span>
+			<div style="margin-top: 5px;padding-left: 50px;">
+			  <div style="font-size: 13px;color: #666;">
+				{{item.notes || '懒得没签名'}}
+			  </div>
+			</div>
+		  </a>
+		</li>
+		</ul>
+	  </div>
+	</div>
+</div>
+
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	var _type = 0;//0:关注 1:粉丝
+	
+	mui.init({
+			pullRefresh: {
+				container: '#refreshContainer',
+				down: {
+					style: 'circle',
+					// offset: '1px',
+					auto: false,
+					callback: pulldownRefresh
+				},
+				// up: {
+				// 	contentrefresh: '正在加载...',
+				// 	callback: loadMoreData
+				// }
+			}
+	});
+	
+	var ztlist = new Vue({
+		el: '#table-view-id',
+		data: {
+			items: []
+		}
+	});
+	
+	mui.plusReady(function () {
+	    var wv = plus.webview.currentWebview();
+		_type = wv.type; //0:关注 1:粉丝
+		
+		///0:检测是否关注 1://查询我的粉丝 2://查询我的关注
+	   var d = {"uid":getLoginUid() , "auhorId":"_author" , "type": _type ? 1 : 2};
+	   ttRefreshInit('#refreshContainer', daren_url , d , function(res){
+		   // console.log(JSON.stringify(res[0]));
+		   hud_close();
+		   
+			_dataConvert(res);
+	   });
+	   
+	   hud_show('数据加载中');
+	   refreshRequestData();
+	})
+	
+	
+	function _dataConvert(arr){
+		if(arr == null || arr.length < 1){return;}
+		for (var i = 0; i < arr.length; i++) {
+// 			var d = arr[i];
+// 			var content = d['content'];
+	
+		}
+		
+		dataSourceArr.push.apply(dataSourceArr ,arr);
+		
+		//渲染列表
+		ztlist.items = dataSourceArr;
+	}
+	
+	function tableViewClicked(item){
+		if(!item['user_id']){hud_toast('用户不存在');return;}
+		
+		openNewPage('../me/me-homepage.html' , item['name'] || item['nickName'] , true , {'uid':item['user_id']});
+	}
+	
+</script>
+</body>
+</html>

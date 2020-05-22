@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+</head>
+<body>
+	
+<div class="mui-content">
+	<div style="height: 180px; background-color: white;background-image: url(../../images/zoo/zoo_top_bg.jpg);">
+		<div style="margin-top: 0px;margin-left: 15px;background-color: red;">
+			<img src="../../images/IMG_3028.JPG" width="80px" height="80px" style="margin-top: 80px;margin-left: 20px;border-radius: 8px;float: left;">
+			<div id="" style="display: inline-block;float: left;">
+				<div style="font-size: 18px;">
+					吾爱读书
+				</div>
+				
+				<div class="mui-ellipsis-2">
+					一直行走在路上，你读的书越多，你得到的知识越多，你的大脑储存的策略和资源越多，你成功的可能性就越大
+					
+				</div>
+			</div>
+		</div>	
+	</div>
+
+<ul id="zoolist" class="mui-table-view" style="margin-left: 0px;margin-right: 0px;padding-bottom: 20px;" v-cloak>
+	<li class="mui-table-view-cell mui-media" v-for="item in items">
+		<a v-on:click="openQuanzi(item);">
+			<img  src="../../images/back_bg@2x.png" style="width: 100px; height: 90px; border-radius: 6px; float: left;margin-right: 10px;">
+			<div style="font-size: 17px;margin-top: 5px;color: #333;font-weight: normal;">
+				一起读书吧
+			</div>
+			<div class="mui-ellipsis-2" style="font-size: 15px; color: #666;margin-top: 10px;">
+				一起来读书吧，让我们一起进步共同成长一起来读书吧
+			</div>
+		</a>
+	</li>
+</ul>
+
+
+</div>
+
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	mui.init()
+	
+	var list_v = new Vue({
+		el:'#zoolist',
+		data:{
+			items:[]
+		},
+		
+		methods:{
+			openQuanzi:function(item){
+				openNewPageWithTransparent('zoo-page.html' , '圈子' , true , {} , true);
+			}
+		}
+		
+	});
+	
+	list_v.items = [1,1,1,1,1,1,1,1];
+	
+</script>
+</body>
+</html>

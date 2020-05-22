@@ -1,0 +1,52 @@
+var itemsData = [
+	{
+		title:'话题',
+		icon:'huati.png',
+		id:'huati',
+		status:1
+	},
+		{
+		title:'达人榜',
+		icon:'darenbang.png',
+		id:'darenbang',
+		status:1
+	},
+			{
+		title:'加入我们',
+		icon:'joinus.png',
+		id:'joinus',
+		status:1
+	},
+	{
+		title:'郸城114',
+		icon:'114.png',
+		id:'dc114',
+		status:0
+	},
+
+		{
+		title:'同城老乡',
+		icon:'tongcheng.png',
+		id:'tongcheng',
+		status:0
+	},
+		{
+		title:'偶遇',
+		icon:'ouyu.png',
+		id:'ouyu',
+		status:0
+	},
+		{
+		title:'许愿墙',
+		icon:'liuyanban.png',
+		id:'liuyanban',
+		status:0
+	},
+
+	{
+		title:'技能服务',
+		icon:'techserver.png',
+		id:'techserver',
+		status:0
+	}
+];

@@ -1,0 +1,7 @@
+img{
+	object-fit: cover;
+}
+
+[v-cloak]{
+	display: none;
+}	

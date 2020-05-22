@@ -1,6 +1,5 @@
 //api接口定义
 var BASE_URL = 'http://39.106.164.101:80/tt/';
-// var BASE_URL = 'http://212.64.71.126:80/www/tt/';
 var get_sy_url = 'getPostList.php'; //首页列表
 var publish_url = "publish.php"//发布动态
 var comment_url = "comment.php";//评论
@@ -14,6 +13,7 @@ var sh_url = "sh.php";
 var daren_url = "darenList.php"
 
 const sy_getSysMsg = 'sy/getSysMsg.php';//获取系统系统消息
+const sy_getAllCnt = 'sy/getPostCnt.php';//获取帖子总数/浏览计数
 
 //登录注册
 var login_url= "login.php";
@@ -111,7 +111,12 @@ function _ajax (type , url , pars , success , error){
 			},
 			
 			error:function(xhr,type,errorThrown){
-				console.log('服务器返回错误:' + type);
+				console.log('****服务器返回错误:'
+					+ "xhr = " + JSON.stringify(xhr) + ',\n ' 
+					+ 'type = '+ type  + ',\n '
+					+ 'errorThrown = ' + JSON.stringify(errorThrown)
+				);
+				
 				if(error){
 					error('请求网络失败!');
 				}
@@ -135,3 +140,11 @@ function api_post(url , pars , success , error){
 
 var add_score_share = 2;//分享
 var add_score_login = 1;//每日登陆
+
+/**
+ * 审核状态
+ * 0-默认初始值,待审核
+ * 1-通过
+ * 2-拒绝
+ * 3-删除
+ */

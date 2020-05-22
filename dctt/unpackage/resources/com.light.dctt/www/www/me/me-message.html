@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+	<style type="text/css">
+			.avatar-icon{
+			height : 40px;
+			width : 40px 
+			/* border-radius: 50%; */
+			margin-top: 2px;
+			float: left;
+		}
+		
+		.mui-ellipsis-2{
+		-webkit-line-clamp: 3;
+		
+		font-size: 16px;
+		text-indent: 0px;
+	}
+	</style>
+</head>
+<body style="">
+	
+<div class="mui-content" style="">
+	<!--下拉刷新容器-->
+<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+  <div class="mui-scroll">
+	<!--数据列表-->
+	<ul class="mui-table-view " id="table-view-id" v-cloak  style="color: #333;">
+		
+	<li class="mui-table-view-cell" v-for="item in items">
+	<a v-on:click="tableViewClicked(item)">
+	  <img v-bind:src="item.u_avatar_thumb || '../../images/default_avatar.png'" class="avatar-icon" style="border-radius: 50%;height: 40px; width: 40px;">
+	  <span style="margin-left: 10px;font-size: 15px;">{{item.commenterName}}</span>
+	  <span v-if="isNewMsg(item)" style="margin: 0px;margin-left: 20px;background-color: #FF0000;color: white;font-size: 11px;padding: 3px;width: 15px;height: 15px; border-radius: 50%;">新</span>
+	  
+	  <div v-if="item.type != 1" class="mui-ellipsis-2" style="margin-top: 0px; padding: 2px 5px; font-size: 14px;background-color: #f5f5f5; float: right; width: 40%;">
+		{{post(item , 1)}}
+	  </div>
+	  
+	  <span v-if="item.type == 1" style="margin-left: 5px;font-size: 15px;">关注了你</span>
+	  <div v-else-if="item.type == 2" style="margin-top: 15px;padding-left: 50px;">
+		<img src="../../images/comment_like_icon_night@2x.png" width="18px" height="18px">
+	  </div>
+	  
+	  <div v-else class="mui-ellipsis-2" style="margin-top: 15px;padding-left: 10px;">
+		{{post(item , 0)}}
+	  </div>
+
+	  <div style="margin-top: 5px;padding-left: 50px;">
+		  <div style="font-size: 14px;color: #666;">
+			{{item.date}}
+				  <!-- <span v-if="isNewMsg(item)" style="margin: 0px;margin-left: 20px;background-color: #FF0000;color: white;font-size: 11px;padding: 3px;width: 15px;height: 15px; border-radius: 50%;">新</span> -->
+		  </div>
+	  </div>
+
+	  </a>
+	</li>
+	</ul>
+	
+  </div>
+</div>
+</div>
+
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	mui.init({
+			pullRefresh: {
+				container: '#refreshContainer',
+				down: {
+					style: 'circle',
+					// offset: '1px',
+					auto: false,
+					callback: pulldownRefresh
+				},
+				up: {
+					contentrefresh: '正在加载...',
+					callback: loadMoreData
+				}
+			},
+			beforeback:function(){
+				if(dataSourceArr.length > 0){
+					var lastTime = dataSourceArr[0]['date'];
+					localStorage.setItem('lastTimeGetMessageList' , lastTime);
+				}
+			}
+	});
+	
+	var ztlist = new Vue({
+		el: '#table-view-id',
+		data: {
+			items: []
+		},
+		methods:{
+			post:function(item , type){
+				var s = _getPostContent(item , type);
+				return s;
+			},
+			isNewMsg:function(item){
+				var lastTime = localStorage.getItem('lastTimeGetMessageList');
+				if(lastTime){
+					var itemTime = item['date'];
+					return itemTime > lastTime;
+				}
+				
+				return true;
+			}
+		}
+	});
+	
+	///清空消息列表
+	function clearMsg(){
+		if(dataSourceArr.length < 1){return}
+		mui.confirm("确定清空消息列表?", ["确定", "取消"], function(e) {
+		    if(e.index == 0){
+		       	var d = {"uid":getLoginUid() , "type":2};
+		       hud_show('正在删除');
+		       api_post(get_msglist_url , d , function(res){
+		       	hud_close('删除完成');
+				refreshRequestData();
+		       } , function(error){
+		       	hud_close(error);
+		       }) 
+		    }
+		});
+	}	
+	
+	mui.plusReady(function () {
+		///清空消息
+		var tv = plus.webview.currentWebview();
+		tv.setStyle({
+			titleNView:{
+					buttons:[{
+						color:'#666',
+					text:'清空 ',
+					fontSize:'14px',
+					// fontSrc:'fonts/mui.ttf',
+					float:'right', //按钮不像绘制的方法，是不能用position绝对定位的，只能左右浮动
+					onclick:clearMsg 
+					}]
+					
+				}
+		}) ;
+	
+	   var d = {"uid": getLoginUid() , "type":1}
+	   ttRefreshInit('#refreshContainer', get_msglist_url , d , function(res){
+			_dataConvert(res);
+			
+// 			var t1  =res[13]
+// 			var jsonstr = t1['content'];
+// 			var contentObj = JSON.parse(jsonstr);
+// 			var postBase64Str = contentObj['postContent'];
+// 			var postObj = decodeURIComponent(escape(window.atob(postBase64Str)));
+// 			
+			// console.log(JSON.stringify(res));
+	   });
+	   
+	   refreshRequestData();
+	})
+	
+	//type:评论内容0 , 动态内容1
+	function _getPostContent(d , type){
+		var jsonstr = d['content'];
+		var contentObj = JSON.parse(jsonstr);
+		var postBase64Str = contentObj['postContent'];
+		var postObj = decodeURIComponent(escape(window.atob(postBase64Str)));
+		var obj = JSON.parse(postObj);
+		var category = contentObj['category'];
+		
+		if(type == 0){
+			return contentObj['commentDetail'];
+		}
+		
+
+		if (category == 'sy'){
+			return obj['content'];
+		}else{
+			try{
+				var _jsonStr = obj['content'];
+				var  _str = _jsonStr.replace(/\n/g,"");
+				var _subContentObj = JSON.parse(_str) ;
+				return _subContentObj['title'];
+			}catch(e){
+				//TODO handle the exception
+				//console.log(typeof(obj))
+				return '动态不存在!';
+			}
+		}
+	}
+	
+	
+	///数据转化处理
+	/*d 数据格式
+	[
+		"commenterUid" ,""
+		"commenterName",""
+		"type":"2"
+		"content":[//jsonstr
+			"postContent":"base64Str"//动态数据详情
+			"category":"动态类型"
+			commentDetail:评论内容(option)
+		]
+	]*/
+	function _dataConvert(arr){
+		if(arr == null || arr.length < 1){ztlist.items = [];return;}
+		for (var i = 0; i < arr.length; i++) {
+// 			var d = arr[i];
+// 			var content = d['content'];
+	
+		}
+		
+		dataSourceArr.push.apply(dataSourceArr ,arr);
+		
+		//渲染列表
+		ztlist.items = dataSourceArr;
+	}
+	
+	function tableViewClicked(item){
+		if(item['type'] == 1){
+			//关注类型 - 打开个人主页
+			openNewPage('me-homepage.html' , item['commenterName'] , true , {'uid':item['commenterUid']});return
+		}
+		
+		//点赞,评论 - 打开动态详情页
+		var jsonstr = item['content'];
+		var contentObj = JSON.parse(jsonstr);
+		var postBase64Str = contentObj['postContent'];
+		var postObj = decodeURIComponent(escape(window.atob(postBase64Str)));
+		var obj = JSON.parse(postObj);
+		var category = contentObj['category'];
+		if(category != dt_type_sy){
+			try{
+				var _jsonStr = obj['content'];
+				var  _str = _jsonStr.replace(/\n/g,"");
+				var _subContentObj = JSON.parse(_str) ;
+				obj['content'] = _subContentObj;
+			}catch(e){
+				//TODO handle the exception
+				return;
+			}
+		}
+		//console.log(JSON.stringify(obj));
+		openNewPage('../home/home-detail.html', '详情' , true,{'item':obj , 'category':category});
+	}
+</script>
+</body>
+</html>

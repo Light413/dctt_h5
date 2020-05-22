@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+	<style type="text/css">
+	body{
+		background-color: white;
+	}
+	.mui-grid-view.mui-grid-9 .mui-table-view-cell>a:not(.mui-btn) {
+		margin: 0;
+		padding-top: 20px;
+	}
+	
+	[v-cloak] {
+	  display: none;
+	}
+	.mui-content>.mui-table-view:first-child {
+		margin-top: 8px;
+	}
+	
+	.mui-grid-view.mui-grid-9 {
+		margin: 0;
+		padding: 0;
+		border-top: 0px solid #eee;
+		border-left: 0px solid #eee;
+		background-color: #f2f2f2;
+	}
+	.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+		margin: 0;
+		padding: 8px 4px;
+		vertical-align: top;
+		border-right: 1px solid #eee;
+		border-bottom: 1px solid #eee;
+		border-width: 0;
+		padding-top: 0px;
+	}
+
+	/* zt-list */
+	.mui-table-view:before ,.mui-table-view:after{
+		height: 0px;
+	}
+	/* 清除列表选中时背景色 */
+	.mui-table-view-cell > a:not(.mui-btn).mui-active {
+		background-color: #fff;
+	}
+	
+	.mui-ellipsis{
+		-webkit-line-clamp: 3;
+		font-size: 13px ;
+		text-indent: 0px;
+		/* font-weight: bold; */
+	}	
+			
+	.mui-table-view-cell:after {
+/* 	  position: absolute;
+	  right: 0;
+	  bottom: 0;*/
+	  left: 0px; 
+	  height: 1px;
+	}
+	
+	.mui-grid-view.mui-grid-9 .mui-table-view-cell>a:not(.mui-btn) {
+    margin: 0;
+    padding-top: 22px;
+    /* background-color: #FF4500; */
+	/* border-radius: 10px; */
+	/* height: 70px; */
+	border-color: #e2e2e2;
+	border-style: solid;
+	border-width: 0.5px;
+	border-radius: 2px;
+}
+	
+.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+    font-size: 13px;
+    line-height: 15px;
+    display: block;
+    width: 100%;
+    height: 15px;
+    margin-top: 6px;
+    text-overflow: ellipsis;
+    color: #444;
+}
+.mui-table-view-cell .mui-media .mui-col-xs-6 .mui-active{
+	background-color: #FF4500;
+}
+img{
+	width: 35px; height: 35px; background-repeat: no-repeat; background-size: 100% 100%;
+}
+
+</style>
+<link rel="stylesheet" type="text/css" href="../../css/ios.css"/>
+</head>
+<body>
+<!-- <header class="mui-bar mui-bar-nav">
+	<h1 class="mui-title">社区</h1>
+</header>
+ -->
+<div class="mui-content" style="background-color: white;">	
+	<ul id="item-list" class="mui-table-view mui-grid-view mui-grid-9" style="padding-left: 8px;padding-right: 8px;background-color: white;margin-top: 25px;">
+		<li class="mui-table-view-cell mui-media mui-col-xs-6" style="background-color: white;" v-for="(item , index) in items">
+			<a  v-on:click="_openPage(item)">
+				<img v-bind:src="'../../images/zoo/' + item.icon">
+				<div class="mui-media-body" v-bind:style="{color:item.status == 1 ? '' : 'lightgray'}">{{item.title}}</div>
+			</a>
+		</li>
+	</ul>
+
+<div style="text-align: center; padding: 25px 0; font-size: 12px; color: #aaa;">
+	更多功能，敬请期待
+</div>
+<ul id="zoolist" class="mui-table-view" style="margin-left: 0px;margin-right: 0px;padding-bottom: 20px;" v-cloak>
+	<li class="mui-table-view-cell mui-media" v-for="item in items">
+		<a v-on:click="openQuanzi(item);">
+			<img  src="../../images/back_bg@2x.png" style="width: 100px; height: 90px; border-radius: 6px; float: left;margin-right: 10px;">
+			<div style="font-size: 17px;margin-top: 5px;color: #333;font-weight: normal;">
+				一起读书吧
+			</div>
+			<div class="mui-ellipsis-2" style="font-size: 15px; color: #666;margin-top: 10px;">
+				一起来读书吧，让我们一起进步共同成长一起来读书吧
+			</div>
+		</a>
+	</li>
+</ul>
+</div>
+
+<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/hud.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="items.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	mui.init()
+	
+	var list_v = new Vue({
+		el:'#zoolist',
+		data:{
+			items:[]
+		},
+		
+		methods:{
+			openQuanzi:function(item){
+				openNewPageWithTransparent('zoo-page.html' , '圈子' , true , {} , true);
+			}
+		}
+		
+	});
+	
+	// list_v.items = [1,1,1,1,1,1,1,1];
+	var items_v = new Vue({
+		el:'#item-list',
+		data:{items:[]},
+		methods:{
+			_openPage : function(index){
+			switch (index.id){
+				case 'huati':openNewPage('zt.html');break;
+				case 'darenbang':openNewPage('daren-bang.html' , '郸城达人榜' , true);break;
+				// case 'dc114':openNewPage('114.html' , '郸城114' , true , {'url':BASE_URL + joinus_url});	break;
+				case 'joinus':openNewPage('../me/webpage.html' , '加入我们' , true , {'url':BASE_URL + joinus_url});	break;
+				default:hud_toast('还在努力开发中,感谢关注');break;
+			}
+		},
+		}
+	})
+	
+
+	
+	mui.plusReady(function () {
+		var tv = plus.webview.currentWebview();
+	    // tv.setStyle({
+	    // 	titleNView:{
+	    // 			buttons:[{
+	    // 				color:'#fff',
+	    // 			text:'创建圈子',
+	    // 			fontSize:'14px',
+					// width:'100px',
+	    // 			// fontSrc:'fonts/mui.ttf',
+	    // 			float:'right', //按钮不像绘制的方法，是不能用position绝对定位的，只能左右浮动
+	    // 			onclick:newQuanzi 
+	    // 			}]
+	    // 			
+	    // 		}
+	    // }) ;
+		
+		
+		function newQuanzi(){
+			openNewPage('../publish/publish-dt.html', '创建圈子' , true,{'itemType':{'id':'6' , 'title':'创建圈子'}});
+		}
+		
+			items_v.items = itemsData;
+	})//plus
+	
+	
+</script>
+</body>
+</html>

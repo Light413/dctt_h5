@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="../../css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="../../css/comm.css"/>
+	<style type="text/css">
+	.mui-media {
+		font-size: 15px;
+		padding-left: 0px;
+		margin-left: 0px;
+	}
+	
+	.mui-media.img3{
+		margin-top: 5px;
+		margin-right: 35px;
+	}
+	
+	.mui-table-view .mui-media-object {
+		max-width: initial;
+		width: 80px;
+		height: 70px;
+	}
+	
+	.meta-info {
+		/* position: absolute; */
+		left: 15px;
+		right: 15px;
+		bottom: 8px;
+		margin-top: 5px;
+		margin-bottom: 0px;
+		color: #8f8f94;
+		font-size: 12px;
+	}
+	
+	.meta-info .author,
+	.meta-info .time {
+		display: inline-block;
+	}
+	
+	.meta-info .time {
+		/* float: left; */
+	}
+		
+	li{
+		margin-top: 8px;
+		padding-bottom: 2px;
+		margin: 1px;
+	}
+
+	.mui-ellipsis-2{
+		-webkit-line-clamp: 3;
+		font-size: 17px;
+		text-indent: 0px;
+		color: #333;
+		/* #4d4b4a */
+	}
+	
+	.content-type{
+		background-color: darkorange;
+		padding: 2px 10px 0px 10px; 
+		color: white;
+		font-size: 15px;
+		border-radius: 8px;
+		margin-right: 2px;
+	}
+	.mui-table-view-cell.mui-media.mui-col-xs-4{
+		height: 40px;
+	}
+	
+	.mui-grid-view.mui-grid-9 .mui-table-view-cell>a:not(.mui-btn) {
+		margin: auto;
+		padding: 0px;
+	}
+
+	.mui-grid-view.mui-grid-9 .mui-table-view-cell {
+		margin: 0;
+		padding: 8px 15px;
+		vertical-align: top;
+		border-right: 0;
+		border-bottom: 0;
+	}
+	
+	.mui-table-view-cell {
+		padding: 10px 15px;
+	}
+	
+	.avatar-icon{
+		height : 25px;
+		width : 25px ;
+		border-radius: 50%;
+		margin-top: 2px;
+		float: left;
+	}
+	
+	a > div:first-child {
+		height: 50px;
+		margin-bottom: 2px;
+	}
+	
+	.dislike-icon{
+		width: 20px;
+		height: 20px;
+		float: right;
+		margin-right: 8px;
+		margin-top: 0px;
+		padding: 5px;
+	}
+	
+	.images{
+		margin-top: 6px;
+		margin-right: 2px;
+		background-repeat : repeat-y;
+	}
+	
+	/* 清除列表选中时背景色 */
+	.mui-table-view-cell > a:not(.mui-btn).mui-active {
+		background-color: #fff;
+	}
+
+	.list-image{
+		width: 60px;
+		height: 60px;
+		background-repeat:no-repeat; 
+		background-size:100% 100%;
+		display: inline-block;
+		margin-right: 5px;
+		margin-top: 5px;
+		border-radius: 3px;
+	}
+	/* ,.mui-table-view:after */
+	.mui-table-view:before {
+		height: 0px;
+		
+	}
+	.mui-table-view:after {
+		height: 0px;
+	}
+
+	.mui-table-view-cell::after{
+		/* height: 1.5px; */
+		background-color: #ddd;
+		left: 0;
+	}
+	</style>
+</head>
+
+<body style="background-color: white; margin-top: 0;">
+	<div id="list" class="mui-scroll-wrapper" style="margin-top: 0px; padding-bottom: 30px;">
+		<div class="mui-scroll">
+			<ul class="mui-table-view" id="table-view-id" style="padding-top: 5px;"  v-cloak>	
+				<li v-bind:id="item.pid" class="mui-table-view-cell"  v-for="item in items">
+					<a v-on:click="openDetailPage(item)">
+						<div style="height: 1px;">
+							<!-- <img :src= "avatar(item)" class = "avatar-icon" style="">
+							<div style="float: left;">
+									<div style="margin-top: 0px;color: #8f8f94;font-size: 13px;margin-left: 10px;margin-top: 0px;margin-bottom: 0px;height: 18px;display: inline-block;">{{item.user.name || item.user.nickName}}
+									</div>
+									<div style="margin-left: 20px;display: inline-block;color: #8f8f94;font-size: 13px;margin-left: 15px;"> {{postDate(item)}}</div>
+							</div>
+							
+							<img v-on:click.stop="dislikeThisItem(item)" src="../../images/dislikeicon_details@2x.png" class="dislike-icon" > -->
+						</div>
+						
+						<!-- 有图片 -->
+						<div v-if="item.imageUrl">
+							<div v-if="item.imageUrl.length == 1"><!-- 1张图 -->
+								<div class="mui-media-body" style="width: 65%;display:inline-block">
+									<div class="mui-ellipsis-2">{{item.content}}</div>
+								</div>
+								<img v-bind:src="item.imageUrl[0]" v-bind:style="{width:item.width + 'px' , height:item.width * 0.8 + 'px' , borderRadius:'2px' , float:'right' , display:'inline-block' , padding:'2px' }">	
+							</div>	
+							<div v-else > <!-- 多张图 -->
+								<div class="mui-media-body">
+									<div class="mui-ellipsis-2">{{item.content}}</div>	
+								</div>	
+								<div v-if="item.imageUrl">
+									<div style="display: inline-block; margin-right: 5px;" v-for="ig in item.imageUrl">
+										<img v-bind:src="ig" v-bind:style="{width:item.width + 'px' , height:item.width * 0.8 + 'px' , marginTop:'10px' , borderRadius:'2px' , }"  >
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- 无图 -->
+						<div v-else>
+							<div class="mui-media-body">
+								<div class="mui-ellipsis-2">{{item.content}}</div>
+							</div>	
+						</div>
+
+						
+						<!-- <div v-if="item.imageUrl">
+							<div style="display: inline-block; margin-right: 5px;" v-for="ig in item.imageUrl">
+								<img v-bind:src="ig" v-bind:style="{width:item.width + 'px' , height:item.width * 0.8 + 'px' , marginTop:'10px' , borderRadius:'2px' , }"  >
+							</div>
+						</div>	 -->
+						
+						<div class="meta-info" style="margin-top: 5px; padding: 5px 0;display: flex;">
+							<div style="margin-top: 0px;color: #8f8f94;font-size: 12px;margin-left: 0px;margin-top: 0px;margin-bottom: 0px;height: 18px; margin-right: 10px;">{{item.user.name || item.user.nickName}}
+							</div>
+							<div class="author">阅读{{item.readCnt}} </div>
+							<div style="margin-left: 20px;color: #8f8f94;font-size: 13px;margin-left: 15px; align-self: flex-end; display: flex;"> {{postDate(item)}}</div>
+							<!-- <div class="time" style="margin-left: 15px;color:white;background-color:#ff4500;font-size:10px;padding-left:3px;padding-right:3px; padding-bottom: 0px; border-radius:6px;height:18px;"> {{itemType(item)}} </div> -->
+						</div>				
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+		
+<script src="../../js/mui.js"></script>
+<script src="../../js/p/vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/mui.pullToRefresh.js"></script>
+<script src="../../js/mui.pullToRefresh.material.js"></script>
+<script src="../../js/p/api.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/base-data.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/date.formatter.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/user.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/p/tt.refresh.js" type="text/javascript" charset="utf-8"></script>
+<script src="_home.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	var pageNum = 1;//当前页
+	var pageItemsLen = 20;//每页条数
+	var isPullDownRefreshing = true;//正在下拉刷新
+	var dataSourceArr = [];//当前列表数据源
+	var _listType = 0;
+	var _isHome = false;
+	mui.init({
+		pullRefresh: {
+			container: '#list',
+			down: {
+				style: 'circle',
+				// offset: '1px',
+				auto: false,
+				callback: pulldownRefresh
+			},
+			up: {
+				contentrefresh: '正在加载...',
+				callback: loadMoreData
+			}
+		}
+	});
+
+// var boforeData = localStorage.getItem('homedislikeitemdata');
+// console.log(boforeData)	;
+</script>		
+</html>

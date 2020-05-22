@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+		<style type="text/css">
+			.mui-segmented-control .mui-control-item {
+				color: forestgreen;
+				background-color: #f0f0f0;
+			}
+			.mui-segmented-control .mui-control-item.mui-active {
+				color: #fff;
+				background-color: #FF4500;
+			}
+			
+			/* 外边框 */
+			.mui-segmented-control {
+				/* font-size: 15px;
+				font-weight: 400;
+				position: relative;
+				display: table;
+				overflow: hidden;
+				width: 100%;
+				table-layout: fixed; dcdcdc */
+				border: 1px solid #fff;
+				border-radius: 5px;
+				/* background-color: transparent;
+				-webkit-touch-callout: none; */
+			}
+			
+			.mui-segmented-control .mui-control-item {
+				line-height: 30px;
+				/* display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				-webkit-transition: background-color .1s linear;
+				transition: background-color .1s linear;
+				text-align: center;
+				white-space: nowrap;
+				text-overflow: ellipsis; */
+				color: #555;
+				border-color: #fff;
+				border-left: 0px solid #fff;
+			}
+			
+		</style>
+	</head>
+
+<body>
+	<div id=""  style="height: 74px; background-color:white;margin-top: 0px;">
+		<!-- <div style="float: left;margin-top: 45px; margin-left: 20px;" onclick="toBack();"> 
+		 <img src="../../images/back_icon.png" width="20px" height="20px" style="padding: 2px;">
+		 </div> -->
+		
+		<div style="margin-left: 70px;margin-right: 70px;">
+				<div id="slider" class="mui-slider" style=" margin-top:0px;padding-left: 5px;padding-right: 5px; ">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control " style="color:#dcdcdc; margin-top: 38px;">
+					<a id="fan_1" class="mui-control-item  mui-active" href="#paigupage" onclick="changeList(1);">最新</a>
+					
+					<a id="fan_2" class="mui-control-item" href="#guzhanginfo" onclick="changeList(2);">热门</a>
+				</div>
+			</div>
+		</div>
+	
+	</div>
+	<!-- color:dcdcdc -->
+	<div id="add-zt-action" onclick="toCreatZt();" style="position: fixed; top: 40px;right: 20px;font-size: 28px;color: #FF0000;padding: 5px;">
+		+
+	</div>
+		
+	<script src="../../js/mui.js"></script>
+	<script src="../../js/p/open.page.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+	var currentIndex = 1;
+	function toBack(){
+		mui.back();
+	}
+	
+	function toCreatZt(){
+		openNewPage('../publish/publish-dt.html', '创建话题' , true,{'itemType':{'id':'6' , 'title':'创建话题'}});
+	}
+	
+	function changeList(index){
+		if(currentIndex == index){return;}
+		var tab1 = document.getElementById('fan_1');
+		var tab2 = document.getElementById('fan_2');
+		
+		if (index == 1) {
+			tab2.classList.remove('mui-active');
+			tab1.classList.add('mui-active');
+		}else{
+			tab1.classList.remove('mui-active');
+			tab2.classList.add('mui-active');
+		}
+		
+		currentIndex = index;
+		
+		var _id;
+		if(currentIndex == 1){
+			_id = 'zt-list0';
+		}else{
+			_id = 'zt-list1';
+		}
+		
+		var wv = plus.webview.getWebviewById(_id);
+		plus.webview.show(wv);
+	}
+			
+	mui.plusReady(function () {
+		mui.init({
+			subpages:[
+				
+				{
+					url:'zt-list.html',
+					id:'zt-list1',
+					styles:{
+						top:'75px',
+						bottom:0
+					},
+					extras:{
+						'type':1
+					}
+				},
+				
+				{
+					url:'zt-list.html',
+					id:'zt-list0',
+					styles:{
+						top:'75px',
+						bottom:0
+					},
+					extras:{
+						'type':0
+					}
+				}
+			]
+		})
+		
+		var wv = plus.webview.getWebviewById('zt-list0');
+		plus.webview.show(wv);
+	})
+</script>
+</body>
+
+</html>
